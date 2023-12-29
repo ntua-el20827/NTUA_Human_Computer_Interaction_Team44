@@ -1,31 +1,18 @@
 import 'package:flutter/material.dart';
+import 'app_routes.dart';
 
 void main() {
-  runApp(const MyApp()); // MyApp is a widget that is given as an argument
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // Object Oriented Programming like Java
-  //
-  const MyApp({super.key}); // Constructor
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // called every time we need to rebuild the UI
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 121, 36, 136),
-            title: const Text("ArtVenture")),
-        body: const Center(
-          child: Padding(
-            padding: EdgeInsets.all(10),
-            child: Text("test"),
-          ),
-        ),
-      ),
+      initialRoute: AppRoutes.home,
+      routes: AppRoutes.defineRoutes(),
     );
-    // Material App is used as the Root of the Application
-    // Allows to control themes and routes
   }
 }
