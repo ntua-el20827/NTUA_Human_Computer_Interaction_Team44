@@ -1,30 +1,45 @@
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import '../models/home_page_model.dart';
-export 'home_page_model.dart';
+// Model
 
-class HomePageWidget extends StatefulWidget {
-  const HomePageWidget({Key? key}) : super(key: key);
+class QuizModel extends FlutterFlowModel {
+  ///  State fields for stateful widgets in this page.
 
-  @override
-  _HomePageWidgetState createState() => _HomePageWidgetState();
+  final unfocusNode = FocusNode();
+
+  /// Initialization and disposal methods.
+
+  void initState(BuildContext context) {}
+
+  void dispose() {
+    unfocusNode.dispose();
+  }
+
+  /// Action blocks are added here.
+
+  /// Additional helper methods are added here.
 }
 
-class _HomePageWidgetState extends State<HomePageWidget> {
-  late HomePageModel _model;
+//
+
+class QuizPage extends StatefulWidget {
+  const QuizPage({Key? key}) : super(key: key);
+
+  @override
+  _QuizPageWidgetState createState() => _QuizPageWidgetState();
+}
+
+class _QuizPageWidgetState extends State<QuizPage> {
+  late QuizModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HomePageModel());
+    _model = createModel(context, () => QuizModel());
   }
 
   @override
@@ -96,7 +111,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       color: Colors.transparent,
                       width: 1,
                     ),
-                    borderRadius: BorderRadius.circular(😎,
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
               ),
