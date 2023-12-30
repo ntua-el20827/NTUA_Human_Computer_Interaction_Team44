@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterflow_ui/flutterflow_ui.dart';
 import '../components/challenge.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -15,16 +18,36 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // Sample challenges data (replace with data from your database)
   List<Challenge> challenges = [
-    Challenge("Visit an Art Gallery", 20),
-    Challenge("Create a Digital Artwork", 30),
-    Challenge("Write an Art Review", 25),
+    Challenge(
+      name: "Visit an Art Gallery",
+      info: "Visiting an art gallery is very good",
+      points: 20,
+    ),
+    Challenge(
+      name: "Create a Digital Artwork",
+      info: "Creating an Artwork is very good",
+      points: 30,
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ArtVenture"),
+        backgroundColor: FlutterFlowTheme.of(context).info,
+        title: Align(
+          alignment: const AlignmentDirectional(0, 0),
+          child: Text(
+            'ArtVenture',
+            style: FlutterFlowTheme.of(context).titleLarge.override(
+                  fontFamily: 'MonteCarlo',
+                  fontSize: 30,
+                ),
+          ),
+        ),
+        actions: [],
+        centerTitle: false,
+        elevation: 2,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -42,8 +65,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text("Personality: $personalityInfo"),
                 Text("Points: $userPoints"),
                 // Display user avatar (replace with your avatar logic)
-                CircleAvatar(
-                  backgroundImage: NetworkImage("URL_TO_USER_AVATAR"),
+                const CircleAvatar(
+                  backgroundImage:
+                      AssetImage('assets/images/image_not_found.png'),
                   radius: 50,
                 ),
               ],
@@ -54,11 +78,14 @@ class _ProfilePageState extends State<ProfilePage> {
             child: ListView.builder(
               itemCount: challenges.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(challenges[index].title),
-                  onTap: () {
-                    _showChallengeDialog(challenges[index]);
-                  },
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      _showChallengeDialog(challenges[index]);
+                    },
+                    child: challenges[index].buildBigCard(context),
+                  ),
                 );
               },
             ),
@@ -66,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
@@ -94,27 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(challenge.title),
-          content: Text("Points: ${challenge.points}"),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                // Handle challenge completion (add points to user)
-                setState(() {
-                  userPoints += challenge.points;
-                });
-                Navigator.of(context).pop();
-              },
-              child: Text("Done"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Handle removing the challenge
-                Navigator.of(context).pop();
-              },
-              child: Text("Remove"),
-            ),
-          ],
+          content: challenge.buildBigCard(context),
         );
       },
     );
