@@ -10,7 +10,7 @@ class AppRoutes {
 
   static Map<String, WidgetBuilder> defineRoutes() {
     return {
-      home: (context) => LandingPage(),
+      home: (context) => HomePageWidget(),
       register: (context) => RegisterPage(),
       login: (context) => LoginPage(),
     };
