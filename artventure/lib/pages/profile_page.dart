@@ -1,4 +1,4 @@
-import 'package:artventure/components/challenge.dart';
+import 'package:artventure/models/challenge_model.dart';
 import 'package:flutter/material.dart';
 
 class Profile {
@@ -36,6 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // Sample list of challenges
   List<Challenge> challenges = [
     Challenge(
+        id: 1,
         name: 'Challenge 1',
         info: 'Description for Challenge 1',
         points: 20,
@@ -45,6 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
             'https://en.wikipedia.org/wiki/Art#/media/File:Art-portrait-collage_2.jpg' // Replace with actual image data
         ),
     Challenge(
+        id: 2,
         name: 'Challenge 2',
         info: 'Description for Challenge 2',
         points: 30,

@@ -7,6 +7,7 @@ enum ChallengeState {
 }
 
 class Challenge {
+  final int id;
   final String name;
   final String info;
   final int points;
@@ -15,6 +16,7 @@ class Challenge {
   ChallengeState state;
 
   Challenge({
+    required this.id,
     required this.name,
     required this.info,
     required this.points,
@@ -22,6 +24,21 @@ class Challenge {
     required this.state,
     required this.image,
   });
+
+  // Add any additional methods or constructors as needed
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'info': info,
+      'points': points,
+      'image': image,
+      'state': state.toString().split('.').last, // Store enum as a string
+      'categories': categories.join(','),
+    };
+  }
+
+  // Cards
 
   Widget buildSmallChallengeCard() {
     return Card(

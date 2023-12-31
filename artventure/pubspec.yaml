@@ -10,8 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutterflow_ui: ^0.2.0
-
+  sqflite: ^2.2.6
+  intl: ^0.18.1
   cupertino_icons: ^1.0.2
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:
