@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import '../app_routes.dart';
 
 class LoginPage extends StatelessWidget {
@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.register);
+                Navigator.pushReplacementNamed(context, AppRoutes.sign);
               },
               child: Text("Not Registered? Register"),
             ),
@@ -25,4 +25,4 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-}
+}*/

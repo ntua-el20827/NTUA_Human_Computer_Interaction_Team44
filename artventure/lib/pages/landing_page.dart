@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import '../components/custom_button.dart';
-import 'register_page.dart';
+
 import 'quiz_page.dart';
 import 'profile_page.dart';
+import 'sign_up_page.dart';
 
 class LandingPage extends StatelessWidget {
-  void _navigateToRegisterPage(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const RegisterPage(),
-      ),
-    );
-  }
+  
 
   void _navigateToQuizPage(BuildContext context) {
     Navigator.of(context).push(
@@ -28,6 +23,14 @@ class LandingPage extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => ProfilePage(),
       ),
+    );
+  }
+
+  void _navigateToSignUpPage(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => SignUpPage(),
+        ),
     );
   }
 
@@ -80,7 +83,7 @@ class LandingPage extends StatelessWidget {
             CustomButton(
               onPressed: () {
                 print('Register button pressed ...');
-                _navigateToRegisterPage(context);
+                _navigateToSignUpPage(context);
               },
               text: 'Register to Create Events',
               color: FlutterFlowTheme.of(context).alternate,
