@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_routes.dart';
 
-
-
 class UserSignUpPage extends StatefulWidget {
   @override
   _UserSignUpPageState createState() => _UserSignUpPageState();
@@ -21,7 +19,6 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
     // For now, let's print the values
     print('Username: ${usernameController.text}');
     print('Password: ${passwordController.text}');
-    
   }
 
   @override
@@ -43,7 +40,8 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
             Text('If you already have an account, login here.'),
             SizedBox(height: 16),
             TextFieldRow('Username', 'Write here', usernameController),
-            TextFieldRow('Password', 'Write here', passwordController, obscureText: true),
+            TextFieldRow('Password', 'Write here', passwordController,
+                obscureText: true),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: register,
