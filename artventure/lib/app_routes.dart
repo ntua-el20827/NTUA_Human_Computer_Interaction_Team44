@@ -6,6 +6,7 @@ import 'pages/landing_page.dart';
 import 'pages/quiz_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/sign_up_page.dart';
+import 'pages/user_sign_up_page.dart';
 
 class AppRoutes {
   static const String landing = '/';
@@ -14,6 +15,7 @@ class AppRoutes {
   static const String quiz = '/quiz';
   static const String profile = '/profile';
   static const String sign = '/sign_up';
+  static const String userSign = '/user_sign_up';
 
   static Map<String, WidgetBuilder> defineRoutes() {
     return {
@@ -23,6 +25,7 @@ class AppRoutes {
       quiz: (context) => QuizPage(),
       profile: (context) => ProfilePage(),
       sign: (context) => SignUpPage(),
+      userSign: (context) => UserSignUpPage(),
     };
   }
 }
