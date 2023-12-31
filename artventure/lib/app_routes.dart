@@ -10,20 +10,21 @@ import 'pages/user_sign_up_page.dart';
 
 class AppRoutes {
   static const String landing = '/';
-  
+
   static const String login = '/login';
   static const String quiz = '/quiz';
-  static const String profile = '/profile';
+  static const String profilePage = '/profile';
   static const String sign = '/sign_up';
   static const String userSign = '/user_sign_up';
+  static const String userLoginPage = '/user_login';
 
   static Map<String, WidgetBuilder> defineRoutes() {
     return {
       landing: (context) => LandingPage(),
-      
+
       //login: (context) => LoginPage(),
       quiz: (context) => QuizPage(),
-      profile: (context) => ProfilePage(),
+      //profilePage: (context) => ProfilePage(),
       sign: (context) => SignUpPage(),
       userSign: (context) => UserSignUpPage(),
     };
