@@ -50,7 +50,8 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
             Text('If you already have an account, login here.'),
             SizedBox(height: 16),
             TextFieldRow('Username', 'Write here', usernameController),
-            TextFieldRow('Password', 'Write here', passwordController, obscureText: true),
+            TextFieldRow('Password', 'Write here', passwordController,
+                obscureText: true),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: register,

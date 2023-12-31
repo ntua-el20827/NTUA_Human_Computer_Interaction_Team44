@@ -17,13 +17,13 @@ class LandingPage extends StatelessWidget {
     );
   }
 
-  void _navigateToProfilePage(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ProfilePage(),
-      ),
-    );
-  }
+  // void _navigateToProfilePage(BuildContext context) {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(
+  //       builder: (context) => ProfilePage(),
+  //     ),
+  //   );
+  // }
 
   void _navigateToSignUpPage(BuildContext context) {
     Navigator.of(context).push(

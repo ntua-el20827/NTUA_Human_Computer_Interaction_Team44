@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_routes.dart';
 
-
-
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -44,8 +42,10 @@ class _SignUpPageState extends State<SignUpPage> {
             Text('If you already have an account, login here.'),
             SizedBox(height: 16),
             TextFieldRow('Username', 'Write here', usernameController),
-            TextFieldRow('Password', 'Write here', passwordController, obscureText: true),
-            TextFieldRow('Email', 'Write here', emailController, keyboardType: TextInputType.emailAddress),
+            TextFieldRow('Password', 'Write here', passwordController,
+                obscureText: true),
+            TextFieldRow('Email', 'Write here', emailController,
+                keyboardType: TextInputType.emailAddress),
             TextFieldRow('Fullname', 'Write here', fullnameController),
             SizedBox(height: 16),
             ElevatedButton(
