@@ -8,8 +8,6 @@ import 'profile_page.dart';
 import 'sign_up_page.dart';
 
 class LandingPage extends StatelessWidget {
-  
-
   void _navigateToQuizPage(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -30,7 +28,15 @@ class LandingPage extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => SignUpPage(),
-        ),
+      ),
+    );
+  }
+
+  void _navigateToUserSignUpPage(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => UserSignUpPage(),
+      ),
     );
   }
 
@@ -94,16 +100,16 @@ class LandingPage extends StatelessWidget {
                 print('Continue button pressed ...');
                 _navigateToQuizPage(context);
               },
-              text: 'Continue Without Registration',
+              text: 'Signed in User',
               color: FlutterFlowTheme.of(context).secondary,
             ),
             SizedBox(height: 20),
             CustomButton(
               onPressed: () {
                 print('Go to Profile button pressed ...');
-                _navigateToProfilePage(context);
+                _navigateToUserSignUpPage(context);
               },
-              text: 'Go to Profile',
+              text: 'New User',
               color: FlutterFlowTheme.of(context).primary,
             ),
           ],
