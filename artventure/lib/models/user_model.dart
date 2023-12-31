@@ -7,12 +7,12 @@ class User {
   final int points;
 
   User({
-    required this.id,
+    this.id = 0,
     required this.username,
     required this.password,
-    required this.favoriteArt,
-    required this.age,
-    required this.points,
+    this.favoriteArt = '',
+    this.age = 18,
+    this.points = 0,
   });
 
   // Add any additional methods or constructors as needed

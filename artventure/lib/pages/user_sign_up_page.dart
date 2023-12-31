@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../app_routes.dart';
+import '../database/artventure_db.dart';
+import '../models/user_model.dart';
+
 
 
 
@@ -12,17 +15,21 @@ class _UserSignUpPageState extends State<UserSignUpPage> {
   // Controller for text fields
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController fullnameController = TextEditingController();
+ 
 
   // Function to handle registration
-  void register() {
-    // Add your logic to send data to the database
-    // For now, let's print the values
-    print('Username: ${usernameController.text}');
-    print('Password: ${passwordController.text}');
-    
-  }
+ void register() async {
+  User user = User(
+    username: usernameController.text,
+    password: passwordController.text,
+    // Other properties...
+  );
+
+  int result = await ArtventureDB().insertUser(user);
+  print('Database Insert Result: $result');
+
+  
+}
 
   @override
   Widget build(BuildContext context) {

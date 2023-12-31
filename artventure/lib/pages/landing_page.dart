@@ -1,3 +1,4 @@
+import 'package:artventure/pages/user_sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
