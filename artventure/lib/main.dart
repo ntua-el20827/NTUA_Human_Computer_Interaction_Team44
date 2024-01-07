@@ -1,18 +1,37 @@
+// main.dart
+
 import 'package:flutter/material.dart';
-import 'app_routes.dart';
+import 'package:flutter/services.dart';
+import 'package:artventure/app_routes.dart'; // Updated import statement
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.dark,
+    systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarDividerColor: Colors.transparent,
+    systemNavigationBarIconBrightness: Brightness.dark,
+    statusBarIconBrightness: Brightness.dark,
+  ));
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: AppRoutes.landing,
-      routes: AppRoutes.defineRoutes(),
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 91, 64, 138)),
+        useMaterial3: true,
+      ),
+      // Use AppRoutes.landing as the home property
+      home: AppRoutes.defineRoutes()[AppRoutes.landing]!(context),
     );
   }
 }

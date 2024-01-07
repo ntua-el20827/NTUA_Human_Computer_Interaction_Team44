@@ -1,119 +1,69 @@
-import 'package:artventure/pages/user_sign_up_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutterflow_ui/flutterflow_ui.dart';
-import '../components/custom_button.dart';
-
-import 'quiz_page.dart';
-import 'profile_page.dart';
-import 'sign_up_page.dart';
+import 'package:artventure/components/button.dart';
+import 'package:artventure/components/colors_and_fonts.dart';
+import 'package:artventure/pages/login_page.dart';
+import 'package:artventure/pages/signup_page.dart';
 
 class LandingPage extends StatelessWidget {
-  void _navigateToQuizPage(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const QuizPage(),
-      ),
-    );
-  }
-
-  // void _navigateToProfilePage(BuildContext context) {
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       builder: (context) => ProfilePage(),
-  //     ),
-  //   );
-  // }
-
-  void _navigateToSignUpPage(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => SignUpPage(),
-      ),
-    );
-  }
-
-  void _navigateToUserSignUpPage(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => UserSignUpPage(),
-      ),
-    );
-  }
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
     return Scaffold(
-      backgroundColor: FlutterFlowTheme.of(context).info,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).info,
-        title: Align(
+        backgroundColor: primaryColor,
+        title: const Align(
           alignment: AlignmentDirectional(0, 0),
-          child: Text(
-            'ArtVenture',
-            style: FlutterFlowTheme.of(context).titleLarge.override(
-                  fontFamily: 'MonteCarlo',
-                  fontSize: 30,
-                ),
-          ),
+          child: Text('ArtVenture', style: titleLarge),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: false,
         elevation: 2,
       ),
       body: SafeArea(
-        top: true,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Text(
-                'Welcome to ArtVenture',
-                textAlign: TextAlign.center,
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Poppins',
-                      fontSize: 40,
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Explore the world of art",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Expanded(child: Image.asset("assets/startup.jpg")),
+                Button(
+                  label: "LOGIN",
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+                  },
+                ),
+                Button(
+                  label: "SIGN UP",
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignUpPage(),
+                      ),
+                    );
+                  },
+                ),
+                Button(
+                  label: "BECOME AN EVENT CREATOR",
+                  press: () {
+                    // Handle navigation to the 'Become an Event Creator' screen
+                  },
+                ),
+              ],
             ),
-            CustomButton(
-              onPressed: () {
-                print('Register button pressed ...');
-                _navigateToSignUpPage(context);
-              },
-              text: 'Register to Create Events',
-              color: FlutterFlowTheme.of(context).alternate,
-            ),
-            SizedBox(height: 20),
-            CustomButton(
-              onPressed: () {
-                print('Continue button pressed ...');
-                _navigateToQuizPage(context);
-              },
-              text: 'Signed in User',
-              color: FlutterFlowTheme.of(context).secondary,
-            ),
-            SizedBox(height: 20),
-            CustomButton(
-              onPressed: () {
-                print('Go to Profile button pressed ...');
-                _navigateToUserSignUpPage(context);
-              },
-              text: 'New User',
-              color: FlutterFlowTheme.of(context).primary,
-            ),
-          ],
+          ),
         ),
       ),
     );
