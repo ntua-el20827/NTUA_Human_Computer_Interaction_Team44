@@ -10,13 +10,13 @@ class DatabaseHelper {
 
   // Users table
   String user = '''
-   CREATE TABLE users (
-     userId INTEGER PRIMARY KEY AUTOINCREMENT,
-     username TEXT UNIQUE,
-     password TEXT,
-     favoriteArt TEXT,
-     points INTEGER
-   )
+     CREATE TABLE users (
+    userId INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE,
+    password TEXT,
+    userinfo TEXT DEFAULT '{}',  -- Default to an empty JSON object
+    points INTEGER DEFAULT 0
+  )
    ''';
 
   // Challenges table

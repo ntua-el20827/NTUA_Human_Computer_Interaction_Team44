@@ -18,8 +18,6 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   //Controllers
-  final fullName = TextEditingController();
-  final email = TextEditingController();
   final usrName = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
@@ -28,11 +26,8 @@ class _SignUpPageState extends State<SignUpPage> {
     sqfliteFfiInit(); // Initialize the database factory
     databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
 
-    var res = await db.createUser(Users(
-        fullName: fullName.text,
-        email: email.text,
-        username: usrName.text,
-        password: password.text));
+    var res = await db
+        .createUser(Users(username: usrName.text, password: password.text));
     if (res > 0) {
       if (!mounted) return;
       Navigator.push(
@@ -52,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    "Register New Account",
+                    "Give us a username and a password to start the ArtVenture!!",
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 55,
@@ -60,11 +55,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                InputField(
-                    hint: "Full name",
-                    icon: Icons.person,
-                    controller: fullName),
-                InputField(hint: "Email", icon: Icons.email, controller: email),
                 InputField(
                     hint: "Username",
                     icon: Icons.account_circle,
