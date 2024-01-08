@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:device_info/device_info.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 import '../models/user_model.dart';
 
@@ -10,14 +14,23 @@ class DatabaseHelper {
 
   // Users table
   String user = '''
-     CREATE TABLE users (
-    userId INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    password TEXT,
-    userinfo TEXT DEFAULT '{}',  -- Default to an empty JSON object
-    points INTEGER DEFAULT 0
-  )
-   ''';
+   CREATE TABLE users (
+      userId INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE,
+      password TEXT,
+      points INTEGER DEFAULT 0
+   )
+''';
+
+  String userInfo = '''
+   CREATE TABLE user_info (
+      userId INTEGER PRIMARY KEY,
+      favoriteArt TEXT,
+      favoriteArtist TEXT,
+      -- add other fields as needed
+      FOREIGN KEY (userId) REFERENCES users(userId)
+   )
+''';
 
   // Challenges table
   String challenges = '''
@@ -88,6 +101,39 @@ class DatabaseHelper {
   }
 
   // Function methods
+  // Sign up with device ID
+  // Future<int> createUserWithDeviceId(Users usr) async {
+  //   final Database db = await initDB();
+
+  //   // Get device information
+  //   String deviceId = await _getDeviceId();
+
+  //   // Insert user data along with device ID
+  //   usr.deviceId = deviceId;
+  //   int userId = await db.insert("users", usr.toMap());
+
+  //   return userId;
+  // }
+
+  // Get device ID
+  Future<String> _getDeviceId() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    String deviceId = '';
+
+    try {
+      if (Platform.isAndroid) {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        deviceId = androidInfo.androidId;
+      } else if (Platform.isIOS) {
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        deviceId = iosInfo.identifierForVendor;
+      }
+    } catch (e) {
+      print('Error getting device ID: $e');
+    }
+
+    return deviceId;
+  }
 
   // Authentication
   Future<bool> authenticate(Users usr) async {

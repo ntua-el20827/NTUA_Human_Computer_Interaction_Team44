@@ -25,7 +25,6 @@ class Users {
       'userId': userId,
       'username': username,
       'password': password,
-      'userinfo': userinfo.toString(), // Convert Map to String representation
       'points': points,
     };
   }
@@ -36,9 +35,6 @@ class Users {
       userId: map['userId'],
       username: map['username'],
       password: map['password'],
-      userinfo: map['userinfo'] != null
-          ? Map<String, dynamic>.from(json.decode(map['userinfo']))
-          : {},
       points: map['points'],
     );
   }
@@ -48,14 +44,12 @@ class Users {
     int? userId,
     String? username,
     String? password,
-    Map<String, dynamic>? userinfo,
     int? points,
   }) {
     return Users(
       userId: userId ?? this.userId,
       username: username ?? this.username,
       password: password ?? this.password,
-      userinfo: userinfo ?? this.userinfo,
       points: points ?? this.points,
     );
   }
