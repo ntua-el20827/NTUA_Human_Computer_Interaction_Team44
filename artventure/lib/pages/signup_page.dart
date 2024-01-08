@@ -7,8 +7,6 @@ import 'package:artventure/pages/login_page.dart';
 
 import '../database/database_helper.dart';
 
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -23,9 +21,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final confirmPassword = TextEditingController();
   final db = DatabaseHelper();
   signUp() async {
-    sqfliteFfiInit(); // Initialize the database factory
-    databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
-
     var res = await db
         .createUser(Users(username: usrName.text, password: password.text));
     if (res > 0) {
