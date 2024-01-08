@@ -3,6 +3,7 @@ import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/database/database_helper.dart';
+import 'package:artventure/components/bottom_navigation_bar.dart';
 
 class Profile extends StatefulWidget {
   final Users? profile;
@@ -15,7 +16,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   late Users? _userProfile;
-
+  //int _currentIndex = 0; // Declare _currentIndex here
   @override
   void initState() {
     super.initState();
@@ -94,7 +95,10 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
+  
+      
   }
 
   Widget _buildChallengesSection() {

@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
 
-class MyBottomNavigationBar extends StatelessWidget {
-  final int currentIndex;
-  final ValueChanged<int> onTap;
+class CustomBottomNavigationBar extends StatefulWidget {
+  @override
+  _CustomBottomNavigationBarState createState() =>
+      _CustomBottomNavigationBarState();
+}
 
-  const MyBottomNavigationBar({
-    required this.currentIndex,
-    required this.onTap,
-  });
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const [
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        // Handle bottom navigation item tap
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.lightbulb),
+          icon: Icon(Icons.grade),
           label: 'Challenges',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          label: 'Search',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.explore),
-          label: 'Explore',
-        ),
       ],
-      currentIndex: currentIndex,
-      onTap: onTap,
     );
   }
 }
