@@ -28,7 +28,7 @@ class BottomNavBar extends StatelessWidget {
             Navigator.pushNamed(context, AppRoutes.challenges);
             break;
           case 2:
-            Navigator.pushNamed(context, AppRoutes.quiz);
+            //Navigator.pushNamed(context, AppRoutes.explore);
             break;
         }
       },

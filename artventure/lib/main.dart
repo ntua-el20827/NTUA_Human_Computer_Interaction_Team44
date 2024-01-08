@@ -1,8 +1,6 @@
-// main.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:artventure/app_routes.dart'; // Updated import statement
+import 'package:artventure/app_routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'ArtVenture Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 91, 64, 138)),

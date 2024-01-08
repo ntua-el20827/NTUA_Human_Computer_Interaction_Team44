@@ -1,12 +1,11 @@
-// app_routes.dart
-
 import 'package:flutter/material.dart';
 import 'package:artventure/pages/landing_page.dart';
 import 'package:artventure/pages/login_page.dart';
 // import 'package:artventure/pages/quiz_page.dart';
 import 'package:artventure/pages/profile_page.dart';
 import 'package:artventure/pages/signup_page.dart';
-import 'package:artventure/pages/challenges_page.dart'; // Import challengesPage
+import 'package:artventure/pages/challenges_page.dart';
+//import 'package:artventure/pages/explore_page.dart';
 
 class AppRoutes {
   static const String landing = '/';
@@ -17,7 +16,8 @@ class AppRoutes {
   static const String signUp = '/sign_up';
   static const String userSign = '/sign_up';
   static const String userLoginPage = '/login';
-  static const String challenges = '/challenges'; // Add challenges route
+  static const String challenges = '/challenges';
+  //static const String explore = '/explore';
 
   static Map<String, WidgetBuilder> defineRoutes() {
     return {
@@ -27,6 +27,7 @@ class AppRoutes {
       profile: (context) => Profile(),
       signUp: (context) => SignUpPage(),
       challenges: (context) => ChallengesPage(),
+      //explore: (context) => ExplorePage(),
       //userSign: (context) => UserSignUpPage(),
       //userLoginPage: (context) => UserLoginPage(),
     };
