@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:artventure/app_routes.dart';
 
-class CustomBottomNavigationBar extends StatefulWidget {
-  @override
-  _CustomBottomNavigationBarState createState() =>
-      _CustomBottomNavigationBarState();
-}
-
-class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  int _currentIndex = 0;
-
+class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: _currentIndex,
-      onTap: (index) {
-        // Handle bottom navigation item tap
-        setState(() {
-          _currentIndex = index;
-        });
-      },
       items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.grade),
-          label: 'Challenges',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
-        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.lightbulb),
+          label: 'Challenges',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.question_answer),
+          label: 'Quiz',
+        ),
       ],
+      onTap: (index) {
+        switch (index) {
+          case 0:
+            Navigator.pushNamed(context, AppRoutes.profile);
+            break;
+          case 1:
+            Navigator.pushNamed(context, AppRoutes.challenges);
+            break;
+          case 2:
+            Navigator.pushNamed(context, AppRoutes.quiz);
+            break;
+        }
+      },
     );
   }
 }

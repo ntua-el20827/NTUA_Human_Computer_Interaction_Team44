@@ -8,6 +8,8 @@ import 'package:artventure/models/user_model.dart';
 
 import '../database/database_helper.dart';
 
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -28,6 +30,9 @@ class _LoginPageState extends State<LoginPage> {
   //Login Method
   //We will take the value of text fields using controllers in order to verify whether details are correct or not
   login() async {
+    sqfliteFfiInit(); // Initialize the database factory
+    databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
+
     Users? usrDetails = await db.getUser(usrName.text);
     var res = await db
         .authenticate(Users(username: usrName.text, password: password.text));

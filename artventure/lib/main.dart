@@ -3,12 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:artventure/app_routes.dart'; // Updated import statement
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarBrightness: Brightness.dark,
@@ -34,7 +31,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // Use AppRoutes.landing as the home property
-      home: AppRoutes.defineRoutes()[AppRoutes.landing]!(context),
+      //home: AppRoutes.defineRoutes()[AppRoutes.landing]!(context),
+      initialRoute: AppRoutes.landing,
+      routes: AppRoutes.defineRoutes(),
     );
   }
 }

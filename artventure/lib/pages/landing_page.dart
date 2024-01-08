@@ -63,14 +63,11 @@ class LandingPage extends StatelessWidget {
                     // Handle navigation to the 'Become an Event Creator' screen
                   },
                 ),
-                MyCard(),  // Add your MyCard component here
               ],
             ),
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
-

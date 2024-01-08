@@ -95,10 +95,8 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: BottomNavBar(),
     );
-  
-      
   }
 
   Widget _buildChallengesSection() {
