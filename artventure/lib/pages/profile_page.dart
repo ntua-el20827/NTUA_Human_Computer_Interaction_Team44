@@ -4,6 +4,8 @@ import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/database/database_helper.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
+//import 'package:artventure/components/card.dart';
+import 'package:artventure/components/challenges_list';
 
 class Profile extends StatefulWidget {
   final Users? profile;
@@ -90,28 +92,31 @@ class _ProfileState extends State<Profile> {
                 const SizedBox(height: 20),
                 _buildChallengesSection(),
                 _buildEventsSection(),
+                
               ],
             ),
           ),
         ),
       ),
+      
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
   
       
   }
 
-  Widget _buildChallengesSection() {
-    return Column(
-      children: [
-        const Text(
-          "My Challenges",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
+Widget _buildChallengesSection() {
+  return Column(
+    children: [
+      const Text(
+        "My Challenges",
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 10),
+      UserChallengesList(),
+    ],
+  );
+}
   Widget _buildEventsSection() {
     return Column(
       children: [

@@ -158,4 +158,10 @@ class DatabaseHelper {
         await db.query("users", where: "username = ?", whereArgs: [username]);
     return res.isNotEmpty ? Users.fromMap(res.first) : null;
   }
+
+  // Get User Challenges to show in profile
+  Future<List<Map<String, dynamic>>> getUserChallenges() async {
+    final Database db = await initDB();
+    return await db.query('user_challenges');
+  }
 }
