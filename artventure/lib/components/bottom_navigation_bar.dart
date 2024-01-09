@@ -5,7 +5,7 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
@@ -16,7 +16,7 @@ class BottomNavBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.question_answer),
-          label: 'Quiz',
+          label: 'Explore',
         ),
       ],
       onTap: (index) {
