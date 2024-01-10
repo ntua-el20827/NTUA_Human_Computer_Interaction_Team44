@@ -29,21 +29,18 @@ class EventCreator {
       'username': username,
       'password': password,
       'email': email,
-      'fullName': fullName,
-      'points': points,
+      'fullName': fullName
     };
   }
 
   // Create an EventCreator object from a Map
   factory EventCreator.fromMap(Map<String, dynamic> map) {
     return EventCreator(
-      eventCreatorId: map['id'],
-      username: map['name'],
-      password: '',
-      email: '',
-      fullName: '',
-      points: 0,
-    );
+        eventCreatorId: map['id'],
+        username: map['name'],
+        password: '',
+        email: '',
+        fullName: '');
   }
 
   // Copy method to create a new EventCreator object with some changes

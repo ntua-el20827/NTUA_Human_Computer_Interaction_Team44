@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/pages/signup_eventcreators_page.dart';
 
-
 class WelcomePage extends StatefulWidget {
   final EventCreator? profile;
 
-  const WelcomePage({Key? key, this.profile}) : super(key: key);
+  const WelcomePage({super.key, this.profile});
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -42,10 +41,13 @@ class _WelcomePageState extends State<WelcomePage> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                String creatorUsername = widget.profile?.username ?? ''; // Get the username from the profile object
+                String creatorUsername = widget.profile?.username ??
+                    ''; // Get the username from the profile object
                 Navigator.push(
-                 context,
-                  MaterialPageRoute(builder: (context) => EventCreationPage(username: creatorUsername)),
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EventCreationPage(username: creatorUsername)),
                 );
               },
               child: Text('Add'),

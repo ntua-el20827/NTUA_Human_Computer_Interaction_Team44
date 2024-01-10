@@ -9,7 +9,8 @@ import '../database/database_helper.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class EventCreationPage extends StatefulWidget {
-  final String username; // Add a username parameter to the EventCreationPage constructor
+  final String
+      username; // Add a username parameter to the EventCreationPage constructor
 
   EventCreationPage({required this.username});
 
@@ -136,7 +137,8 @@ class _EventCreationPageState extends State<EventCreationPage> {
                   category: category,
                   location: street,
                   infoText: infoText,
-                  eventCreator: widget.username, // Use the widget.username property to assign the creator's username
+                  eventCreator: widget
+                      .username, // Use the widget.username property to assign the creator's username
                 );
 
                 // Save the new event to the database or perform any other necessary operations

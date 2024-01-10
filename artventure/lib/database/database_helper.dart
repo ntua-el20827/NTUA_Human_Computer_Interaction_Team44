@@ -71,7 +71,7 @@ class DatabaseHelper {
   // EventCreators table
   String eventCreators = '''
    CREATE TABLE event_creators (
-     eventCreatorsid INTEGER PRIMARY KEY AUTOINCREMENT,
+     eventCreatorid INTEGER PRIMARY KEY AUTOINCREMENT,
      username TEXT UNIQUE,
      password TEXT,
      email TEXT,
