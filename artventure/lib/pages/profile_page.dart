@@ -6,17 +6,17 @@ import 'package:artventure/database/database_helper.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
 
 class Profile extends StatefulWidget {
-  final Users? profile;
+  final String? username;
 
-  const Profile({super.key, this.profile});
+  const Profile({Key? key, this.username}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  late Users? _userProfile;
-  //int _currentIndex = 0; // Declare _currentIndex here
+  Users? _userProfile;
+
   @override
   void initState() {
     super.initState();
@@ -25,7 +25,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> _loadUserInfo() async {
-    final user = await DatabaseHelper().getUser(widget.profile!.username);
+    final user = await DatabaseHelper().getUser(AutofillHints.username);
     if (user != null) {
       setState(() {
         _userProfile = user;
@@ -66,7 +66,8 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text("Points: ${_userProfile?.points}"),
+                            Text(
+                                "Points: ${_userProfile?.points ?? "Loading..."}"),
                             Text(
                                 "FavoriteArt: ${_userProfile?.userinfo[0] ?? ""}"),
                           ],
@@ -84,7 +85,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.account_circle, size: 30),
-                  subtitle: Text(_userProfile!.username),
+                  subtitle: Text(AutofillHints.username),
                   title: const Text("Hello ArtVenturer!"),
                 ),
                 const SizedBox(height: 20),
@@ -95,7 +96,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: BottomNavBar(username: AutofillHints.username),
     );
   }
 

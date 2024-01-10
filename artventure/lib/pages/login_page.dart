@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => Profile(profile: usrDetails)));
+              builder: (context) => Profile(username: usrDetails?.username)));
     } else {
       //Otherwise show the error message
       setState(() {

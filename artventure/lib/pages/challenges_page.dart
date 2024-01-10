@@ -7,7 +7,8 @@ import 'package:artventure/components/bottom_navigation_bar.dart';
 import '../database/database_helper.dart';
 
 class ChallengesPage extends StatefulWidget {
-  const ChallengesPage({Key? key}) : super(key: key);
+  final String? username;
+  const ChallengesPage({super.key, this.username});
 
   @override
   _ChallengesPageState createState() => _ChallengesPageState();
@@ -153,7 +154,9 @@ class _ChallengesPageState extends State<ChallengesPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: BottomNavBar(
+        username: AutofillHints.username,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showFilterDrawer(context);
