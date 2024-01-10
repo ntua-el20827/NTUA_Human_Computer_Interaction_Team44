@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
+import 'package:artventure/models/user_info_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
@@ -180,6 +181,13 @@ class DatabaseHelper {
     var res =
         await db.query("users", where: "username = ?", whereArgs: [username]);
     return res.isNotEmpty ? Users.fromMap(res.first) : null;
+  }
+
+  Future<UserInfo?> getUserInfo(int? userId) async {
+    final Database db = await initDB();
+    var res =
+        await db.query("user_info", where: "userId = ?", whereArgs: [userId]);
+    return res.isNotEmpty ? UserInfo.fromMap(res.first) : null;
   }
 
   ///////////////////////// CHALLENGES

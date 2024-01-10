@@ -1,3 +1,4 @@
+import 'package:artventure/models/user_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
@@ -16,6 +17,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Users? _userProfile;
+  UserInfo? _userInfo;
 
   @override
   void initState() {
@@ -25,10 +27,12 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> _loadUserInfo() async {
-    final user = await DatabaseHelper().getUser(AutofillHints.username);
+    final user = await DatabaseHelper().getUser(widget.username!);
+    final userinfo = await DatabaseHelper().getUserInfo(user?.userId);
     if (user != null) {
       setState(() {
         _userProfile = user;
+        _userInfo = userinfo;
       });
     }
   }
@@ -66,10 +70,8 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                                "Points: ${_userProfile?.points ?? "Loading..."}"),
-                            Text(
-                                "FavoriteArt: ${_userProfile?.userinfo[0] ?? ""}"),
+                            Text("Points: ${_userProfile?.points}"),
+                            Text("Favorite Art: ${_userInfo?.favoriteArt}"),
                           ],
                         ),
                       ],
@@ -96,7 +98,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(username: AutofillHints.username),
+      bottomNavigationBar: BottomNavBar(username: widget.username),
     );
   }
 

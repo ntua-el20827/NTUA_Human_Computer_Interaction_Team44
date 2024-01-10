@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:artventure/app_routes.dart';
 
 class BottomNavBar extends StatefulWidget {
-  final String username;
+  final String? username;
 
-  BottomNavBar({required this.username});
+  const BottomNavBar({this.username});
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
@@ -17,7 +17,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      selectedItemColor: Colors.blue,
+      selectedItemColor: Color.fromARGB(255, 124, 14, 134),
       unselectedItemColor: Colors.grey,
       items: const [
         BottomNavigationBarItem(
@@ -34,35 +34,33 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
       ],
       onTap: (index) {
-        if (currentIndex != index) {
-          // Only navigate if the selected tab is different
-          setState(() {
-            currentIndex = index;
-          });
+        // Only navigate if the selected tab is different
+        setState(() {
+          currentIndex = index;
+        });
 
-          switch (index) {
-            case 0:
-              Navigator.pushNamed(
-                context,
-                AppRoutes.profile,
-                arguments: {'username': widget.username},
-              );
-              break;
-            case 1:
-              Navigator.pushNamed(
-                context,
-                AppRoutes.challenges,
-                arguments: {'username': widget.username},
-              );
-              break;
-            // case 2:
-            //   Navigator.pushNamed(
-            //     context,
-            //     AppRoutes.explore,
-            //     arguments: {'username': widget.username},
-            //   );
-            //   break;
-          }
+        switch (index) {
+          case 0:
+            Navigator.pushNamed(
+              context,
+              AppRoutes.profile,
+              arguments: {'username': widget.username},
+            );
+            break;
+          case 1:
+            Navigator.pushNamed(
+              context,
+              AppRoutes.challenges,
+              arguments: {'username': widget.username},
+            );
+            break;
+          // case 2:
+          //   Navigator.pushNamed(
+          //     context,
+          //     AppRoutes.explore,
+          //     arguments: {'username': widget.username},
+          //   );
+          //   break;
         }
       },
     );
