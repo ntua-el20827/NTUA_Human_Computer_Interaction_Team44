@@ -15,7 +15,7 @@ class BottomNavBar extends StatelessWidget {
           label: 'Challenges',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.question_answer),
+          icon: Icon(Icons.map_rounded),
           label: 'Explore',
         ),
       ],

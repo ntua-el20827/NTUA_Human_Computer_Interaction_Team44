@@ -112,13 +112,13 @@ class _ChallengesPageState extends State<ChallengesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to Challenges'),
+        title: const Text('Welcome to Challenges'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
             child: Text(
               'Welcome to Challenges',
               style: TextStyle(
