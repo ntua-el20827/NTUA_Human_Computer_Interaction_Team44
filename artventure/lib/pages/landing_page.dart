@@ -3,6 +3,7 @@ import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/pages/login_page.dart';
 import 'package:artventure/pages/signup_page.dart';
+import 'package:artventure/pages/signup_eventcreators_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -59,6 +60,12 @@ class LandingPage extends StatelessWidget {
                   label: "BECOME AN EVENT CREATOR",
                   press: () {
                     // Handle navigation to the 'Become an Event Creator' screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignUpEventCreatorPage(),
+                      ),
+                    );
                   },
                 ),
               ],

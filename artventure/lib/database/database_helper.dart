@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:artventure/models/challenges_model.dart';
+import 'package:artventure/models/event_creators_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
@@ -70,8 +71,11 @@ class DatabaseHelper {
   // EventCreators table
   String eventCreators = '''
    CREATE TABLE event_creators (
-     id INTEGER PRIMARY KEY AUTOINCREMENT,
-     name TEXT
+     eventCreatorsid INTEGER PRIMARY KEY AUTOINCREMENT,
+     username TEXT UNIQUE,
+     password TEXT,
+     email TEXT,
+     fullName TEXT
    )
    ''';
 
@@ -162,6 +166,12 @@ class DatabaseHelper {
   Future<int> createUser(Users usr) async {
     final Database db = await initDB();
     return db.insert("users", usr.toMap());
+  }
+
+  // Function to insert a new event creator into the database
+  Future<int> createEventCreator(EventCreator eventCreator) async {
+    final Database db = await initDB();
+    return db.insert("event_creators", eventCreator.toMap());
   }
 
   // Get current User details
