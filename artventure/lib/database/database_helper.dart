@@ -170,6 +170,15 @@ class DatabaseHelper {
     return result.isNotEmpty;
   }
 
+  Future<bool> authenticate_ec(String username, String password) async {
+    final Database db = await initDB();
+    var result = await db.rawQuery(
+      "SELECT * FROM event_creators WHERE username = ? AND password = ?",
+      [username, password],
+    );
+    return result.isNotEmpty;
+  }
+
   // Sign up
   Future<int> createUser(Users usr) async {
     final Database db = await initDB();
@@ -181,6 +190,16 @@ class DatabaseHelper {
     final Database db = await initDB();
     return db.insert("event_creators", eventCreator.toMap());
   }
+
+  Future<EventCreator?> getEventCreator(String username) async {
+  final Database db = await initDB();
+  var res = await db.query("event_creators", where: "username = ?", whereArgs: [username]);
+  if (res.isNotEmpty) {
+    return EventCreator.fromMap(res.first);
+  } else {
+    return null;
+  }
+}
 
   // Get current User details
   Future<Users?> getUser(String username) async {

@@ -27,12 +27,12 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
     final dbHelper = DatabaseHelper();
     final database = await dbHelper.initDB();
 
-    var eventCreator = EventCreator(
+    /*var eventCreator = EventCreator(
       username: usernameController.text,
       password: passwordController.text,
       email: emailController.text,
       fullName: fullNameController.text,
-    );
+    );*/
 
     var res = await db.createEventCreator(EventCreator(
         username: usernameController.text,
@@ -44,7 +44,7 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
     if (res > 0) {
       if (!mounted) return;
       Navigator.push(
-        context, MaterialPageRoute(builder: (context) => WelcomePage(profile: eventCreator)),
+        context, MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     }
   }
