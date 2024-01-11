@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/user_info_model.dart';
+import 'package:artventure/models/events_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
