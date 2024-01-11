@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:artventure/app_routes.dart';
 
+// Base Class
 class BottomNavBar extends StatefulWidget {
   final String? username;
 
@@ -10,6 +11,7 @@ class BottomNavBar extends StatefulWidget {
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
+// Extended Class
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentIndex = 0;
 
@@ -17,6 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
+      // The selected color is not working!
       selectedItemColor: Color.fromARGB(255, 124, 14, 134),
       unselectedItemColor: Colors.grey,
       items: const [
