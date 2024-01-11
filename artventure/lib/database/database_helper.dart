@@ -6,6 +6,7 @@ import 'package:artventure/models/user_info_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../models/user_model.dart';
 
@@ -103,20 +104,21 @@ class DatabaseHelper {
 
   // Our connection is ready
   Future<Database> initDB() async {
-    final databasePath = await getDatabasesPath();
-    final path = join(databasePath, databaseName);
+  final directory = await getApplicationDocumentsDirectory();
+  final path = join(directory.path, databaseName);
 
-    return openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute(user);
-      await db.execute(userInfo);
-      await db.execute(challenges);
-      await db.execute(userChallenges);
-      await db.execute(events);
-      await db.execute(eventCreators);
-      await db.execute(userLikes);
-      await db.execute(eventImages);
-    });
-  }
+  return openDatabase(path, version: 1, onCreate: (db, version) async {
+    await db.execute(user);
+    await db.execute(userInfo);
+    await db.execute(challenges);
+    await db.execute(userChallenges);
+    await db.execute(events);
+    await db.execute(eventCreators);
+    await db.execute(userLikes);
+    await db.execute(eventImages);
+  });
+}
+
 
   // Function methods
   // Sign up with device ID

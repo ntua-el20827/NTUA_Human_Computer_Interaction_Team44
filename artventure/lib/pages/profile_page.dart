@@ -6,7 +6,6 @@ import 'package:artventure/models/user_model.dart';
 import 'package:artventure/database/database_helper.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
 //import 'package:artventure/components/card.dart';
-import 'package:artventure/components/challenges_list';
 
 class Profile extends StatefulWidget {
   final String? username;
@@ -113,7 +112,7 @@ Widget _buildChallengesSection() {
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
       const SizedBox(height: 10),
-      UserChallengesList(),
+      //UserChallengesList(),
     ],
   );
 }
