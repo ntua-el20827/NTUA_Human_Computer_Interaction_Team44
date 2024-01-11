@@ -9,7 +9,7 @@ import 'package:artventure/database/database_helper.dart';
 class WelcomePage extends StatefulWidget {
   final EventCreator? profile;
 
-  const WelcomePage({super.key, this.profile});
+  const WelcomePage({Key? key, this.profile}) : super(key: key);
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -17,14 +17,16 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   late List<Events> createdEvents = [];
+
   Future<void> fetchCreatedEvents() async {
     // Use your DatabaseHelper class to get the events created by the current event creator
     DatabaseHelper dbHelper = DatabaseHelper();
-    createdEvents = await dbHelper.getEventsByCreator(widget.profile?.username ?? '');
+    createdEvents =
+        await dbHelper.getEventsByCreator(widget.profile?.username ?? '');
 
     setState(() {});
   }
-  
+
   @override
   void initState() {
     super.initState();
@@ -64,8 +66,9 @@ class _WelcomePageState extends State<WelcomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          EventCreationPage(username: creatorUsername)),
+                    builder: (context) =>
+                        EventCreationPage(username: creatorUsername),
+                  ),
                 );
               },
               child: Text('Add'),
@@ -77,27 +80,27 @@ class _WelcomePageState extends State<WelcomePage> {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
-             ),
-          SizedBox(height: 8),
-          Expanded(
-            child: ListView.builder(
-              itemCount: createdEvents.length,
-              itemBuilder: (context, index) {
-                Events event = createdEvents[index];
-                return EventCard(
-                  image: 'assets/${event.eventImageFilePath}',
-                  title: event.title,
-                  category: event.category,
-                  location: event.location,
-                  infoText: event.infoText,
-                  eventCreator: event.eventCreator,
-                );
-              },
             ),
-          ),
-        ],
+            SizedBox(height: 8),
+            Expanded(
+              child: ListView.builder(
+                itemCount: createdEvents.length,
+                itemBuilder: (context, index) {
+                  Events event = createdEvents[index];
+                  return EventCard(
+                    image: 'assets/${event.eventImageFilePath}',
+                    title: event.title,
+                    category: event.category,
+                    location: event.location,
+                    infoText: event.infoText,
+                    eventCreator: event.eventCreator,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
