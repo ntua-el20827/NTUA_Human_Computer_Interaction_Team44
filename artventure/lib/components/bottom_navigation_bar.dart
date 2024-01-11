@@ -57,13 +57,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
               arguments: {'username': widget.username},
             );
             break;
-          // case 2:
-          //   Navigator.pushNamed(
-          //     context,
-          //     AppRoutes.explore,
-          //     arguments: {'username': widget.username},
-          //   );
-          //   break;
+          case 2:
+            Navigator.pushNamed(
+              context,
+              AppRoutes.explore,
+              arguments: {'username': widget.username},
+            );
+            break;
         }
       },
     );
