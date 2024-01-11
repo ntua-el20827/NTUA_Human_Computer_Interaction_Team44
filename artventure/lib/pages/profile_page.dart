@@ -1,3 +1,4 @@
+import 'package:artventure/models/user_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
@@ -8,17 +9,18 @@ import 'package:artventure/components/bottom_navigation_bar.dart';
 import 'package:artventure/components/challenges_list';
 
 class Profile extends StatefulWidget {
-  final Users? profile;
+  final String? username;
 
-  const Profile({super.key, this.profile});
+  const Profile({Key? key, this.username}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  late Users? _userProfile;
-  //int _currentIndex = 0; // Declare _currentIndex here
+  Users? _userProfile;
+  UserInfo? _userInfo;
+
   @override
   void initState() {
     super.initState();
@@ -27,10 +29,12 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> _loadUserInfo() async {
-    final user = await DatabaseHelper().getUser(widget.profile!.username);
+    final user = await DatabaseHelper().getUser(widget.username!);
+    final userinfo = await DatabaseHelper().getUserInfo(user?.userId);
     if (user != null) {
       setState(() {
         _userProfile = user;
+        _userInfo = userinfo;
       });
     }
   }
@@ -69,8 +73,7 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                             Text("Points: ${_userProfile?.points}"),
-                            Text(
-                                "FavoriteArt: ${_userProfile?.userinfo[0] ?? ""}"),
+                            Text("Favorite Art: ${_userInfo?.favoriteArt}"),
                           ],
                         ),
                       ],
@@ -86,7 +89,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.account_circle, size: 30),
-                  subtitle: Text(_userProfile!.username),
+                  subtitle: Text(AutofillHints.username),
                   title: const Text("Hello ArtVenturer!"),
                 ),
                 const SizedBox(height: 20),
@@ -98,11 +101,8 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: BottomNavBar(username: widget.username),
     );
-  
-      
   }
 
 Widget _buildChallengesSection() {

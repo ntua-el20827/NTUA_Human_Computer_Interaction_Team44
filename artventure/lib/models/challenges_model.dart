@@ -1,28 +1,30 @@
 import 'dart:convert';
 
-Challenges challengesFromMap(String str) =>
-    Challenges.fromMap(json.decode(str));
+Challenge challengeFromMap(String str) => Challenge.fromMap(json.decode(str));
 
-String challengesToMap(Challenges data) => json.encode(data.toMap());
+String challengeToMap(Challenge data) => json.encode(data.toMap());
 
-class Challenges {
+class Challenge {
   final int? challengeId;
   final String title;
   final int points;
   final String category;
+  final String? imageFilePath; // Added image field
 
-  Challenges({
+  Challenge({
     this.challengeId,
     required this.title,
     required this.points,
     required this.category,
+    this.imageFilePath,
   });
 
-  factory Challenges.fromMap(Map<String, dynamic> json) => Challenges(
+  factory Challenge.fromMap(Map<String, dynamic> json) => Challenge(
         challengeId: json["challengeId"],
         title: json["title"],
         points: json["points"],
         category: json["category"],
+        imageFilePath: json["imageFilePath"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -30,5 +32,6 @@ class Challenges {
         "title": title,
         "points": points,
         "category": category,
+        "imageFilePath": imageFilePath,
       };
 }

@@ -8,14 +8,12 @@ class Users {
   final int? userId;
   final String username;
   final String password;
-  final Map<String, dynamic> userinfo;
   final int points;
 
   Users({
     this.userId,
     required this.username,
     required this.password,
-    this.userinfo = const {},
     this.points = 0,
   });
 
