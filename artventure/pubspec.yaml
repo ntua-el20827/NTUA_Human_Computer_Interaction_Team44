@@ -43,6 +43,7 @@ dependencies:
   google_maps_flutter: ^2.5.2
   google_maps_flutter_web: ^0.5.4+3
   sqflite_common_ffi_web: ^0.4.2+3
+  sqlite3_flutter_libs: ^0.4.2 
 
 
 dev_dependencies:

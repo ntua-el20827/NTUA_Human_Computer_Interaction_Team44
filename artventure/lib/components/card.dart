@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MyCard extends StatelessWidget {
+  final int challengeId;
+  final int userId;
+  final String status;
+
+  MyCard({required this.challengeId, required this.userId, required this.status});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -10,8 +16,8 @@ class MyCard extends StatelessWidget {
         children: <Widget>[
           ListTile(
             leading: Icon(Icons.album),
-            title: Text('Card Title'),
-            subtitle: Text('Subtitle or additional information'),
+            title: Text('Challenge ID: $challengeId'),
+            subtitle: Text('User ID: $userId\nStatus: $status'),
           ),
           ButtonBar(
             children: <Widget>[
@@ -34,3 +40,4 @@ class MyCard extends StatelessWidget {
     );
   }
 }
+
