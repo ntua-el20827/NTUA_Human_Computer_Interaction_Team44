@@ -24,8 +24,8 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
   final db = DatabaseHelper();
 
   signUpec() async {
-    sqfliteFfiInit(); // Initialize the database factory
-    databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
+    final dbHelper = DatabaseHelper();
+    final database = await dbHelper.initDB();
 
     var eventCreator = EventCreator(
       username: usernameController.text,

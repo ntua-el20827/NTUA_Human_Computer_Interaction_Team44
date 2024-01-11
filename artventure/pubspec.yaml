@@ -28,10 +28,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  sqflite_common_ffi_web: '>=0.1.0-dev.1'
   flutter:
     sdk: flutter
   sqflite_common_ffi:
-
+  
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -40,6 +41,7 @@ dependencies:
   path: ^1.8.3
   path_provider: ^2.1.1
   device_info: ^2.0.3
+  sqlite3_flutter_libs: ^0.5.18
 
 
 dev_dependencies:

@@ -137,8 +137,7 @@ class _EventCreationPageState extends State<EventCreationPage> {
                   category: category,
                   location: street,
                   infoText: infoText,
-                  eventCreator: widget
-                      .username, // Use the widget.username property to assign the creator's username
+                  eventCreator: widget.username, // Use the widget.username property to assign the creator's username
                 );
 
                 // Save the new event to the database or perform any other necessary operations

@@ -5,7 +5,7 @@ import 'package:artventure/models/event_creators_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
-
+import '../models/events_model.dart';
 import '../models/user_model.dart';
 
 class DatabaseHelper {
@@ -100,11 +100,20 @@ class DatabaseHelper {
    )
    ''';
 
+  
+  Future<bool> databaseExists(String path) async {
+    return await File(path).exists();
+  }
   // Our connection is ready
   Future<Database> initDB() async {
-    final databasePath = await getDatabasesPath();
-    final path = join(databasePath, databaseName);
+  final databasePath = await getDatabasesPath();
+  final path = join(databasePath, databaseName);
 
+  // Check if the database file already exists
+  bool database_Exists = await databaseExists(path);
+
+  if (!database_Exists) {
+    // Create the database and its tables
     return openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(userInfo);
@@ -115,7 +124,11 @@ class DatabaseHelper {
       await db.execute(userLikes);
       await db.execute(eventImages);
     });
+  } else {
+    // Open the existing database
+    return openDatabase(path);
   }
+}
 
   // Function methods
   // Sign up with device ID
@@ -208,4 +221,25 @@ class DatabaseHelper {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+  // Get events created by a specific event creator
+  Future<List<Events>> getEventsByCreator(String creatorUsername) async {
+    final Database db = await initDB();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'events',
+      where: 'eventCreator = ?',
+      whereArgs: [creatorUsername],
+    );
+
+    return List.generate(maps.length, (i) {
+      return Events(
+        eventId: maps[i]['eventId'],
+        title: maps[i]['title'],
+        category: maps[i]['category'],
+        location: maps[i]['location'],
+        infoText: maps[i]['infoText'],
+        eventCreator: maps[i]['eventCreator'],
+      );
+    });
+  }
 }
+
