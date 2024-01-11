@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
+import 'package:artventure/models/user_info_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
-import '../models/events_model.dart';
+import 'package:path_provider/path_provider.dart';
+
 import '../models/user_model.dart';
 
 class DatabaseHelper {
@@ -106,29 +108,21 @@ class DatabaseHelper {
   }
   // Our connection is ready
   Future<Database> initDB() async {
-  final databasePath = await getDatabasesPath();
-  final path = join(databasePath, databaseName);
+  final directory = await getApplicationDocumentsDirectory();
+  final path = join(directory.path, databaseName);
 
-  // Check if the database file already exists
-  bool database_Exists = await databaseExists(path);
-
-  if (!database_Exists) {
-    // Create the database and its tables
-    return openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute(user);
-      await db.execute(userInfo);
-      await db.execute(challenges);
-      await db.execute(userChallenges);
-      await db.execute(events);
-      await db.execute(eventCreators);
-      await db.execute(userLikes);
-      await db.execute(eventImages);
-    });
-  } else {
-    // Open the existing database
-    return openDatabase(path);
-  }
+  return openDatabase(path, version: 1, onCreate: (db, version) async {
+    await db.execute(user);
+    await db.execute(userInfo);
+    await db.execute(challenges);
+    await db.execute(userChallenges);
+    await db.execute(events);
+    await db.execute(eventCreators);
+    await db.execute(userLikes);
+    await db.execute(eventImages);
+  });
 }
+
 
   // Function methods
   // Sign up with device ID
@@ -193,6 +187,13 @@ class DatabaseHelper {
     var res =
         await db.query("users", where: "username = ?", whereArgs: [username]);
     return res.isNotEmpty ? Users.fromMap(res.first) : null;
+  }
+
+  Future<UserInfo?> getUserInfo(int? userId) async {
+    final Database db = await initDB();
+    var res =
+        await db.query("user_info", where: "userId = ?", whereArgs: [userId]);
+    return res.isNotEmpty ? UserInfo.fromMap(res.first) : null;
   }
 
   ///////////////////////// CHALLENGES

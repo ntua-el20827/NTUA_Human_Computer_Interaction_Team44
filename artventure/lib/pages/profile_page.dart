@@ -1,9 +1,11 @@
+import 'package:artventure/models/user_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/database/database_helper.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
+//import 'package:artventure/components/card.dart';
 
 class Profile extends StatefulWidget {
   final String? username;
@@ -16,6 +18,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Users? _userProfile;
+  UserInfo? _userInfo;
 
   @override
   void initState() {
@@ -25,10 +28,12 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> _loadUserInfo() async {
-    final user = await DatabaseHelper().getUser(AutofillHints.username);
+    final user = await DatabaseHelper().getUser(widget.username!);
+    final userinfo = await DatabaseHelper().getUserInfo(user?.userId);
     if (user != null) {
       setState(() {
         _userProfile = user;
+        _userInfo = userinfo;
       });
     }
   }
@@ -66,10 +71,8 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                                "Points: ${_userProfile?.points ?? "Loading..."}"),
-                            Text(
-                                "FavoriteArt: ${_userProfile?.userinfo[0] ?? ""}"),
+                            Text("Points: ${_userProfile?.points}"),
+                            Text("Favorite Art: ${_userInfo?.favoriteArt}"),
                           ],
                         ),
                       ],
@@ -91,26 +94,28 @@ class _ProfileState extends State<Profile> {
                 const SizedBox(height: 20),
                 _buildChallengesSection(),
                 _buildEventsSection(),
+                
               ],
             ),
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(username: AutofillHints.username),
+      bottomNavigationBar: BottomNavBar(username: widget.username),
     );
   }
 
-  Widget _buildChallengesSection() {
-    return Column(
-      children: [
-        const Text(
-          "My Challenges",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
+Widget _buildChallengesSection() {
+  return Column(
+    children: [
+      const Text(
+        "My Challenges",
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 10),
+      //UserChallengesList(),
+    ],
+  );
+}
   Widget _buildEventsSection() {
     return Column(
       children: [

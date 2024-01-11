@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 
-//We are going to design our own button
+// Button as a component
 
 class Button extends StatelessWidget {
+  // attributes
   final String label;
   final VoidCallback press;
   const Button({super.key, required this.label, required this.press});
 
   @override
   Widget build(BuildContext context) {
-    //Query width and height of device for being fit or responsive
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),

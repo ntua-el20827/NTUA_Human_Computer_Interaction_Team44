@@ -155,7 +155,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
         ],
       ),
       bottomNavigationBar: BottomNavBar(
-        username: AutofillHints.username,
+        username: widget.username,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
