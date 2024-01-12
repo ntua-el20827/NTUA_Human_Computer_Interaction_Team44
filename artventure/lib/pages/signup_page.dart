@@ -3,6 +3,7 @@ import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/user_model.dart';
+import 'package:artventure/pages/quiz_page.dart';
 import 'package:artventure/pages/login_page.dart';
 
 import '../database/database_helper.dart';
@@ -22,16 +23,21 @@ class _SignUpPageState extends State<SignUpPage> {
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
   final db = DatabaseHelper();
+  
   signUp() async {
     sqfliteFfiInit(); // Initialize the database factory
     databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
 
-    var res = await db
-        .createUser(Users(username: usrName.text, password: password.text));
-    if (res > 0) {
+    int userId = await db.createUser(Users(username: usrName.text, password: password.text));
+
+    if (userId > 0) {
       if (!mounted) return;
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => QuizPage(userId: userId, username: usrName.text),
+        ),
+      );
     }
   }
 

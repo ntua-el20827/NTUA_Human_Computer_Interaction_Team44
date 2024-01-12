@@ -5,7 +5,7 @@ Users usersFromMap(String str) => Users.fromMap(json.decode(str));
 String usersToMap(Users data) => json.encode(data.toMap());
 
 class Users {
-  final int? userId;
+  int? userId;
   final String username;
   final String password;
   final int points;

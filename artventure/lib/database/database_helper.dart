@@ -168,7 +168,17 @@ class DatabaseHelper {
   // Sign up
   Future<int> createUser(Users usr) async {
     final Database db = await initDB();
-    return db.insert("users", usr.toMap());
+    int userId = await db.insert("users", usr.toMap());
+    return userId;
+  }
+
+  Future<void> saveUserAnswers(UserInfo userInfo) async {
+    final Database db = await initDB();
+    await db.insert(
+      'user_info',
+      userInfo.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   // Function to insert a new event creator into the database
@@ -218,4 +228,7 @@ class DatabaseHelper {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
+
+  
 }

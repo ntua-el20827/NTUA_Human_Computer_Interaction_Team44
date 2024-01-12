@@ -39,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
     if (res == true) {
       //If result is correct then go to profile or home
       if (!mounted) return;
+      print(usrDetails?.username);
       Navigator.push(
           context,
           MaterialPageRoute(
