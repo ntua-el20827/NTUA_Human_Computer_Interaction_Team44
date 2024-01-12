@@ -1,162 +1,224 @@
-// import 'package:flutterflow_ui/flutterflow_ui.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
+import 'package:artventure/database/database_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:artventure/components/colors_and_fonts.dart';
+import 'package:artventure/pages/profile_page.dart';
+import 'package:artventure/models/user_info_model.dart';
 
-// // Model
 
-// class QuizModel extends FlutterFlowModel {
-//   ///  State fields for stateful widgets in this page.
 
-//   final unfocusNode = FocusNode();
+class QuizPage extends StatelessWidget {
+   
+  final int? userId;
+  final String? username;
 
-//   /// Initialization and disposal methods.
+  QuizPage({Key? key, this.userId, this.username}) : super(key: key);
+  UserInfo userInfo = UserInfo(userId: 0, favoriteArt: '', favoriteArtist: '');
+  
+  
+  final PageController _pageController = PageController();
+  final db = DatabaseHelper();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        title: const Align(
+          alignment: AlignmentDirectional(0, 0),
+          child: Text('ArtVenture', style: titleLarge),
+        ),
+        actions: const [],
+        centerTitle: false,
+        elevation: 2,
+      ),
+      body: PageView(
+        controller: _pageController,
+        children: [
+          buildQuizPage(context),
+          buildQuizPage2(context),
+          //buildQuizPage3(context),
+          //buildQuizPage4(context),
+        ],
+      ),
+    );
+  }
 
-//   void initState(BuildContext context) {}
+  Widget buildQuizPage(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Let\'s Play a Small Game...',
+            style: TextStyle(fontSize: 20.0),
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            'What is your Favorite Art:',
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          width: 200.0, // Adjust the width as needed
+          child: ElevatedButton(
+            onPressed: () {
+              userInfo.favoriteArt = 'Visual Arts';
+              _pageController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: Text('A. Visual ARTs'),
+          ),
+        ),
+        Container(
+          width: 200.0, // Adjust the width as needed
+          child: ElevatedButton(
+            onPressed: () {
+              userInfo.favoriteArt = 'Music';
+              _pageController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: Text('B. Music'),
+          ),
+        ),
+        Container(
+          width: 200.0, // Adjust the width as needed
+          child: ElevatedButton(
+            onPressed: () {
+              userInfo.favoriteArt = 'Dance';
+              _pageController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: Text('C. Dance'),
+          ),
+        ),
+        Container(
+          width: 200.0, // Adjust the width as needed
+          child: ElevatedButton(
+            onPressed: () {
+              userInfo.favoriteArt = 'Theater';
+              _pageController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: Text('D. Theater'),
+          ),
+        ),
+        // Add more answer options as needed
+      ],
+    );
+  }
 
-//   void dispose() {
-//     unfocusNode.dispose();
-//   }
-
-//   /// Action blocks are added here.
-
-//   /// Additional helper methods are added here.
-// }
-
-// //
-
-// class QuizPage extends StatefulWidget {
-//   const QuizPage({Key? key}) : super(key: key);
-
-//   @override
-//   _QuizPageWidgetState createState() => _QuizPageWidgetState();
-// }
-
-// class _QuizPageWidgetState extends State<QuizPage> {
-//   late QuizModel _model;
-
-//   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _model = createModel(context, () => QuizModel());
-//   }
-
-//   @override
-//   void dispose() {
-//     _model.dispose();
-
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     if (isiOS) {
-//       SystemChrome.setSystemUIOverlayStyle(
-//         SystemUiOverlayStyle(
-//           statusBarBrightness: Theme.of(context).brightness,
-//           systemStatusBarContrastEnforced: true,
-//         ),
-//       );
-//     }
-
-//     return GestureDetector(
-//       onTap: () => _model.unfocusNode.canRequestFocus
-//           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-//           : FocusScope.of(context).unfocus(),
-//       child: Scaffold(
-//         key: scaffoldKey,
-//         backgroundColor: FlutterFlowTheme.of(context).info,
-//         appBar: AppBar(
-//           backgroundColor: FlutterFlowTheme.of(context).info,
-//           automaticallyImplyLeading: false,
-//           title: Align(
-//             alignment: AlignmentDirectional(0, 0),
-//             child: Text(
-//               'ArtVenture',
-//               style: FlutterFlowTheme.of(context).titleLarge.override(
-//                     fontFamily: 'MonteCarlo',
-//                     fontSize: 30,
-//                   ),
-//             ),
-//           ),
-//           actions: [],
-//           centerTitle: false,
-//           elevation: 2,
-//         ),
-//         body: SafeArea(
-//           top: true,
-//           child: Stack(
-//             children: [
-//               Align(
-//                 alignment: AlignmentDirectional(0, 0.7),
-//                 child: FFButtonWidget(
-//                   onPressed: () {
-//                     print('Button pressed ...');
-//                   },
-//                   text: 'Register to Create Events',
-//                   options: FFButtonOptions(
-//                     width: 322,
-//                     height: 59,
-//                     padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-//                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-//                     color: FlutterFlowTheme.of(context).alternate,
-//                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-//                           fontFamily: 'Poppins',
-//                           color: Colors.white,
-//                           fontSize: 16,
-//                         ),
-//                     elevation: 3,
-//                     borderSide: BorderSide(
-//                       color: Colors.transparent,
-//                       width: 1,
-//                     ),
-//                     borderRadius: BorderRadius.circular(8),
-//                   ),
-//                 ),
-//               ),
-//               Align(
-//                 alignment: AlignmentDirectional(0, 0.4),
-//                 child: FFButtonWidget(
-//                   onPressed: () {
-//                     print('Button pressed ...');
-//                   },
-//                   text: 'Continue Without Registration',
-//                   options: FFButtonOptions(
-//                     width: 322,
-//                     height: 59,
-//                     padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-//                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-//                     color: FlutterFlowTheme.of(context).secondary,
-//                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-//                           fontFamily: 'Poppins',
-//                           fontSize: 16,
-//                         ),
-//                     elevation: 3,
-//                     borderSide: BorderSide(
-//                       color: Colors.transparent,
-//                       width: 1,
-//                     ),
-//                     borderRadius: BorderRadius.circular(2),
-//                   ),
-//                 ),
-//               ),
-//               Align(
-//                 alignment: AlignmentDirectional(0, -0.2),
-//                 child: Text(
-//                   'Welcome to ArtVenture',
-//                   textAlign: TextAlign.center,
-//                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-//                         fontFamily: 'Poppins',
-//                         fontSize: 40,
-//                         fontWeight: FontWeight.w600,
-//                       ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  Widget buildQuizPage2(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Let\'s Play a Small Game...',
+            style: TextStyle(fontSize: 20.0),
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Who is your Favorite Artist',
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          width: 200.0, // Adjust the width as needed
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigate to the profile page after clicking the last answer
+              userInfo.favoriteArtist = 'Mozart';
+              userInfo.userId = userId!;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Profile(username: username)), // Replace ProfilePage with your actual profile page
+              ).then((_) {
+              // Save user info to the database
+                db.saveUserAnswers(userInfo);
+              });
+            },
+            child: Text('A. Mozart'),
+          ),
+        ),
+        Container(
+          width: 200.0, // Adjust the width as needed
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigate to the profile page after clicking the last answer
+              userInfo.favoriteArtist = 'shakespeare';
+              userInfo.userId = userId!;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Profile(username: username)), // Replace ProfilePage with your actual profile page
+              ).then((_) {
+              // Save user info to the database
+                db.saveUserAnswers(userInfo);
+              });
+            },
+            child: Text('B. Shakespeare'),
+          ),
+        ),
+        Container(
+          width: 200.0, // Adjust the width as needed
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigate to the profile page after clicking the last answer
+              userInfo.favoriteArtist = 'Lara McGrath';
+              userInfo.userId = userId!;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Profile(username: username)), // Replace ProfilePage with your actual profile page
+              ).then((_) {
+              // Save user info to the database
+                db.saveUserAnswers(userInfo);
+              });
+            },
+            child: Text('C. Lara McGrath'),
+          ),
+        ),        // Add more answer options as needed
+        Container(
+          width: 200.0, // Adjust the width as needed
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigate to the profile page after clicking the last answer
+              userInfo.favoriteArtist = 'Picasso';
+              userInfo.userId = userId!;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Profile(username: username)), // Replace ProfilePage with your actual profile page
+              ).then((_) {
+              // Save user info to the database
+                db.saveUserAnswers(userInfo);
+              });
+            },
+            child: Text('D. Picasso'),
+          ),
+        ),
+      ],
+    );
+  }
+}

@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/user_challenges_model.dart';
 import 'package:artventure/models/user_info_model.dart';
+import 'package:artventure/models/events_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
@@ -71,7 +73,8 @@ class DatabaseHelper {
      category TEXT,
      location TEXT,
      infoText TEXT,
-     eventCreator TEXT
+     eventCreator TEXT,
+     eventImageFilePath ΤΕΧΤ
    )
    ''';
 
@@ -106,6 +109,10 @@ class DatabaseHelper {
      FOREIGN KEY (eventId) REFERENCES events(eventId)
    )
    ''';
+
+  Future<bool> databaseExists(String path) async {
+    return await File(path).exists();
+  }
 
   // Our connection is ready
   Future<Database> initDB() async {
@@ -170,16 +177,51 @@ class DatabaseHelper {
     return result.isNotEmpty;
   }
 
+  Future<bool> authenticate_ec(String username, String password) async {
+    final Database db = await initDB();
+    var result = await db.rawQuery(
+      "SELECT * FROM event_creators WHERE username = ? AND password = ?",
+      [username, password],
+    );
+    return result.isNotEmpty;
+  }
+
   // Sign up
   Future<int> createUser(Users usr) async {
     final Database db = await initDB();
-    return db.insert("users", usr.toMap());
+    int userId = await db.insert("users", usr.toMap());
+    return userId;
+  }
+
+  Future<void> saveUserAnswers(UserInfo userInfo) async {
+    final Database db = await initDB();
+    await db.insert(
+      'user_info',
+      userInfo.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   // Function to insert a new event creator into the database
   Future<int> createEventCreator(EventCreator eventCreator) async {
     final Database db = await initDB();
     return db.insert("event_creators", eventCreator.toMap());
+  }
+
+  Future<int> createEvent(Events event) async {
+    final Database db = await initDB();
+    return db.insert("events", event.toMap());
+  }
+
+  Future<EventCreator?> getEventCreator(String username) async {
+    final Database db = await initDB();
+    var res = await db
+        .query("event_creators", where: "username = ?", whereArgs: [username]);
+    if (res.isNotEmpty) {
+      return EventCreator.fromMap(res.first);
+    } else {
+      return null;
+    }
   }
 
   // Get current User details
@@ -292,5 +334,26 @@ class DatabaseHelper {
       where: 'challengeId = ?',
       whereArgs: [challengeId],
     );
+  }
+
+  // Get events created by a specific event creator
+  Future<List<Events>> getEventsByCreator(String creatorUsername) async {
+    final Database db = await initDB();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'events',
+      where: 'eventCreator = ?',
+      whereArgs: [creatorUsername],
+    );
+
+    return List.generate(maps.length, (i) {
+      return Events(
+        eventId: maps[i]['eventId'],
+        title: maps[i]['title'],
+        category: maps[i]['category'],
+        location: maps[i]['location'],
+        infoText: maps[i]['infoText'],
+        eventCreator: maps[i]['eventCreator'],
+      );
+    });
   }
 }

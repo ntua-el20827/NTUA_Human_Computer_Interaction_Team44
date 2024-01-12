@@ -10,7 +10,7 @@ class _ExplorePageState extends State<ExplorePage> {
   late GoogleMapController mapController;
 
   // Initial camera position (you can adjust these values)
-  static const LatLng _initialPosition = const LatLng(37.7749, -122.4194);
+  static const LatLng _initialPosition = const LatLng(37.978856, 23.783248);
   CameraPosition _initialCameraPosition = CameraPosition(
     target: _initialPosition,
     zoom: 13.0,
