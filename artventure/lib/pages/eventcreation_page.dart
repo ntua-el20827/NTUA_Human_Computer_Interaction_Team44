@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
@@ -121,7 +123,12 @@ class _EventCreationPageState extends State<EventCreationPage> {
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: Center(
+                child: imageFilePath.isNotEmpty
+                    ? Image.file(
+                        File(imageFilePath),
+                        fit: BoxFit.cover,
+                      )
+                    : Center(
                   child: IconButton(
                     icon: Icon(Icons.add_a_photo),
                     onPressed: () {
