@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
@@ -7,6 +9,8 @@ import 'package:artventure/pages/login_page.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import '../database/database_helper.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class EventCreationPage extends StatefulWidget {
   final String
@@ -24,8 +28,32 @@ class _EventCreationPageState extends State<EventCreationPage> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController streetController = TextEditingController();
   TextEditingController ratingController = TextEditingController();
-  TextEditingController bookingListController = TextEditingController();
+  TextEditingController bookingLinkController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
+  TextEditingController eventImageFilePathController = TextEditingController();
+  final db = DatabaseHelper();
+
+  registerevent() async {
+    final dbHelper = DatabaseHelper();
+    final database = await dbHelper.initDB();
+    String infoTextController =
+                      "Duration: $durationController\nDescription: $descriptionController\nRating: $ratingController\nBooking List: $bookingLinkController";
+    var res = await db.createEvent(Events(
+        title: titleController.text,
+        category: categoryController.text,
+        location: streetController.text,
+        infoText: infoTextController,
+        eventCreator: widget.username,
+        eventImageFilePath: imageFilePath,
+        )
+      );
+    if (res > 0) {
+      if (!mounted) return;
+      Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -34,9 +62,47 @@ class _EventCreationPageState extends State<EventCreationPage> {
     descriptionController.dispose();
     streetController.dispose();
     ratingController.dispose();
-    bookingListController.dispose();
+    bookingLinkController.dispose();
     categoryController.dispose();
     super.dispose();
+  }
+  String imageFilePath = '';
+  Future<void> chooseAndCaptureImage(BuildContext context) async {
+    final picker = ImagePicker();
+
+    showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Choose Image Source'),
+          content: const Text('Select the source to pick the image from.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Camera'),
+              onPressed: () async {
+                Navigator.pop(context, ImageSource.camera);
+              },
+            ),
+            TextButton(
+              child: const Text('Gallery'),
+              onPressed: () async {
+                Navigator.pop(context, ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((ImageSource? source) async {
+      if (source != null) {
+        final pickedFile = await picker.pickImage(source: source);
+
+        if (pickedFile != null) {
+          setState(() {
+            imageFilePath = pickedFile.path;
+          });
+        }
+      }
+    });
   }
 
   @override
@@ -47,115 +113,100 @@ class _EventCreationPageState extends State<EventCreationPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: 200, // Adjust the height as needed
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Center(
-                child: IconButton(
-                  icon: Icon(Icons.add_a_photo),
-                  onPressed: () {
-                    // Handle picture import logic here
-                  },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                height: 200, // Adjust the height as needed
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: imageFilePath.isNotEmpty
+                    ? Image.file(
+                        File(imageFilePath),
+                        fit: BoxFit.cover,
+                      )
+                    : Center(
+                  child: IconButton(
+                    icon: Icon(Icons.add_a_photo),
+                    onPressed: () {
+                      chooseAndCaptureImage(context);// Handle picture import logic here
+                    },
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: titleController,
-              decoration: InputDecoration(
-                labelText: 'Insert Title',
+              SizedBox(height: 16),
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  labelText: 'Insert Title',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: categoryController,
-              decoration: InputDecoration(
-                labelText: 'Insert Category',
+              SizedBox(height: 16),
+              TextField(
+                controller: categoryController,
+                decoration: InputDecoration(
+                  labelText: 'Insert Category',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: durationController,
-              decoration: InputDecoration(
-                labelText: 'Duration',
+              SizedBox(height: 16),
+              TextField(
+                controller: durationController,
+                decoration: InputDecoration(
+                  labelText: 'Duration',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: descriptionController,
-              maxLines: null,
-              decoration: InputDecoration(
-                labelText: 'Description',
+              SizedBox(height: 16),
+              TextField(
+                controller: descriptionController,
+                maxLines: null,
+                decoration: InputDecoration(
+                  labelText: 'Description',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: streetController,
-              decoration: InputDecoration(
-                labelText: 'Insert Street',
+              SizedBox(height: 16),
+              TextField(
+                controller: streetController,
+                decoration: InputDecoration(
+                  labelText: 'Insert Street',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: ratingController,
-              decoration: InputDecoration(
-                labelText: 'Insert Rating',
+              SizedBox(height: 16),
+              TextField(
+                controller: ratingController,
+                decoration: InputDecoration(
+                  labelText: 'Insert Rating',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: bookingListController,
-              decoration: InputDecoration(
-                labelText: 'Insert Booking List',
+              SizedBox(height: 16),
+              TextField(
+                controller: bookingLinkController,
+                decoration: InputDecoration(
+                  labelText: 'Insert Booking Link',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Create event logic here
-                String title = titleController.text;
-                String category = categoryController.text;
-                String duration = durationController.text;
-                String description = descriptionController.text;
-                String street = streetController.text;
-                String rating = ratingController.text;
-                String bookingList = bookingListController.text;
-
-                // Combine the duration, description, rating, and booking list into the infoText field
-                String infoText =
-                    "Duration: $duration\nDescription: $description\nRating: $rating\nBooking List: $bookingList";
-
-                // Perform event creation with the entered data
-                Events newEvent = Events(
-                  title: title,
-                  category: category,
-                  location: street,
-                  infoText: infoText,
-                  eventCreator: widget
-                      .username, // Use the widget.username property to assign the creator's username
-                );
-
-                // Save the new event to the database or perform any other necessary operations
-                // DatabaseHelper.saveEvent(newEvent);
-
-                // Clear the text fields
-                titleController.clear();
-                categoryController.clear();
-                durationController.clear();
-                descriptionController.clear();
-                streetController.clear();
-                ratingController.clear();
-                bookingListController.clear();
-              },
-              child: Text('Create Event'),
-            ),
-          ],
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  registerevent();
+                  // Save the new event to the database or perform any other necessary operations
+                  // DatabaseHelper.saveEvent(newEvent);
+          
+                  // Clear the text fields
+                  titleController.clear();
+                  categoryController.clear();
+                  durationController.clear();
+                  descriptionController.clear();
+                  streetController.clear();
+                  ratingController.clear();
+                  bookingLinkController.clear();
+                },
+                child: Text('Create Event'),
+              ),
+            ],
+          ),
         ),
       ),
     );

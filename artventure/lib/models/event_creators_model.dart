@@ -25,22 +25,23 @@ class EventCreator {
   // Convert an EventCreator object into a Map
   Map<String, dynamic> toMap() {
     return {
-      'eventCreatorId': eventCreatorId,
+      'eventCreatorid': eventCreatorId,
       'username': username,
       'password': password,
       'email': email,
-      'fullName': fullName
+      'fullName': fullName,
     };
   }
 
   // Create an EventCreator object from a Map
   factory EventCreator.fromMap(Map<String, dynamic> map) {
     return EventCreator(
-        eventCreatorId: map['id'],
-        username: map['name'],
-        password: '',
-        email: '',
-        fullName: '');
+      eventCreatorId: map['eventCreatorId'],
+      username: map['username'],
+      password: map['password'],
+      email: map['email'],
+      fullName: map['fullName'],
+    );
   }
 
   // Copy method to create a new EventCreator object with some changes
@@ -50,7 +51,6 @@ class EventCreator {
     String? password,
     String? email,
     String? fullName,
-    int? points,
   }) {
     return EventCreator(
       eventCreatorId: eventCreatorId ?? this.eventCreatorId,
@@ -58,7 +58,6 @@ class EventCreator {
       password: password ?? this.password,
       email: email ?? this.email,
       fullName: fullName ?? this.fullName,
-      points: points ?? this.points,
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:artventure/pages/profile_page.dart';
 import 'package:artventure/pages/signup_page.dart';
+import 'package:artventure/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/user_model.dart';
+import 'package:artventure/models/event_creators_model.dart';
 
 import '../database/database_helper.dart';
 
@@ -34,22 +36,35 @@ class _LoginPageState extends State<LoginPage> {
     databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
 
     Users? usrDetails = await db.getUser(usrName.text);
-    var res = await db
-        .authenticate(Users(username: usrName.text, password: password.text));
+    var res = await db.authenticate(Users(username: usrName.text, password: password.text));
+  
     if (res == true) {
-      //If result is correct then go to profile or home
+     // If the user login is successful, go to the user profile or home
       if (!mounted) return;
       print(usrDetails?.username);
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Profile(username: usrDetails?.username)));
+        context,
+        MaterialPageRoute(builder: (context) => Profile(username: usrDetails?.username)),
+      );
     } else {
-      //Otherwise show the error message
-      setState(() {
-        isLoginTrue = true;
-      });
-    }
+      // Check if an event creator logs in
+      EventCreator? eventCreatorDetails = await db.getEventCreator(usrName.text);
+      var eventCreatorRes = await db.authenticate_ec(usrName.text, password.text);
+
+      if (eventCreatorRes == true) {
+        // If the event creator login is successful, go to the welcome page
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => WelcomePage(profile: eventCreatorDetails)),
+        );
+      } else {
+      // Show the error message if neither the user nor the event creator login is successful
+        setState(() {
+          isLoginTrue = true;
+        });
+      }
+    } 
   }
 
   @override

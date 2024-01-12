@@ -11,6 +11,7 @@ class Events {
   final String location;
   final String infoText;
   final String eventCreator;
+  final String? eventImageFilePath;
 
   Events({
     this.eventId,
@@ -19,6 +20,7 @@ class Events {
     required this.location,
     required this.infoText,
     required this.eventCreator,
+    this.eventImageFilePath,
   });
 
   factory Events.fromMap(Map<String, dynamic> json) => Events(
@@ -28,6 +30,7 @@ class Events {
         location: json["location"],
         infoText: json["infoText"],
         eventCreator: json["eventCreator"],
+        eventImageFilePath: json["eventImageFilePath"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -37,5 +40,6 @@ class Events {
         "location": location,
         "infoText": infoText,
         "eventCreator": eventCreator,
+        "eventImageFilePath": eventImageFilePath,
       };
 }
