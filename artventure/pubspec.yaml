@@ -44,6 +44,7 @@ dependencies:
   google_maps_flutter_web: ^0.5.4+3
   sqflite_common_ffi_web: ^0.4.2+3
   sqlite3_flutter_libs: ^0.4.2 
+  image_picker: ^1.0.7
 
 
 dev_dependencies:

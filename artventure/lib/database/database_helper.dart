@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/user_info_model.dart';
@@ -8,6 +9,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../models/user_model.dart';
 
@@ -67,7 +69,8 @@ class DatabaseHelper {
      category TEXT,
      location TEXT,
      infoText TEXT,
-     eventCreator TEXT
+     eventCreator TEXT,
+     eventImageFilePath ΤΕΧΤ
    )
    ''';
 
@@ -189,6 +192,11 @@ class DatabaseHelper {
   Future<int> createEventCreator(EventCreator eventCreator) async {
     final Database db = await initDB();
     return db.insert("event_creators", eventCreator.toMap());
+  }
+
+  Future<int> createEvent(Events event) async {
+    final Database db = await initDB();
+    return db.insert("events", event.toMap());
   }
 
   Future<EventCreator?> getEventCreator(String username) async {
