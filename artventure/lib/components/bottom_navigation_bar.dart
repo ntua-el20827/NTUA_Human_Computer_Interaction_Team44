@@ -1,11 +1,14 @@
+import 'package:artventure/pages/challenges_page.dart';
+import 'package:artventure/pages/explore_page.dart';
+import 'package:artventure/pages/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:artventure/app_routes.dart';
+//import 'package:artventure/app_routes.dart';
 
 // Base Class
 class BottomNavBar extends StatefulWidget {
   final String? username;
 
-  const BottomNavBar({this.username});
+  const BottomNavBar({super.key, this.username});
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
@@ -17,6 +20,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    print("bottom navbar");
+    print(widget.username);
     return BottomNavigationBar(
       currentIndex: currentIndex,
       // The selected color is not working!
@@ -44,24 +49,27 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
         switch (index) {
           case 0:
-            Navigator.pushNamed(
+            Navigator.push(
               context,
-              AppRoutes.profile,
-              arguments: {'username': widget.username},
+              MaterialPageRoute(
+                builder: (context) => Profile(username: widget.username),
+              ),
             );
             break;
           case 1:
-            Navigator.pushNamed(
+            Navigator.push(
               context,
-              AppRoutes.challenges,
-              arguments: {'username': widget.username},
+              MaterialPageRoute(
+                builder: (context) => ChallengesPage(username: widget.username),
+              ),
             );
             break;
           case 2:
-            Navigator.pushNamed(
+            Navigator.push(
               context,
-              AppRoutes.explore,
-              arguments: {'username': widget.username},
+              MaterialPageRoute(
+                builder: (context) => ExplorePage(),
+              ),
             );
             break;
         }
@@ -69,3 +77,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     );
   }
 }
+
+class Explore {}
+
+class Challenges {}

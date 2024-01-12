@@ -1,14 +1,16 @@
-//// TO FIX: Δεν δείχνει στην αρχή όλες τις κατηγορίες
-
+// pages/challenges_page.dart
+import 'package:artventure/components/big_card.dart';
 import 'package:artventure/components/medum_card.dart';
 import 'package:artventure/models/challenges_model.dart';
+import 'package:artventure/models/user_challenges_model.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
 import '../database/database_helper.dart';
 
 class ChallengesPage extends StatefulWidget {
   final String? username;
-  const ChallengesPage({super.key, this.username});
+
+  const ChallengesPage({Key? key, this.username}) : super(key: key);
 
   @override
   _ChallengesPageState createState() => _ChallengesPageState();
@@ -17,18 +19,23 @@ class ChallengesPage extends StatefulWidget {
 class _ChallengesPageState extends State<ChallengesPage> {
   late List<Challenge> challenges = [];
   List<String> selectedCategories = [];
+  List<int> userChallengesIds = [];
 
   Future<void> fetchChallenges() async {
     // Use your DatabaseHelper class to get the challenges
     DatabaseHelper dbHelper = DatabaseHelper();
     challenges = await dbHelper.getAllChallenges();
+    // Get user challenge ids
+    List<UserChallenges> userChallenges =
+        await dbHelper.getUserChallenges(widget.username!);
+    userChallengesIds = userChallenges
+        .map((userChallenge) => userChallenge.challengeId)
+        .toList();
 
-    // Force a re-render of the UI after fetching the challenges
+    // re-render of the UI
     if (mounted) {
       setState(() {});
     }
-    print('Selected Categories: $selectedCategories');
-    print('Challenges: $challenges');
   }
 
   // Function to get unique categories from the list of challenges
@@ -36,15 +43,32 @@ class _ChallengesPageState extends State<ChallengesPage> {
     return challenges.map((challenge) => challenge.category).toSet().toList();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // Fetch challenges with all categories selected
-    fetchChallenges();
+  Future<void> initialLoadChallenges() async {
+    // Initial Load
+    // Get all Challenges
+    DatabaseHelper dbHelper = DatabaseHelper();
+    challenges = await dbHelper.getAllChallenges();
+    // Get all user challenge ids
+    List<UserChallenges> userChallenges =
+        await dbHelper.getUserChallenges(widget.username!);
+    userChallengesIds = userChallenges
+        .map((userChallenge) => userChallenge.challengeId)
+        .toList();
+    if (mounted) {
+      setState(() {});
+    }
+    // Mark all selected categories
     selectedCategories = getUniqueCategories();
   }
 
-// Function to show the filter drawer
+  @override
+  void initState() {
+    super.initState();
+    // Load user information when the page initializes
+    initialLoadChallenges();
+  }
+
+  // Function to show the filter drawer
   void showFilterDrawer(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -109,6 +133,62 @@ class _ChallengesPageState extends State<ChallengesPage> {
     );
   }
 
+// Function to show the challenge details popup
+  Future<void> showChallengeDetailsPopup(
+    BuildContext context,
+    Challenge challenge,
+  ) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BigCard(
+                image: 'assets${challenge.imageFilePath}',
+                title: challenge.title,
+                category: challenge.category,
+                info: challenge.infoText,
+                points: challenge.points,
+                firstButtonLabel: 'Add to My List',
+                firstButtonAction: () {
+                  addToMyChallenges(widget.username!, challenge);
+                  Navigator.pop(context);
+                },
+              ),
+              SizedBox(height: 16.0), // To be changed after mano's info
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Function to add the challenge to the user_challenge table with status "inprogress"
+  Future<void> addToMyChallenges(String username, Challenge challenge) async {
+    // Use your DatabaseHelper class to add the challenge to user_challenge
+    DatabaseHelper dbHelper = DatabaseHelper();
+
+    // Retrieve userId based on the username
+    int? userId = await dbHelper.getUserId(username);
+
+    if (userId != null) {
+      UserChallenges userChallenge = UserChallenges(
+        challengeId: challenge.challengeId!,
+        userId: userId,
+        status: 'inprogress',
+      );
+
+      await dbHelper.insertUserChallenge(userChallenge);
+      fetchChallenges();
+    } else {
+      // UserId is not found
+      print('User not found for username: $username');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,15 +216,22 @@ class _ChallengesPageState extends State<ChallengesPage> {
                     itemBuilder: (context, index) {
                       // Check if the challenge's category is selected
                       if (selectedCategories
-                          .contains(challenges[index].category)) {
+                              .contains(challenges[index].category) &&
+                          !userChallengesIds
+                              .contains(challenges[index].challengeId)) {
                         return MediumCard(
                           image: 'assets/${challenges[index].imageFilePath}',
                           title: challenges[index].title,
                           category: challenges[index].category,
                           points: challenges[index].points,
+                          onTap: () {
+                            // Call the function to show challenge details popup
+                            showChallengeDetailsPopup(
+                                context, challenges[index]);
+                          },
                         );
                       } else {
-                        return Container(); // Return an empty container if not selected
+                        return Container(); // Return an empty container if not selected or already in user challenges
                       }
                     },
                   )
