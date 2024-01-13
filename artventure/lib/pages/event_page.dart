@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/models/events_model.dart';
 
 class EventPage extends StatelessWidget {
@@ -26,9 +25,12 @@ class EventPage extends StatelessWidget {
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: (event.eventImageFilePath != null && event.eventImageFilePath!.isNotEmpty)
-    ? Image.file(File(event.eventImageFilePath!), fit: BoxFit.cover)
-    : Image.asset('assets/image_not_found.png', fit: BoxFit.cover),
+                child: (event.eventImageFilePath != null &&
+                        event.eventImageFilePath!.isNotEmpty)
+                    ? Image.file(File(event.eventImageFilePath!),
+                        fit: BoxFit.cover)
+                    : Image.asset('assets/image_not_found.png',
+                        fit: BoxFit.cover),
               ),
               SizedBox(height: 16),
               Text(

@@ -31,13 +31,13 @@ class _ExplorePageState2 extends State<ExplorePage2> {
   void initState() {
     super.initState();
     _deleteAllEvents(); // Χρησιμοποιείται μόνο στο demo οπου δεν δουλεύει η βάση σωστά!
-    _addDummyEvents(); // Οταν δουλέψει η βάση θα πρέπει να φύγει 
+    _addDummyEvents(); // Οταν δουλέψει η βάση θα πρέπει να φύγει
     //_loadEvents();
   }
 
   Future<void> _deleteAllEvents() async {
-  await DatabaseHelper().deleteAllEvents();
-}
+    await DatabaseHelper().deleteAllEvents();
+  }
 
   Future<void> _loadEvents() async {
     List<Events> events = await DatabaseHelper().getAllEvents();
@@ -59,7 +59,8 @@ class _ExplorePageState2 extends State<ExplorePage2> {
   }
 
   Future<void> _addDummyEvents() async {
-    String address = 'Dimocratias 7 Zografou Greece'; // Replace with the actual address
+    String address =
+        'Dimocratias 7 Zografou Greece'; // Replace with the actual address
     String locationString = await getLatLong(address);
     print("ADDRESS");
     print(locationString);
@@ -77,7 +78,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
     } else {
       print('Unable to fetch coordinates for the provided address.');
     }
-    String address2 = 'Papanikolaou 2 Zografou Greece'; 
+    String address2 = 'Papanikolaou 2 Zografou Greece';
     String locationString2 = await getLatLong(address2);
     print("ADDRESS");
     print(locationString2);
@@ -96,17 +97,17 @@ class _ExplorePageState2 extends State<ExplorePage2> {
       print('Unable to fetch coordinates for the provided address.');
       // Handle the case when coordinates cannot be obtained from the address.
     }
-    _loadEvents(); 
+    _loadEvents();
   }
 
   Future<String> getLatLong(String address) async {
     try {
       List<Location> locations = await locationFromAddress(address);
-      
+
       if (locations.isNotEmpty) {
         double latitude = locations.first.latitude;
         double longitude = locations.first.longitude;
-        
+
         return '$latitude-$longitude';
       } else {
         return ''; // Return an empty string or handle the case when no location is found.
@@ -131,14 +132,17 @@ class _ExplorePageState2 extends State<ExplorePage2> {
       // Assign different colors based on the category
       switch (event.category) {
         case 'Theater':
-          markerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+          markerIcon =
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
           break;
         case 'Music':
-          markerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
+          markerIcon =
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
           break;
         default:
           // Use a default color (e.g., blue) for other categories
-          markerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+          markerIcon =
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
           break;
       }
 
@@ -153,7 +157,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EventPage(eventId: event.eventId!),
+                builder: (context) => EventPage(event: event),
               ),
             );
           },
@@ -162,16 +166,17 @@ class _ExplorePageState2 extends State<ExplorePage2> {
     }).toSet();
   }
 
-/// getUserCurrentLocation
-/// https://www.geeksforgeeks.org/how-to-get-users-current-location-on-google-maps-in-flutter/
+  /// getUserCurrentLocation
+  /// https://www.geeksforgeeks.org/how-to-get-users-current-location-on-google-maps-in-flutter/
   Future<Position> getUserCurrentLocation() async {
-    await Geolocator.requestPermission().then((value) {}).onError((error, stackTrace) async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) async {
       await Geolocator.requestPermission();
       print("ERROR" + error.toString());
     });
     return await Geolocator.getCurrentPosition();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +205,8 @@ class _ExplorePageState2 extends State<ExplorePage2> {
             right: 0.0,
             child: Center(
               child: HoverBox(
-                text: 'Hello, ${widget.username}! Explore our Events!\nClick on a event to learn more about it!',
+                text:
+                    'Hello, ${widget.username}! Explore our Events!\nClick on a event to learn more about it!',
                 color: Color.fromARGB(255, 112, 23, 125),
               ),
             ),
@@ -233,7 +239,8 @@ class _ExplorePageState2 extends State<ExplorePage2> {
               Marker(
                 markerId: MarkerId("0"),
                 position: LatLng(value.latitude, value.longitude),
-                 icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+                icon: BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueBlue),
                 infoWindow: InfoWindow(
                   title: 'My Current Location',
                 ),
@@ -246,7 +253,8 @@ class _ExplorePageState2 extends State<ExplorePage2> {
             );
 
             final GoogleMapController controller = await _controller.future;
-            controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+            controller
+                .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
             setState(() {});
           });
         },
@@ -261,7 +269,8 @@ class HoverBox extends StatelessWidget {
   final String text;
   final Color color;
 
-  const HoverBox({Key? key, required this.text, required this.color}) : super(key: key);
+  const HoverBox({Key? key, required this.text, required this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -295,5 +304,4 @@ class HoverBox extends StatelessWidget {
       ),
     );
   }
-
 }
