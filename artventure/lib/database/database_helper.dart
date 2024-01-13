@@ -7,6 +7,7 @@ import 'package:artventure/models/user_challenges_model.dart';
 import 'package:artventure/models/user_info_model.dart';
 import 'package:artventure/models/events_model.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
 //import 'package:path_provider/path_provider.dart';
@@ -85,7 +86,7 @@ class DatabaseHelper {
      location TEXT,
      infoText TEXT,
      eventCreator TEXT,
-     eventImageFilePath ΤΕΧΤ
+     eventImageFilePath TEXT
    )
    ''';
 
@@ -112,14 +113,14 @@ class DatabaseHelper {
    ''';
 
   // Event_Images table
-  String eventImages = '''
+  /*String eventImages = '''
    CREATE TABLE event_images (
      id INTEGER PRIMARY KEY AUTOINCREMENT,
      eventId INTEGER,
      imagePath TEXT,
      FOREIGN KEY (eventId) REFERENCES events(eventId)
    )
-   ''';
+   ''';*/
 
   Future<bool> databaseExists(String path) async {
     return await File(path).exists();
@@ -139,7 +140,7 @@ class DatabaseHelper {
       await db.execute(events);
       await db.execute(eventCreators);
       await db.execute(userLikes);
-      await db.execute(eventImages);
+      //await db.execute(eventImages);
     });
   }
 
@@ -352,22 +353,24 @@ class DatabaseHelper {
   }
 
   // Get events created by a specific event creator
-  Future<List<Events>> getEventsByCreator(String creatorUsername) async {
+  Future<List<Events>> getEventsByCreator(String creatorName) async {
     final Database db = await initDB();
+  
     final List<Map<String, dynamic>> maps = await db.query(
       'events',
-      where: 'eventCreator = ?',
-      whereArgs: [creatorUsername],
+     where: 'eventCreator = ?',
+      whereArgs: [creatorName],
     );
 
-    return List.generate(maps.length, (i) {
+    return List.generate(maps.length, (index) {
       return Events(
-        eventId: maps[i]['eventId'],
-        title: maps[i]['title'],
-        category: maps[i]['category'],
-        location: maps[i]['location'],
-        infoText: maps[i]['infoText'],
-        eventCreator: maps[i]['eventCreator'],
+        eventId: maps[index]['eventId'],
+        title: maps[index]['title'],
+        category: maps[index]['category'],
+        location: maps[index]['location'],
+        infoText: maps[index]['infoText'],
+        eventCreator: maps[index]['eventCreator'],
+        eventImageFilePath: maps[index]['eventImageFilePath'],
       );
     });
   }

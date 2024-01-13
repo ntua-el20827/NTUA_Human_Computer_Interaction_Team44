@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:artventure/pages/eventcreation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/models/event_creators_model.dart';
@@ -30,7 +32,9 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   void initState() {
     super.initState();
-    fetchCreatedEvents();
+    fetchCreatedEvents().then((_) {
+      setState(() {});
+    });
   }
 
   @override
@@ -86,9 +90,12 @@ class _WelcomePageState extends State<WelcomePage> {
               child: ListView.builder(
                 itemCount: createdEvents.length,
                 itemBuilder: (context, index) {
-                  Events event = createdEvents[index];
+                  print('Created Events: $createdEvents');
+                  final event = createdEvents[index];
                   return EventCard(
-                    image: 'assets/${event.eventImageFilePath}',
+                    image: event.eventImageFilePath != null && event.eventImageFilePath!.isNotEmpty
+      ? File(event.eventImageFilePath!)
+      : 'assets/image_not_found.png',
                     title: event.title,
                     category: event.category,
                     location: event.location,
