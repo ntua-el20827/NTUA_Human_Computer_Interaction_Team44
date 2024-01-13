@@ -35,7 +35,7 @@ class AppRoutes {
       challenges: (context) => ChallengesPage(),
       eventcreatorsignup: (context) => SignUpEventCreatorPage(),
       welcome: (context) => WelcomePage(),
-      explore: (context) => ExplorePage(),
+      //explore: (context) => ExplorePage(),
       //userSign: (context) => UserSignUpPage(),
       //userLoginPage: (context) => UserLoginPage(),
     };
