@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:artventure/pages/event_page.dart';
 import 'package:artventure/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
@@ -39,7 +40,7 @@ class _EventCreationPageState extends State<EventCreationPage> {
     final dbHelper = DatabaseHelper();
     final database = await dbHelper.initDB();
     String infoTextController =
-                      "Duration: ${durationController.text}\nDescription: ${descriptionController.text}\nRating: ${ratingController.text}\nBooking List: ${bookingLinkController.text}";
+                      "Duration: ${durationController.text}\nDescription: ${descriptionController.text}\nRating: ${ratingController.text}\nBooking Link: ${bookingLinkController.text}";
     var res = await db.createEvent(Events(
         title: titleController.text,
         category: categoryController.text,
