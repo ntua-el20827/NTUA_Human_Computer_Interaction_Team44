@@ -4,17 +4,14 @@ import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/pages/profile_page.dart';
 import 'package:artventure/models/user_info_model.dart';
 
-
-
+// ignore: must_be_immutable
 class QuizPage extends StatelessWidget {
-   
   final int? userId;
   final String? username;
 
   QuizPage({Key? key, this.userId, this.username}) : super(key: key);
-  UserInfo userInfo = UserInfo(userId: 0, favoriteArt: '', favoriteArtist: '');
-  
-  
+  UserInfo userInfo = UserInfo(userId: 0, favoriteArt: '', artTaste: '');
+
   final PageController _pageController = PageController();
   final db = DatabaseHelper();
   @override
@@ -130,7 +127,7 @@ class QuizPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Align(
+        const Align(
           alignment: Alignment.center,
           child: Text(
             'Let\'s Play a Small Game...',
@@ -141,7 +138,7 @@ class QuizPage extends StatelessWidget {
         Align(
           alignment: Alignment.center,
           child: Text(
-            'Who is your Favorite Artist',
+            'If you could describe your art taste in one word, what would it be?',
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
         ),
@@ -151,17 +148,18 @@ class QuizPage extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // Navigate to the profile page after clicking the last answer
-              userInfo.favoriteArtist = 'Mozart';
+              userInfo.artTaste = 'Classic';
               userInfo.userId = userId!;
+              db.saveUserAnswers(userInfo);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(username: username)), // Replace ProfilePage with your actual profile page
-              ).then((_) {
-              // Save user info to the database
-                db.saveUserAnswers(userInfo);
-              });
+                MaterialPageRoute(
+                    builder: (context) => Profile(
+                        username:
+                            username)), // Replace ProfilePage with your actual profile page
+              );
             },
-            child: Text('A. Mozart'),
+            child: Text('A. Classic'),
           ),
         ),
         Container(
@@ -169,17 +167,18 @@ class QuizPage extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // Navigate to the profile page after clicking the last answer
-              userInfo.favoriteArtist = 'shakespeare';
+              userInfo.artTaste = 'Contemporary';
               userInfo.userId = userId!;
+              db.saveUserAnswers(userInfo);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(username: username)), // Replace ProfilePage with your actual profile page
-              ).then((_) {
-              // Save user info to the database
-                db.saveUserAnswers(userInfo);
-              });
+                MaterialPageRoute(
+                    builder: (context) => Profile(
+                        username:
+                            username)), // Replace ProfilePage with your actual profile page
+              );
             },
-            child: Text('B. Shakespeare'),
+            child: Text('B. Contemporary'),
           ),
         ),
         Container(
@@ -187,35 +186,37 @@ class QuizPage extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // Navigate to the profile page after clicking the last answer
-              userInfo.favoriteArtist = 'Lara McGrath';
+              userInfo.artTaste = 'Eclectic';
               userInfo.userId = userId!;
+              db.saveUserAnswers(userInfo);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(username: username)), // Replace ProfilePage with your actual profile page
-              ).then((_) {
-              // Save user info to the database
-                db.saveUserAnswers(userInfo);
-              });
+                MaterialPageRoute(
+                    builder: (context) => Profile(
+                        username:
+                            username)), // Replace ProfilePage with your actual profile page
+              );
             },
-            child: Text('C. Lara McGrath'),
+            child: Text('C. Eclectic'),
           ),
-        ),        // Add more answer options as needed
+        ), // Add more answer options as needed
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
               // Navigate to the profile page after clicking the last answer
-              userInfo.favoriteArtist = 'Picasso';
+              userInfo.artTaste = 'Minimalist';
               userInfo.userId = userId!;
+              db.saveUserAnswers(userInfo);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(username: username)), // Replace ProfilePage with your actual profile page
-              ).then((_) {
-              // Save user info to the database
-                db.saveUserAnswers(userInfo);
-              });
+                MaterialPageRoute(
+                    builder: (context) => Profile(
+                        username:
+                            username)), // Replace ProfilePage with your actual profile page
+              );
             },
-            child: Text('D. Picasso'),
+            child: Text('D. Minimalist'),
           ),
         ),
       ],

@@ -35,14 +35,25 @@ class DatabaseHelper {
    CREATE TABLE user_info (
       userId INTEGER PRIMARY KEY,
       favoriteArt TEXT,
-      favoriteArtist TEXT,
+      artTaste TEXT,
       -- add other fields as needed
       FOREIGN KEY (userId) REFERENCES users(userId)
    )
 ''';
 
+/*
+  String userInfo = '''
+   CREATE TABLE user_info (
+      userId INTEGER PRIMARY KEY,
+      favoriteArt TEXT,
+      favoriteArtist TEXT
+      -- add other fields as needed
+   )
+''';
+*/
+
   // Challenges table
-  String challenges = '''
+  String challenges = ''';
    CREATE TABLE challenges (
      challengeId INTEGER PRIMARY KEY AUTOINCREMENT,
      title TEXT,
@@ -232,11 +243,15 @@ class DatabaseHelper {
     return res.isNotEmpty ? Users.fromMap(res.first) : null;
   }
 
-  Future<UserInfo?> getUserInfo(int? userId) async {
+  Future<UserInfo?> getUserInfo(int userId) async {
     final Database db = await initDB();
-    var res =
-        await db.query("user_info", where: "userId = ?", whereArgs: [userId]);
-    return res.isNotEmpty ? UserInfo.fromMap(res.first) : null;
+    var results = await db.query(
+      'user_info',
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
+
+    return results.isNotEmpty ? UserInfo.fromMap(results.first) : null;
   }
 
   Future<void> updateUserPoints(String username, int newPoints) async {

@@ -7,8 +7,8 @@ import 'package:artventure/app_routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final dbHelper = DatabaseHelper();
-  final database = await dbHelper.initDB();
+  //final dbHelper = DatabaseHelper();
+  //final database = await dbHelper.initDB();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarBrightness: Brightness.dark,

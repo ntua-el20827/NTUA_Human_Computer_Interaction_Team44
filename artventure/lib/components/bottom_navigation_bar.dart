@@ -1,5 +1,6 @@
 import 'package:artventure/pages/challenges_page.dart';
 import 'package:artventure/pages/explore_page.dart';
+
 import 'package:artventure/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 //import 'package:artventure/app_routes.dart';
@@ -67,9 +68,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           case 2:
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => ExplorePage(),
-              ),
+              MaterialPageRoute(builder: (context) => ExplorePage()),
             );
             break;
         }

@@ -14,7 +14,7 @@ class Button extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
-      width: size.width * .9,
+      width: size.width * .8,
       height: 55,
       decoration: BoxDecoration(
           color: primaryColor, borderRadius: BorderRadius.circular(8)),

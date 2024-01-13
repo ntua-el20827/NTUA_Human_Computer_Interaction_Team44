@@ -35,13 +35,24 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _loadUserInfo() async {
     final user = await DatabaseHelper().getUser(widget.username!);
-    final userinfo = await DatabaseHelper().getUserInfo(user?.userId);
-    if (user != null) {
-      setState(() {
-        _userProfile = user;
-        _userInfo = userinfo;
-      });
+
+    if (user == null) {
+      //print("User not found for username: ${widget.username}");
+      return;
     }
+    int? userId = await DatabaseHelper().getUserId(widget.username!);
+    print(userId);
+    final userinfo = await DatabaseHelper().getUserInfo(userId!);
+
+    // print(user.userId);
+    // print("User: $user");
+    // print("UserInfo: $userinfo");
+    print(_userInfo?.artTaste);
+
+    setState(() {
+      _userProfile = user;
+      _userInfo = userinfo;
+    });
   }
 
   @override
@@ -53,18 +64,31 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 45.0, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       backgroundColor: primaryColor,
-                      radius: 77,
+                      radius: 57,
                       child: CircleAvatar(
-                        backgroundImage: AssetImage("assets/no_user.jpg"),
-                        radius: 75,
+                        radius: 55,
+                        backgroundImage: AssetImage(() {
+                          switch (_userInfo?.favoriteArt) {
+                            /*case 'Music':
+                            return 'assets/music_avatar.jpg';*/
+                            case 'Theater':
+                              return 'assets/theater_avatar.jpg';
+                            case 'Dance':
+                              return 'assets/dance_avatar.jpg';
+                            case 'Visual Arts':
+                              return 'assets/visual_arts_avatar.jpg';
+                            default:
+                              return 'assets/no_user.jpg';
+                          }
+                        }()),
                       ),
                     ),
                     const SizedBox(width: 20),
@@ -74,31 +98,40 @@ class _ProfileState extends State<Profile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "About:",
+                              "ArtVenturer ${widget.username}",
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                            Text("Points: ${_userProfile?.points}"),
-                            Text("Favorite Art: ${_userInfo?.favoriteArt}"),
+                            SizedBox(height: 12),
+                            Text(
+                              "A ${getArtTasteNickname(_userInfo?.artTaste)}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            Text(
+                              "Points: ${_userProfile?.points}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 Button(
-                  label: "myPoints",
+                  label: "Redeem my Points",
                   press: () {
                     _showPointsRedemptionPopup(context);
                   },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.account_circle, size: 30),
-                  subtitle: Text(widget.username!),
-                  title: const Text("Hello ArtVenturer!"),
                 ),
                 const SizedBox(height: 20),
                 _buildChallengesSection(),
@@ -330,5 +363,22 @@ class _ProfileState extends State<Profile> {
         );
       },
     );
+  }
+}
+
+// Add this method to get the correct avatar image path based on favorite art
+
+String getArtTasteNickname(String? artTaste) {
+  switch (artTaste) {
+    case 'Classic':
+      return "ClassicArtDevotee";
+    case 'Contemporary':
+      return "ContemporaryArtEnthusiast";
+    case 'Eclectic':
+      return "EclecticArtAficionado";
+    case 'Minimalist':
+      return "MinimalistArtFanatic";
+    default:
+      return "ArtLover"; // Default case if none of the above matches
   }
 }
