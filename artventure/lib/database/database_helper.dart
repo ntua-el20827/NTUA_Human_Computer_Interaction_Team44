@@ -7,6 +7,7 @@ import 'package:artventure/models/user_challenges_model.dart';
 import 'package:artventure/models/user_info_model.dart';
 import 'package:artventure/models/events_model.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
 //import 'package:path_provider/path_provider.dart';
@@ -27,7 +28,7 @@ class DatabaseHelper {
       points INTEGER DEFAULT 0
    )
 ''';
-  // Comment: Both userId and username are unique
+  // Comment: Both userId and username are unique   
   // userId is used as foreign key in the next tables
 
   // UserInfo table
@@ -71,10 +72,10 @@ class DatabaseHelper {
      eventId INTEGER PRIMARY KEY AUTOINCREMENT,
      title TEXT,
      category TEXT,
-     location TEXT,
+     location TEXT UNIQUE,
      infoText TEXT,
      eventCreator TEXT,
-     eventImageFilePath ΤΕΧΤ
+     eventImageFilePath TEXT
    )
    ''';
 
@@ -120,6 +121,7 @@ class DatabaseHelper {
     final path = join(directory.path, databaseName);
     //final databasePath = await getDatabasesPath(); // for george
     //final path = join(databasePath, databaseName); // for geroge
+    
     return openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(userInfo);
@@ -129,7 +131,12 @@ class DatabaseHelper {
       await db.execute(eventCreators);
       await db.execute(userLikes);
       await db.execute(eventImages);
-    });
+    }, onUpgrade: (db, oldVersion, newVersion) {
+    // Code to upgrade the schema (if needed)
+    if (oldVersion < 2) {
+      db.execute('ALTER TABLE events ADD COLUMN eventImageFilePath TEXT');
+    }
+  });
   }
 
   // Function methods
@@ -356,4 +363,24 @@ class DatabaseHelper {
       );
     });
   }
+
+  // EVENTS
+  Future<List<Events>> getAllEvents() async {
+    final Database db = await initDB();
+    final List<Map<String, dynamic>> maps = await db.query('events');
+    return List.generate(maps.length, (i) {
+      return Events.fromMap(maps[i]);
+    });
+  } 
+  Future<void> insertEvent(Events event) async {
+    final Database db = await initDB();
+
+    await db.insert('events',event.toMap());
+  }
+  
+  Future<void> deleteAllEvents() async {
+  final Database db = await initDB();
+
+  await db.delete('events');
+}
 }

@@ -18,7 +18,7 @@ class SmallCard extends StatelessWidget {
     return Card(
       elevation: 5,
       child: InkWell(
-        onTap: () {
+        onLongPress: () {
           // Call the provided function when the card is pressed, if it's not null
           onPressed?.call();
         },

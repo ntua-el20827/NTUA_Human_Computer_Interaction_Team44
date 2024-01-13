@@ -33,13 +33,15 @@ class Events {
         eventImageFilePath: json["eventImageFilePath"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap(){
+    return{
         "eventId": eventId,
         "title": title,
         "category": category,
         "location": location,
         "infoText": infoText,
         "eventCreator": eventCreator,
-        "eventImageFilePath": eventImageFilePath,
+        //"eventImageFilePath": eventImageFilePath,
       };
+  }
 }

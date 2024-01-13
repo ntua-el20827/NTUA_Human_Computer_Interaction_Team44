@@ -45,6 +45,8 @@ dependencies:
   sqflite_common_ffi_web: ^0.4.2+3
   sqlite3_flutter_libs: ^0.4.2 
   image_picker: ^1.0.7
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
 
 
 dev_dependencies:
@@ -73,6 +75,7 @@ flutter:
   assets:
    - assets/
    - assets/challenges/
+   - assets/events/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
