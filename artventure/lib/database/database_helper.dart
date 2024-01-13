@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
+import 'package:artventure/models/user_challenges_model.dart';
 import 'package:artventure/models/user_info_model.dart';
 import 'package:artventure/models/events_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image_picker/image_picker.dart';
+//import 'package:path_provider/path_provider.dart';
 
 import '../models/user_model.dart';
 
@@ -27,7 +27,10 @@ class DatabaseHelper {
       points INTEGER DEFAULT 0
    )
 ''';
+  // Comment: Both userId and username are unique
+  // userId is used as foreign key in the next tables
 
+  // UserInfo table
   String userInfo = '''
    CREATE TABLE user_info (
       userId INTEGER PRIMARY KEY,
@@ -45,6 +48,7 @@ class DatabaseHelper {
      title TEXT,
      points INTEGER,
      category TEXT,
+     infoText TEXT,
      imageFilePath TEXT
    )
    ''';
@@ -106,27 +110,27 @@ class DatabaseHelper {
    )
    ''';*/
 
-  
   Future<bool> databaseExists(String path) async {
     return await File(path).exists();
   }
+
   // Our connection is ready
   Future<Database> initDB() async {
-  final directory = await getApplicationDocumentsDirectory();
-  final path = join(directory.path, databaseName);
-
-  return openDatabase(path, version: 1, onCreate: (db, version) async {
-    await db.execute(user);
-    await db.execute(userInfo);
-    await db.execute(challenges);
-    await db.execute(userChallenges);
-    await db.execute(events);
-    await db.execute(eventCreators);
-    await db.execute(userLikes);
-    //await db.execute(eventImages);
-  });
-}
-
+    final directory = await getApplicationDocumentsDirectory();
+    final path = join(directory.path, databaseName);
+    //final databasePath = await getDatabasesPath(); // for george
+    //final path = join(databasePath, databaseName); // for geroge
+    return openDatabase(path, version: 1, onCreate: (db, version) async {
+      await db.execute(user);
+      await db.execute(userInfo);
+      await db.execute(challenges);
+      await db.execute(userChallenges);
+      await db.execute(events);
+      await db.execute(eventCreators);
+      await db.execute(userLikes);
+      await db.execute(eventImages);
+    });
+  }
 
   // Function methods
   // Sign up with device ID
@@ -185,7 +189,17 @@ class DatabaseHelper {
   // Sign up
   Future<int> createUser(Users usr) async {
     final Database db = await initDB();
-    return db.insert("users", usr.toMap());
+    int userId = await db.insert("users", usr.toMap());
+    return userId;
+  }
+
+  Future<void> saveUserAnswers(UserInfo userInfo) async {
+    final Database db = await initDB();
+    await db.insert(
+      'user_info',
+      userInfo.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   // Function to insert a new event creator into the database
@@ -200,14 +214,15 @@ class DatabaseHelper {
   }
 
   Future<EventCreator?> getEventCreator(String username) async {
-  final Database db = await initDB();
-  var res = await db.query("event_creators", where: "username = ?", whereArgs: [username]);
-  if (res.isNotEmpty) {
-    return EventCreator.fromMap(res.first);
-  } else {
-    return null;
+    final Database db = await initDB();
+    var res = await db
+        .query("event_creators", where: "username = ?", whereArgs: [username]);
+    if (res.isNotEmpty) {
+      return EventCreator.fromMap(res.first);
+    } else {
+      return null;
+    }
   }
-}
 
   // Get current User details
   Future<Users?> getUser(String username) async {
@@ -224,7 +239,32 @@ class DatabaseHelper {
     return res.isNotEmpty ? UserInfo.fromMap(res.first) : null;
   }
 
+  Future<void> updateUserPoints(String username, int newPoints) async {
+    final Database db = await initDB();
+    await db.update(
+      'users',
+      {'points': newPoints},
+      where: 'username = ?',
+      whereArgs: [username],
+    );
+  }
+
+  Future<int?> getUserId(String username) async {
+    final Database db = await initDB();
+    var res = await db.query("users",
+        columns: ["userId"], where: "username = ?", whereArgs: [username]);
+    return res.isNotEmpty ? res.first["userId"] as int : null;
+  }
+
   ///////////////////////// CHALLENGES
+  // Get a challenge by its ID
+  Future<Challenge?> getChallenge(int challengeId) async {
+    final Database db = await initDB();
+    var res = await db
+        .query("challenges", where: "challengeId= ?", whereArgs: [challengeId]);
+    return res.isNotEmpty ? Challenge.fromMap(res.first) : null;
+  }
+
   Future<List<Challenge>> getAllChallenges() async {
     final Database db = await initDB();
 
@@ -236,6 +276,7 @@ class DatabaseHelper {
         title: maps[i]['title'],
         points: maps[i]['points'],
         category: maps[i]['category'],
+        infoText: maps[i]['infoText'],
         imageFilePath: maps[i]['imageFilePath'],
       );
     });
@@ -250,6 +291,51 @@ class DatabaseHelper {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
+///////////////////// USER CHALLENGES
+// Function to get user challenges for a specific username
+  Future<List<UserChallenges>> getUserChallenges(String? username) async {
+    final Database db = await initDB();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user_challenges',
+      where: 'userId = (SELECT userId FROM users WHERE username = ?)',
+      whereArgs: [username],
+    );
+
+    return List.generate(maps.length, (i) {
+      return UserChallenges(
+        id: maps[i]['id'],
+        challengeId: maps[i]['challengeId'],
+        userId: maps[i]['userId'],
+        status: maps[i]['status'],
+      );
+    });
+  }
+
+  Future<int> insertUserChallenge(UserChallenges userChallenge) async {
+    final Database db = await initDB();
+    return await db.insert('user_challenges', userChallenge.toMap());
+  }
+
+  Future<void> changeChallengeStatus(int? challengeId, String newStatus) async {
+    final Database db = await initDB();
+    await db.update(
+      'user_challenges',
+      {'status': newStatus},
+      where: 'challengeId = ?',
+      whereArgs: [challengeId],
+    );
+  }
+
+  Future<void> removeChallengeFromUserChallenge(int? challengeId) async {
+    final Database db = await initDB();
+    await db.delete(
+      'user_challenges',
+      where: 'challengeId = ?',
+      whereArgs: [challengeId],
+    );
+  }
+
   // Get events created by a specific event creator
   Future<List<Events>> getEventsByCreator(String creatorName) async {
     final Database db = await initDB();
@@ -273,4 +359,3 @@ class DatabaseHelper {
     });
   }
 }
-

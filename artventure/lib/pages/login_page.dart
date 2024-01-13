@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
     if (res == true) {
      // If the user login is successful, go to the user profile or home
       if (!mounted) return;
+      print(usrDetails?.username);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Profile(username: usrDetails?.username)),

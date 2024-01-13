@@ -6,6 +6,10 @@ class BigCard extends StatelessWidget {
   final String category;
   final String info;
   final int points;
+  final String firstButtonLabel;
+  final VoidCallback firstButtonAction;
+  final String? secondButtonLabel;
+  final VoidCallback? secondButtonAction;
 
   BigCard({
     required this.image,
@@ -13,6 +17,10 @@ class BigCard extends StatelessWidget {
     required this.category,
     required this.info,
     required this.points,
+    required this.firstButtonLabel,
+    required this.firstButtonAction,
+    this.secondButtonLabel,
+    this.secondButtonAction,
   });
 
   @override
@@ -21,9 +29,11 @@ class BigCard extends StatelessWidget {
       elevation: 5,
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Image.asset(image,
+              fit: BoxFit.cover, height: 200), // Adjust height as needed
           ListTile(
-            leading: Image.network(image), // Replace with your image source
             title: Text(title),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,17 +47,14 @@ class BigCard extends StatelessWidget {
           ButtonBar(
             children: <Widget>[
               TextButton(
-                onPressed: () {
-                  // Action 1
-                },
-                child: Text('ACTION 1'),
+                onPressed: firstButtonAction,
+                child: Text(firstButtonLabel),
               ),
-              TextButton(
-                onPressed: () {
-                  // Action 2
-                },
-                child: Text('ACTION 2'),
-              ),
+              if (secondButtonLabel != null && secondButtonAction != null)
+                TextButton(
+                  onPressed: secondButtonAction,
+                  child: Text(secondButtonLabel!),
+                ),
             ],
           ),
         ],

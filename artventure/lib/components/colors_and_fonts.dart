@@ -10,4 +10,5 @@ const String monteCarloFont = 'MonteCarlo';
 const TextStyle titleLarge = TextStyle(
   fontFamily: monteCarloFont,
   fontSize: 30,
+  color: Colors.white,
 );

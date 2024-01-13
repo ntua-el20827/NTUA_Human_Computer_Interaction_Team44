@@ -9,6 +9,7 @@ class Challenge {
   final String title;
   final int points;
   final String category;
+  final String infoText;
   final String? imageFilePath; // Added image field
 
   Challenge({
@@ -16,6 +17,7 @@ class Challenge {
     required this.title,
     required this.points,
     required this.category,
+    required this.infoText,
     this.imageFilePath,
   });
 
@@ -24,6 +26,7 @@ class Challenge {
         title: json["title"],
         points: json["points"],
         category: json["category"],
+        infoText: json["infoText"],
         imageFilePath: json["imageFilePath"],
       );
 
@@ -32,6 +35,7 @@ class Challenge {
         "title": title,
         "points": points,
         "category": category,
+        "infoText": infoText,
         "imageFilePath": imageFilePath,
       };
 }
