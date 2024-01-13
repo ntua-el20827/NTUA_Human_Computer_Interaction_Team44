@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
-  final String image;
+  final dynamic image;
   final String title;
   final String category;
   final String location;
@@ -24,21 +26,28 @@ class EventCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Image.asset(
-            image, // Assuming image is the asset path
-            height: 150, // Adjust the height as needed
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
+          image is File
+              ? Image.file(
+                  image,
+                  height: 150, // Adjust the height as needed
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  image,
+                  height: 150, // Adjust the height as needed
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
           ListTile(
             title: Text(title),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Category: $category'),
-                Text('Location: $location'),
-                Text('Info: $infoText'),
-                Text('Creator: $eventCreator'),
+                Text('Category: ${category}'),
+                Text('Location: ${location}'),
+                Text('Info: ${infoText}'),
+                Text('Creator: ${eventCreator}'),
               ],
             ),
           ),
