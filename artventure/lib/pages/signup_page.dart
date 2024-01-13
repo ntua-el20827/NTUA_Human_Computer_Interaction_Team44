@@ -23,19 +23,23 @@ class _SignUpPageState extends State<SignUpPage> {
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
   final db = DatabaseHelper();
-  
+
   signUp() async {
     sqfliteFfiInit(); // Initialize the database factory
     databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
 
-    int userId = await db.createUser(Users(username: usrName.text, password: password.text));
+    int userId = await db
+        .createUser(Users(username: usrName.text, password: password.text));
+    print("UserID in signup");
+    print(userId);
 
     if (userId > 0) {
       if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => QuizPage(userId: userId, username: usrName.text),
+          builder: (context) =>
+              QuizPage(userId: userId, username: usrName.text),
         ),
       );
     }

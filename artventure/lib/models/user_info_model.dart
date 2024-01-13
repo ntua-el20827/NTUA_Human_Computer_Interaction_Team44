@@ -7,23 +7,22 @@ String userInfoToMap(UserInfo data) => json.encode(data.toMap());
 class UserInfo {
   int userId;
   String? favoriteArt;
-  String? favoriteArtist;
+  String? artTaste;
   // add other fields as needed
 
   UserInfo({
     required this.userId,
     this.favoriteArt,
-    this.favoriteArtist,
+    this.artTaste,
     // add other fields as needed
   });
 
-  
- // Convert a Users object into a Map
+  // Convert a Users object into a Map
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
       "favoriteArt": favoriteArt,
-      "favoriteArtist": favoriteArtist,
+      "artTaste": artTaste,
     };
   }
 
@@ -32,7 +31,7 @@ class UserInfo {
     return UserInfo(
       userId: map['userId'],
       favoriteArt: map["favoriteArt"],
-      favoriteArtist: map["favoriteArtist"],
+      artTaste: map["artTaste"],
     );
   }
   // Add setters for favoriteArt, favoriteArtist, and userId
@@ -41,7 +40,7 @@ class UserInfo {
   }
 
   set setFavoriteArtist(String? value) {
-    favoriteArtist = value;
+    artTaste = value;
   }
 
   set setUserId(int value) {

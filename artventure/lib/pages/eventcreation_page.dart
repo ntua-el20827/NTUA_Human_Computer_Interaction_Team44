@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:artventure/pages/event_page.dart';
+import 'package:artventure/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/events_model.dart';
+import 'package:artventure/components/event_card.dart';
 import 'package:artventure/pages/login_page.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import '../database/database_helper.dart';
@@ -30,14 +33,14 @@ class _EventCreationPageState extends State<EventCreationPage> {
   TextEditingController ratingController = TextEditingController();
   TextEditingController bookingLinkController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
-  TextEditingController eventImageFilePathController = TextEditingController();
+  //TextEditingController eventImageFilePathController = TextEditingController();
   final db = DatabaseHelper();
 
   registerevent() async {
     final dbHelper = DatabaseHelper();
     final database = await dbHelper.initDB();
     String infoTextController =
-                      "Duration: $durationController\nDescription: $descriptionController\nRating: $ratingController\nBooking List: $bookingLinkController";
+                      "Duration: ${durationController.text}\nDescription: ${descriptionController.text}\nRating: ${ratingController.text}\nBooking Link: ${bookingLinkController.text}";
     var res = await db.createEvent(Events(
         title: titleController.text,
         category: categoryController.text,
@@ -48,9 +51,10 @@ class _EventCreationPageState extends State<EventCreationPage> {
         )
       );
     if (res > 0) {
+      EventCreator? eventCreatorDetails = await db.getEventCreator(widget.username);
       if (!mounted) return;
       Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LoginPage()),
+        context, MaterialPageRoute(builder: (context) => WelcomePage(profile: eventCreatorDetails)),
       );
     }
   }
@@ -191,17 +195,18 @@ class _EventCreationPageState extends State<EventCreationPage> {
               ElevatedButton(
                 onPressed: () {
                   registerevent();
+                  
                   // Save the new event to the database or perform any other necessary operations
                   // DatabaseHelper.saveEvent(newEvent);
           
                   // Clear the text fields
-                  titleController.clear();
+                  /*titleController.clear();
                   categoryController.clear();
                   durationController.clear();
                   descriptionController.clear();
                   streetController.clear();
                   ratingController.clear();
-                  bookingLinkController.clear();
+                  bookingLinkController.clear();*/
                 },
                 child: Text('Create Event'),
               ),
