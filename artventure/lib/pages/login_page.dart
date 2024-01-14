@@ -7,21 +7,20 @@ import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
+import 'package:artventure/components/appbar.dart';
 
 import '../database/database_helper.dart';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //Our controllers
-  //Controller is used to take the value from user and pass it to database
   final usrName = TextEditingController();
   final password = TextEditingController();
 
@@ -29,17 +28,16 @@ class _LoginPageState extends State<LoginPage> {
   bool isLoginTrue = false;
 
   final db = DatabaseHelper();
-  //Login Method
-  //We will take the value of text fields using controllers in order to verify whether details are correct or not
+
   login() async {
-    sqfliteFfiInit(); // Initialize the database factory
-    databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
 
     Users? usrDetails = await db.getUser(usrName.text);
-    var res = await db.authenticate(Users(username: usrName.text, password: password.text));
-  
+    var res =
+        await db.authenticate(Users(username: usrName.text, password: password.text));
+
     if (res == true) {
-     // If the user login is successful, go to the user profile or home
       if (!mounted) return;
       print(usrDetails?.username);
       Navigator.push(
@@ -47,103 +45,109 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(builder: (context) => Profile(username: usrDetails?.username)),
       );
     } else {
-      // Check if an event creator logs in
       EventCreator? eventCreatorDetails = await db.getEventCreator(usrName.text);
       var eventCreatorRes = await db.authenticate_ec(usrName.text, password.text);
 
       if (eventCreatorRes == true) {
-        // If the event creator login is successful, go to the welcome page
         if (!mounted) return;
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => WelcomePage(profile: eventCreatorDetails)),
         );
       } else {
-      // Show the error message if neither the user nor the event creator login is successful
         setState(() {
           isLoginTrue = true;
         });
       }
-    } 
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      appBar: CustomAppBar(),
+      body: SafeArea(
+        top: false,
         child: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //Because we don't have account, we must create one to authenticate
-                //lets go to sign up
-
-                const Text(
-                  "LOGIN",
-                  style: TextStyle(color: primaryColor, fontSize: 40),
-                ),
-                Image.asset("assets/background.jpg"),
-                InputField(
-                    hint: "Username",
-                    icon: Icons.account_circle,
-                    controller: usrName),
-                InputField(
-                    hint: "Password",
-                    icon: Icons.lock,
-                    controller: password,
-                    passwordInvisible: true),
-
-                ListTile(
-                  horizontalTitleGap: 2,
-                  title: const Text("Remember me"),
-                  leading: Checkbox(
-                    activeColor: primaryColor,
-                    value: isChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        isChecked = !isChecked;
-                      });
-                    },
-                  ),
-                ),
-
-                //Our login button
-                Button(
-                    label: "LOGIN",
-                    press: () {
-                      login();
-                    }),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                child: Column(
                   children: [
-                    const Text(
-                      "Don't have an account?",
-                      style: TextStyle(color: Colors.grey),
+                    Text(
+                      "Welcome back ArtVenturer",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 152, 151, 151),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUpPage()));
-                        },
-                        child: const Text("SIGN UP"))
+                    Text(
+                      "Login to explore more ArtVentures",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
-
-                // Access denied message in case when your username and password is incorrect
-                //By default we must hide it
-                //When login is not true then display the message
-                isLoginTrue
-                    ? Text(
-                        "Username or password is incorrect",
-                        style: TextStyle(color: Colors.red.shade900),
-                      )
-                    : const SizedBox(),
-              ],
-            ),
+              ),
+              SizedBox(height: 30),
+              InputField(
+                hint: "Username",
+                icon: Icons.account_circle,
+                controller: usrName,
+              ),
+              SizedBox(height: 8),
+              InputField(
+                hint: "Password",
+                icon: Icons.lock,
+                controller: password,
+                passwordInvisible: true,
+              ),
+              ListTile(
+                horizontalTitleGap: 2,
+                title: const Text("Remember me"),
+                leading: Checkbox(
+                  activeColor: primaryColor,
+                  value: isChecked,
+                  onChanged: (value) {
+                    setState(() {
+                      isChecked = !isChecked;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(height: 40),
+              Button(
+                label: "LOGIN",
+                press: () {
+                  login();
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account?",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SignUpPage()),
+                      );
+                    },
+                    child: const Text("SIGN UP"),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

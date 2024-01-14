@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/pages/profile_page.dart';
 import 'package:artventure/models/user_info_model.dart';
+import 'package:artventure/components/appbar.dart';
 
 // ignore: must_be_immutable
 class QuizPage extends StatelessWidget {
@@ -18,16 +19,7 @@ class QuizPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: const Align(
-          alignment: AlignmentDirectional(0, 0),
-          child: Text('ArtVenture', style: titleLarge),
-        ),
-        actions: const [],
-        centerTitle: false,
-        elevation: 2,
-      ),
+      appBar: CustomAppBar(),
       body: PageView(
         controller: _pageController,
         children: [
@@ -43,24 +35,30 @@ class QuizPage extends StatelessWidget {
   Widget buildQuizPage(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
+        SizedBox(height: 30.0),
         Align(
           alignment: Alignment.center,
-          child: Text(
+           child: Text(
             'Let\'s Play a Small Game...',
-            style: TextStyle(fontSize: 20.0),
+            style: TextStyle(
+                        color: Color.fromARGB(255, 152, 151, 151),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 20.0),
+        SizedBox(height: 50.0),
         Align(
           alignment: Alignment.center,
           child: Text(
             'What is your Favorite Art:',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 152, 151, 151)),
           ),
         ),
-        SizedBox(height: 10.0),
+        SizedBox(height: 20.0),
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
@@ -75,6 +73,7 @@ class QuizPage extends StatelessWidget {
             child: Text('A. Visual ARTs'),
           ),
         ),
+        SizedBox(height: 10.0),
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
@@ -89,6 +88,7 @@ class QuizPage extends StatelessWidget {
             child: Text('B. Music'),
           ),
         ),
+        SizedBox(height: 10.0),
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
@@ -103,6 +103,7 @@ class QuizPage extends StatelessWidget {
             child: Text('C. Dance'),
           ),
         ),
+        SizedBox(height: 10.0),
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
@@ -125,24 +126,31 @@ class QuizPage extends StatelessWidget {
   Widget buildQuizPage2(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
+        SizedBox(height: 30.0),
         const Align(
           alignment: Alignment.center,
           child: Text(
             'Let\'s Play a Small Game...',
-            style: TextStyle(fontSize: 20.0),
+            style: TextStyle(
+                        color: Color.fromARGB(255, 152, 151, 151),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 20.0),
+        SizedBox(height: 50.0),
         Align(
           alignment: Alignment.center,
           child: Text(
-            'If you could describe your art taste in one word, what would it be?',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            'Describe your art taste:',
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 152, 151, 151)),
+             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 10.0),
+        SizedBox(height: 30),
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
@@ -162,6 +170,7 @@ class QuizPage extends StatelessWidget {
             child: Text('A. Classic'),
           ),
         ),
+        SizedBox(height: 10.0),
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
@@ -181,6 +190,7 @@ class QuizPage extends StatelessWidget {
             child: Text('B. Contemporary'),
           ),
         ),
+        SizedBox(height: 10.0),
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
@@ -199,7 +209,8 @@ class QuizPage extends StatelessWidget {
             },
             child: Text('C. Eclectic'),
           ),
-        ), // Add more answer options as needed
+        ),
+        SizedBox(height: 10.0), // Add more answer options as needed
         Container(
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(

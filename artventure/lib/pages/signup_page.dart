@@ -78,7 +78,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 30),
               InputField(
                 hint: "Username",
                 icon: Icons.account_circle,
