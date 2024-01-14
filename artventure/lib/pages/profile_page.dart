@@ -375,6 +375,7 @@ Widget build(BuildContext context) {
               onPressed: () {
                 _makePointsZero();
                 Navigator.of(context).pop();
+                _loadUserInfo();
               },
               child: Text("Redeem"),
             ),
@@ -399,10 +400,10 @@ Widget build(BuildContext context) {
     // );
 
     // Delay for 1 second and then close the popup
-    await Future.delayed(Duration(seconds: 1));
+    //await Future.delayed(Duration(seconds: 1));
 
-    Navigator.of(context).pop(); // Close the dialog
-    _loadUserInfo();
+    //Navigator.of(context).pop(); // Close the dialog
+    
   }
 }
 
