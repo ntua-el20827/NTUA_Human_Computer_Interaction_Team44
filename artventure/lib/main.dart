@@ -1,8 +1,8 @@
-import 'package:artventure/database/database_helper.dart';
+//import 'package:artventure/database/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+//import 'package:path/path.dart';
+//import 'package:sqflite/sqflite.dart';
 import 'package:artventure/app_routes.dart';
 
 Future<void> main() async {

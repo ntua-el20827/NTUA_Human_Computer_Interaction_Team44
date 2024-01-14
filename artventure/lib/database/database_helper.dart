@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
+import 'package:artventure/database/getAllDatabaseInfo.dart';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/user_challenges_model.dart';
@@ -10,12 +9,12 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
-//import 'package:path_provider/path_provider.dart';
-
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import '../models/user_model.dart';
 
 class DatabaseHelper {
   final databaseName = "artventure.db";
+  Database? database;
 
   // Tables
 
@@ -28,7 +27,7 @@ class DatabaseHelper {
       points INTEGER DEFAULT 0
    )
 ''';
-  // Comment: Both userId and username are unique   
+  // Comment: Both userId and username are unique
   // userId is used as foreign key in the next tables
 
   // UserInfo table
@@ -42,17 +41,6 @@ class DatabaseHelper {
    )
 ''';
 
-/*
-  String userInfo = '''
-   CREATE TABLE user_info (
-      userId INTEGER PRIMARY KEY,
-      favoriteArt TEXT,
-      favoriteArtist TEXT
-      -- add other fields as needed
-   )
-''';
-*/
-
   // Challenges table
   String challenges = ''';
    CREATE TABLE challenges (
@@ -62,18 +50,6 @@ class DatabaseHelper {
      category TEXT,
      infoText TEXT,
      imageFilePath TEXT
-   )
-   ''';
-
-  // UserChallenges table
-  String userChallenges = '''
-   CREATE TABLE user_challenges (
-     id INTEGER PRIMARY KEY AUTOINCREMENT,
-     challengeId INTEGER,
-     userId INTEGER,
-     status TEXT,
-     FOREIGN KEY (challengeId) REFERENCES challenges(challengeId),
-     FOREIGN KEY (userId) REFERENCES users(userId)
    )
    ''';
 
@@ -87,6 +63,18 @@ class DatabaseHelper {
      infoText TEXT,
      eventCreator TEXT,
      eventImageFilePath TEXT
+   )
+   ''';
+
+  // UserChallenges table
+  String userChallenges = '''
+   CREATE TABLE user_challenges (
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     challengeId INTEGER,
+     userId INTEGER,
+     status TEXT,
+     FOREIGN KEY (challengeId) REFERENCES challenges(challengeId),
+     FOREIGN KEY (userId) REFERENCES users(userId)
    )
    ''';
 
@@ -112,28 +100,36 @@ class DatabaseHelper {
    )
    ''';
 
-  // Event_Images table
-  /*String eventImages = '''
-   CREATE TABLE event_images (
-     id INTEGER PRIMARY KEY AUTOINCREMENT,
-     eventId INTEGER,
-     imagePath TEXT,
-     FOREIGN KEY (eventId) REFERENCES events(eventId)
-   )
-   ''';*/
-
   Future<bool> databaseExists(String path) async {
     return await File(path).exists();
   }
 
+  Future<Database> getDB() async {
+    if (database != null) {
+      print("Got it!");
+      return database!;
+    }
+    print("Initialized!");
+    database = await initDB();
+    return database!;
+  }
+
   // Our connection is ready
   Future<Database> initDB() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = join(directory.path, databaseName);
-    //final databasePath = await getDatabasesPath(); // for george
-    //final path = join(databasePath, databaseName); // for geroge
-    
-    return openDatabase(path, version: 1, onCreate: (db, version) async {
+    String? path;
+    if (Platform.isAndroid || Platform.isIOS) {
+      final directory = await getApplicationDocumentsDirectory();
+      // ignore: unused_local_variable
+      path = join(directory.path, databaseName);
+    } else if (Platform.isLinux || Platform.isWindows) {
+      sqfliteFfiInit(); // Initialize the database factory
+      databaseFactory = databaseFactoryFfi; //Set the database factory to useFFI
+      final databasePath = await getDatabasesPath();
+      // ignore: unused_local_variable
+      path = join(databasePath, databaseName);
+    }
+
+    return openDatabase(path!, version: 1, onCreate: (db, version) async {
       await db.execute(user);
       await db.execute(userInfo);
       await db.execute(challenges);
@@ -148,7 +144,7 @@ class DatabaseHelper {
   // Function methods
   // Sign up with device ID
   // Future<int> createUserWithDeviceId(Users usr) async {
-  //   final Database db = await initDB();
+  //   final Database db = await getDB();
 
   //   // Get device information
   //   String deviceId = await _getDeviceId();
@@ -182,7 +178,7 @@ class DatabaseHelper {
 
   // Authentication
   Future<bool> authenticate(Users usr) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     var result = await db.rawQuery(
       "SELECT * FROM users WHERE username = ? AND password = ?",
       [usr.username, usr.password],
@@ -191,7 +187,7 @@ class DatabaseHelper {
   }
 
   Future<bool> authenticate_ec(String username, String password) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     var result = await db.rawQuery(
       "SELECT * FROM event_creators WHERE username = ? AND password = ?",
       [username, password],
@@ -201,13 +197,13 @@ class DatabaseHelper {
 
   // Sign up
   Future<int> createUser(Users usr) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     int userId = await db.insert("users", usr.toMap());
     return userId;
   }
 
   Future<void> saveUserAnswers(UserInfo userInfo) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     await db.insert(
       'user_info',
       userInfo.toMap(),
@@ -217,12 +213,12 @@ class DatabaseHelper {
 
   // Function to insert a new event creator into the database
   Future<int> createEventCreator(EventCreator eventCreator) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     return db.insert("event_creators", eventCreator.toMap());
   }
 
   Future<int> createEvent(Events event) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     return db.insert("events", event.toMap());
   }
 
@@ -239,7 +235,7 @@ class DatabaseHelper {
   }
 
   Future<EventCreator?> getEventCreator(String username) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     var res = await db
         .query("event_creators", where: "username = ?", whereArgs: [username]);
     if (res.isNotEmpty) {
@@ -251,14 +247,15 @@ class DatabaseHelper {
 
   // Get current User details
   Future<Users?> getUser(String username) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     var res =
         await db.query("users", where: "username = ?", whereArgs: [username]);
+    getAllDatabaseInfo();
     return res.isNotEmpty ? Users.fromMap(res.first) : null;
   }
 
   Future<UserInfo?> getUserInfo(int userId) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     var results = await db.query(
       'user_info',
       where: 'userId = ?',
@@ -269,7 +266,7 @@ class DatabaseHelper {
   }
 
   Future<void> updateUserPoints(String username, int newPoints) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     await db.update(
       'users',
       {'points': newPoints},
@@ -279,7 +276,7 @@ class DatabaseHelper {
   }
 
   Future<int?> getUserId(String username) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     var res = await db.query("users",
         columns: ["userId"], where: "username = ?", whereArgs: [username]);
     return res.isNotEmpty ? res.first["userId"] as int : null;
@@ -288,14 +285,14 @@ class DatabaseHelper {
   ///////////////////////// CHALLENGES
   // Get a challenge by its ID
   Future<Challenge?> getChallenge(int challengeId) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     var res = await db
         .query("challenges", where: "challengeId= ?", whereArgs: [challengeId]);
     return res.isNotEmpty ? Challenge.fromMap(res.first) : null;
   }
 
   Future<List<Challenge>> getAllChallenges() async {
-    final Database db = await initDB();
+    final Database db = await getDB();
 
     final List<Map<String, dynamic>> maps = await db.query('challenges');
 
@@ -313,18 +310,24 @@ class DatabaseHelper {
 
   // Function to insert a new challenge into the database
   Future<void> insertChallenge(Challenge challenge) async {
-    final Database db = await initDB();
-    await db.insert(
+    final Database db = await getDB();
+    // Check if the challenge already exists
+    List<Map<String, dynamic>> existingChallenges = await db.query(
       'challenges',
-      challenge.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      where: 'title = ? AND category = ?',
+      whereArgs: [challenge.title, challenge.category],
     );
+
+    if (existingChallenges.isEmpty) {
+      // If it doesn't exist, insert the challenge
+      await db.insert('challenges', challenge.toMap());
+    }
   }
 
 ///////////////////// USER CHALLENGES
 // Function to get user challenges for a specific username
   Future<List<UserChallenges>> getUserChallenges(String? username) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     final List<Map<String, dynamic>> maps = await db.query(
       'user_challenges',
       where: 'userId = (SELECT userId FROM users WHERE username = ?)',
@@ -342,12 +345,12 @@ class DatabaseHelper {
   }
 
   Future<int> insertUserChallenge(UserChallenges userChallenge) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     return await db.insert('user_challenges', userChallenge.toMap());
   }
 
   Future<void> changeChallengeStatus(int? challengeId, String newStatus) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     await db.update(
       'user_challenges',
       {'status': newStatus},
@@ -357,7 +360,7 @@ class DatabaseHelper {
   }
 
   Future<void> removeChallengeFromUserChallenge(int? challengeId) async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     await db.delete(
       'user_challenges',
       where: 'challengeId = ?',
@@ -367,11 +370,11 @@ class DatabaseHelper {
 
   // Get events created by a specific event creator
   Future<List<Events>> getEventsByCreator(String creatorName) async {
-    final Database db = await initDB();
-  
+    final Database db = await getDB();
+
     final List<Map<String, dynamic>> maps = await db.query(
       'events',
-     where: 'eventCreator = ?',
+      where: 'eventCreator = ?',
       whereArgs: [creatorName],
     );
 
@@ -390,21 +393,32 @@ class DatabaseHelper {
 
   // EVENTS
   Future<List<Events>> getAllEvents() async {
-    final Database db = await initDB();
+    final Database db = await getDB();
     final List<Map<String, dynamic>> maps = await db.query('events');
     return List.generate(maps.length, (i) {
       return Events.fromMap(maps[i]);
     });
-  } 
-  Future<void> insertEvent(Events event) async {
-    final Database db = await initDB();
-
-    await db.insert('events',event.toMap());
   }
-  
-  Future<void> deleteAllEvents() async {
-  final Database db = await initDB();
 
-  await db.delete('events');
-}
+  Future<void> insertEvent(Events event) async {
+    final Database db = await getDB();
+
+    // Check if the event with the same location already exists
+    List<Map<String, dynamic>> existingEvents = await db.query(
+      'events',
+      where: 'location = ?',
+      whereArgs: [event.location],
+    );
+
+    if (existingEvents.isEmpty) {
+      // If it doesn't exist, insert the event
+      await db.insert('events', event.toMap());
+    }
+  }
+
+  Future<void> deleteAllEvents() async {
+    final Database db = await getDB();
+
+    await db.delete('events');
+  }
 }

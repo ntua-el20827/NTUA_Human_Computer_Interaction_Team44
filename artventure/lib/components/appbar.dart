@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(
               width: 8), // Adjust the spacing according to your preference
           Text(
-            'ArtVenture',
+            'ArtVenture-Demo',
             style: TextStyle(
               // Use a different font for 'ArtVenture'
               fontSize: 26, // Adjust the font size according to your preference

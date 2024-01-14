@@ -38,6 +38,14 @@ class LandingPage extends StatelessWidget {
                 Button(
                   label: "LOGIN",
                   press: () {
+                    // Extra: Search for DeviceID and if yes then go straight to profile:
+                    // var res = DatabaseHelper().searchForDeviceID()
+                    // If res:
+                    //  Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => Profile(username: username)),
+                    // );
                     Navigator.push(
                       context,
                       MaterialPageRoute(

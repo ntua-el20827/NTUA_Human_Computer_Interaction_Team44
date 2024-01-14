@@ -1,10 +1,10 @@
 import 'package:artventure/pages/challenges_page.dart';
-import 'package:artventure/pages/explore_page.dart';
 import 'package:artventure/pages/explore_page2.dart';
 import 'package:artventure/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 
 // Base Class
+// ignore: must_be_immutable
 class BottomNavBar extends StatefulWidget {
   final String? username;
   int currentIndex;
@@ -73,8 +73,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      ExplorePage2(username: widget.username),
+                  builder: (context) => ExplorePage2(username: widget.username),
                 ),
               );
               break;
@@ -84,6 +83,3 @@ class _BottomNavBarState extends State<BottomNavBar> {
     );
   }
 }
-class Explore {}
-
-class Challenges {}
