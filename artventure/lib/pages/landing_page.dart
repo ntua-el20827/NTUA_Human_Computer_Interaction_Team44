@@ -4,6 +4,7 @@ import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/pages/login_page.dart';
 import 'package:artventure/pages/signup_page.dart';
 import 'package:artventure/pages/signup_eventcreators_page.dart';
+import 'package:artventure/components/appbar.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -12,16 +13,7 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: const Align(
-          alignment: AlignmentDirectional(0, 0),
-          child: Text('ArtVenture', style: titleLarge),
-        ),
-        actions: const [],
-        centerTitle: false,
-        elevation: 2,
-      ),
+      appBar: CustomAppBar(),
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -30,10 +22,19 @@ class LandingPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Explore the world of art",
-                  style: TextStyle(color: Colors.grey),
+                  "Explore The World of Art",
+                  style: TextStyle(color: Color.fromARGB(255, 152, 151, 151), fontSize: 24, fontWeight: FontWeight.bold),
+                  
                 ),
-                Expanded(child: Image.asset("assets/startup.jpg")),
+                const SizedBox(height: 30),
+                Container(
+                  height: 250, // Set your desired height
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8), // Adjust the radius as needed
+                    child: Image.asset("assets/startup.jpg", fit: BoxFit.cover),
+                  ),
+                ),
+                const SizedBox(height: 30),
                 Button(
                   label: "LOGIN",
                   press: () {
