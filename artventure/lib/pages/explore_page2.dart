@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:artventure/components/appbar.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
 import 'package:artventure/database/database_helper.dart';
-import 'package:artventure/database/getAllDatabaseInfo.dart';
 import 'package:artventure/models/events_model.dart';
 import 'package:artventure/pages/event_page.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
 
   static final CameraPosition _initialCameraPosition = CameraPosition(
     target: LatLng(37.974966, 23.770003),
-    zoom: 12.2, // showing Zografou!
+    zoom: 12.6, // showing Zografou!
   );
 
   final List<Marker> _markers = <Marker>[];
@@ -37,27 +36,9 @@ class _ExplorePageState2 extends State<ExplorePage2> {
     _loadEvents();
   }
 
+// When Database didn't actually work
   Future<void> _deleteAllEvents() async {
     await DatabaseHelper().deleteAllEvents();
-  }
-
-  Future<void> _loadEvents() async {
-    List<Events> events = await DatabaseHelper().getAllEvents();
-    //Position currentPosition = await getUserCurrentLocation();
-
-    setState(() {
-      _markers.clear(); // Clear existing markers
-      print("Hello! from loadEvents");
-      _markers.addAll(_createMarkers(events));
-      // _markers.add(
-      //   Marker(
-      //     markerId: MarkerId("user_location"),
-      //     position: LatLng(currentPosition.latitude, currentPosition.longitude),
-      //     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      //     infoWindow: InfoWindow(title: "Your Location"),
-      //   ),
-      // );
-    });
   }
 
   Future<void> _addDummyEvents() async {
@@ -102,6 +83,16 @@ class _ExplorePageState2 extends State<ExplorePage2> {
     _loadEvents();
   }
 
+// Main Functions!!
+  Future<void> _loadEvents() async {
+    List<Events> events = await DatabaseHelper().getAllEvents();
+    setState(() {
+      _markers.clear(); // Clear existing markers
+      print("Hello! from loadEvents");
+      _markers.addAll(_createMarkers(events) as Iterable<Marker>);
+    });
+  }
+
   Future<String> getLatLong(String address) async {
     try {
       List<Location> locations = await locationFromAddress(address);
@@ -120,9 +111,10 @@ class _ExplorePageState2 extends State<ExplorePage2> {
     }
   }
 
-  Set<Marker> _createMarkers(List<Events> events) {
-    return events.map((event) {
-      List<String> locationParts = event.location.split('-');
+  Set<Future<Marker>> _createMarkers(List<Events> events) {
+    return events.map((event) async {
+      String latlongLocation = await getLatLong(event.location);
+      List<String> locationParts = latlongLocation.split('-');
       double latitude = double.parse(locationParts[0]);
       double longitude = double.parse(locationParts[1]);
       print("LATITUDE");
@@ -140,6 +132,10 @@ class _ExplorePageState2 extends State<ExplorePage2> {
         case 'Music':
           markerIcon =
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
+          break;
+        case 'Dance':
+          markerIcon =
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet);
           break;
         default:
           // Use a default color (e.g., blue) for other categories
@@ -216,7 +212,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
           Positioned(
             bottom: 16.0,
             left: 16.0,
-            child: Row(
+            child: Column(
               children: [
                 HoverBox(
                   text: 'Theater',
@@ -226,6 +222,11 @@ class _ExplorePageState2 extends State<ExplorePage2> {
                 HoverBox(
                   text: 'Music',
                   color: Colors.orange,
+                ),
+                SizedBox(width: 16.0),
+                HoverBox(
+                  text: 'Dance',
+                  color: Colors.purple,
                 ),
               ],
             ),

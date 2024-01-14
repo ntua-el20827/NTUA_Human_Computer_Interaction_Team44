@@ -1,8 +1,10 @@
 // pages/challenges_page.dart
+import 'package:artventure/components/appbar.dart';
 import 'package:artventure/components/big_card.dart';
 import 'package:artventure/components/medum_card.dart';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/user_challenges_model.dart';
+import 'package:artventure/pages/explore_page2.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
 import '../database/database_helper.dart';
@@ -147,7 +149,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               BigCard(
-                image: 'assets${challenge.imageFilePath}',
+                image: 'assets/${challenge.imageFilePath}',
                 title: challenge.title,
                 category: challenge.category,
                 info: challenge.infoText,
@@ -156,6 +158,16 @@ class _ChallengesPageState extends State<ChallengesPage> {
                 firstButtonAction: () {
                   addToMyChallenges(widget.username!, challenge);
                   Navigator.pop(context);
+                },
+                secondButtonLabel: 'Explore around you',
+                secondButtonAction: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ExplorePage2(username: widget.username),
+                    ),
+                  );
                 },
               ),
               SizedBox(height: 16.0), // To be changed after mano's info

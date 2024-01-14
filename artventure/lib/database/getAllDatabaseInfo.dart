@@ -25,13 +25,13 @@ Future<void> insertDummyData() async {
   ));
 
   // Insert Dummy Events
-  await DatabaseHelper().createEvent(Events(
+  await DatabaseHelper().insertEvent(Events(
     title: 'Event 1',
     category: 'Theater',
     location: 'Dimocratias 7 Zografou Greece',
     infoText: 'Info about Event 1',
     eventCreator: 'Creator 1',
-    eventImageFilePath: 'asset/challenges/theater.jpg',
+    eventImageFilePath: 'challenges/theater.jpg',
   ));
 }
 

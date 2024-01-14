@@ -17,6 +17,7 @@ class SmallCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
+      color: Color.fromARGB(255, 217, 180, 229),
       child: InkWell(
         onLongPress: () {
           // Call the provided function when the card is pressed, if it's not null
