@@ -55,98 +55,115 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    print("profile");
-    print(widget.username);
-    return Scaffold(
-      appBar: CustomAppBar(),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: primaryColor,
-                      radius: 57,
-                      child: CircleAvatar(
-                        radius: 55,
-                        backgroundImage: AssetImage(() {
-                          switch (_userInfo?.favoriteArt) {
-                            /*case 'Music':
-                            return 'assets/music_avatar.jpg';*/
-                            case 'Theater':
-                              return 'assets/theater_avatar.jpg';
-                            case 'Dance':
-                              return 'assets/dance_avatar.jpg';
-                            case 'Visual Arts':
-                              return 'assets/visual_arts_avatar.jpg';
-                            default:
-                              return 'assets/no_user.jpg';
-                          }
-                        }()),
+ @override
+Widget build(BuildContext context) {
+  print("profile");
+  print(widget.username);
+  return Scaffold(
+    appBar: CustomAppBar(),
+    body: SingleChildScrollView(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                Container(
+                  padding: EdgeInsets.all(16.0), // Add padding to provide space around the contents
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 217, 180, 229),
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(255, 117, 12, 87).withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
                       ),
-                    ),
-                    const SizedBox(width: 20),
-                    Stack(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "ArtVenturer ${widget.username}",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(height: 12),
-                            Text(
-                              "A ${getArtTasteNickname(_userInfo?.artTaste)}",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(height: 12),
-                            Text(
-                              "Points: ${_userProfile?.points}",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start, // Adjust alignment if needed
+                    crossAxisAlignment: CrossAxisAlignment.center, // Adjust alignment if needed
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: primaryColor,
+                        radius: 57,
+                        child: CircleAvatar(
+                          radius: 55,
+                          backgroundImage: AssetImage(() {
+                            switch (_userInfo?.favoriteArt) {
+                              case 'Theater':
+                                return 'assets/theater_avatar.jpg';
+                              case 'Dance':
+                                return 'assets/dance_avatar.jpg';
+                              case 'Visual Arts':
+                                return 'assets/visual_arts_avatar.jpg';
+                              default:
+                                return 'assets/no_user.jpg';
+                            }
+                          }()),
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      const SizedBox(width: 20),
+                      Stack(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${widget.username}",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: 12),
+                              Text(
+                                "An ${getArtTasteNickname(_userInfo?.artTaste)}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(height: 12),
+                              Text(
+                                "Points: ${_userProfile?.points}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 30),
-                Button(
-                  label: "Redeem my Points",
-                  press: () {
-                    _showPointsRedemptionPopup(context);
-                  },
-                ),
-                const SizedBox(height: 20),
-                _buildChallengesSection(),
-                _buildEventsSection(),
-              ],
-            ),
+              const SizedBox(height: 30),
+              Button(
+                label: "Redeem my Points",
+                press: () {
+                  _showPointsRedemptionPopup(context);
+                },
+              ),
+              const SizedBox(height: 20),
+              _buildChallengesSection(),
+              
+            ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(
-        username: widget.username,
-        currentIndex: 0,
-      ),
-    );
-  }
+    ),
+    bottomNavigationBar: BottomNavBar(
+      username: widget.username,
+      currentIndex: 0,
+    ),
+  );
+}
+
+
 
   Widget _buildChallengesSection() {
     return FutureBuilder<List<UserChallenges>>(
@@ -157,7 +174,7 @@ class _ProfileState extends State<Profile> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Text('No challenges in progress.');
+          return Text('You haven\'t complete any challenges yet.');
         } else {
           List<UserChallenges> userChallenges = snapshot.data!;
 
@@ -170,7 +187,7 @@ class _ProfileState extends State<Profile> {
               .toList();
 
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "My Challenges",
@@ -179,12 +196,12 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 10),
               if (inProgressChallenges.isNotEmpty)
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "In Progress",
+                      "To Do Challenges",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 10),
                     ListView.builder(
@@ -223,12 +240,12 @@ class _ProfileState extends State<Profile> {
                 ),
               if (doneChallenges.isNotEmpty)
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Done",
+                      "Completed Challenges",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 10),
                     ListView.builder(
@@ -323,16 +340,7 @@ class _ProfileState extends State<Profile> {
 
   ///////////////////////// EVENTS
 
-  Widget _buildEventsSection() {
-    return Column(
-      children: [
-        const Text(
-          "Favorite Events",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
+
 
   ///////////////////////// QR CODE
 
@@ -375,8 +383,8 @@ String getArtTasteNickname(String? artTaste) {
   switch (artTaste) {
     case 'Classic':
       return "ClassicArtDevotee";
-    case 'Contemporary':
-      return "ContemporaryArtEnthusiast";
+    case 'Abstract':
+      return "AbstractArtEnthusiast";
     case 'Eclectic':
       return "EclecticArtAficionado";
     case 'Minimalist':

@@ -11,8 +11,6 @@ import 'package:artventure/components/appbar.dart';
 
 import '../database/database_helper.dart';
 
-//import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -26,45 +24,34 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isChecked = false;
   bool isLoginTrue = false;
+  String errorMessage = "";
 
   final db = DatabaseHelper();
 
   login() async {
-    // Used in db helper
-    // sqfliteFfiInit(); // Initialize the database factory
-    // databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
-
     Users? usrDetails = await db.getUser(usrName.text);
-    var res = await db
-        .authenticate(Users(username: usrName.text, password: password.text));
+    var res = await db.authenticate(Users(username: usrName.text, password: password.text));
 
     if (res == true) {
-      // If the user login is successful, go to the user profile or home
       if (!mounted) return;
-      print(usrDetails?.username);
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => Profile(username: usrDetails?.username)),
+        MaterialPageRoute(builder: (context) => Profile(username: usrDetails?.username)),
       );
     } else {
-      // Check if an event creator logs in
-      EventCreator? eventCreatorDetails =
-          await db.getEventCreator(usrName.text);
-      var eventCreatorRes =
-          await db.authenticate_ec(usrName.text, password.text);
+      EventCreator? eventCreatorDetails = await db.getEventCreator(usrName.text);
+      var eventCreatorRes = await db.authenticate_ec(usrName.text, password.text);
 
       if (eventCreatorRes == true) {
         if (!mounted) return;
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => WelcomePage(profile: eventCreatorDetails)),
+          MaterialPageRoute(builder: (context) => WelcomePage(profile: eventCreatorDetails)),
         );
       } else {
-        // Show the error message if neither the user nor the event creator login is successful
         setState(() {
           isLoginTrue = true;
+          errorMessage = "Invalid username or password"; // Set your error message here
         });
       }
     }
@@ -85,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     Text(
-                      "Welcome back ArtVenturer",
+                      "Welcome back to ArtVenture",
                       style: TextStyle(
                         color: Color.fromARGB(255, 152, 151, 151),
                         fontSize: 24,
@@ -94,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "Login to explore more ArtVentures",
+                      "Please Login to Continue",
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 16,
@@ -117,19 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller: password,
                 passwordInvisible: true,
               ),
-              ListTile(
-                horizontalTitleGap: 2,
-                title: const Text("Remember me"),
-                leading: Checkbox(
-                  activeColor: primaryColor,
-                  value: isChecked,
-                  onChanged: (value) {
-                    setState(() {
-                      isChecked = !isChecked;
-                    });
-                  },
-                ),
-              ),
+              
               SizedBox(height: 40),
               Button(
                 label: "LOGIN",
@@ -137,6 +112,21 @@ class _LoginPageState extends State<LoginPage> {
                   login();
                 },
               ),
+              
+              // Display error message conditionally
+              if (isLoginTrue)
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    errorMessage,
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 183, 63, 55),
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

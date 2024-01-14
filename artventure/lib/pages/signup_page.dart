@@ -23,9 +23,19 @@ class _SignUpPageState extends State<SignUpPage> {
   final confirmPassword = TextEditingController();
   final db = DatabaseHelper();
 
+  bool isPasswordsMismatch = false;
+
   signUp() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
+
+    // Check if passwords match
+    if (password.text != confirmPassword.text) {
+      setState(() {
+        isPasswordsMismatch = true;
+      });
+      return;
+    }
 
     int userId = await db.createUser(Users(username: usrName.text, password: password.text));
     print("UserID in signup");
@@ -43,7 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
@@ -66,7 +76,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    
                     Text(
                       "All you have to do is Sign Up below",
                       style: TextStyle(
@@ -105,6 +114,19 @@ class _SignUpPageState extends State<SignUpPage> {
                   signUp();
                 },
               ),
+              // Display error message conditionally
+              if (isPasswordsMismatch)
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    "Passwords don't match",
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 183, 63, 55),
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

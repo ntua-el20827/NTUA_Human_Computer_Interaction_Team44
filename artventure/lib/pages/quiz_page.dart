@@ -176,7 +176,7 @@ class QuizPage extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // Navigate to the profile page after clicking the last answer
-              userInfo.artTaste = 'Contemporary';
+              userInfo.artTaste = 'Abstract';
               userInfo.userId = userId!;
               db.saveUserAnswers(userInfo);
               Navigator.push(
@@ -187,7 +187,7 @@ class QuizPage extends StatelessWidget {
                             username)), // Replace ProfilePage with your actual profile page
               );
             },
-            child: Text('B. Contemporary'),
+            child: Text('B. Abstract'),
           ),
         ),
         SizedBox(height: 10.0),
