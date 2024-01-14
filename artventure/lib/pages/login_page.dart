@@ -10,7 +10,7 @@ import 'package:artventure/models/event_creators_model.dart';
 
 import '../database/database_helper.dart';
 
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+//import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,39 +32,45 @@ class _LoginPageState extends State<LoginPage> {
   //Login Method
   //We will take the value of text fields using controllers in order to verify whether details are correct or not
   login() async {
-    sqfliteFfiInit(); // Initialize the database factory
-    databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
+    // Used in db helper
+    // sqfliteFfiInit(); // Initialize the database factory
+    // databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
 
     Users? usrDetails = await db.getUser(usrName.text);
-    var res = await db.authenticate(Users(username: usrName.text, password: password.text));
-  
+    var res = await db
+        .authenticate(Users(username: usrName.text, password: password.text));
+
     if (res == true) {
-     // If the user login is successful, go to the user profile or home
+      // If the user login is successful, go to the user profile or home
       if (!mounted) return;
       print(usrDetails?.username);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Profile(username: usrDetails?.username)),
+        MaterialPageRoute(
+            builder: (context) => Profile(username: usrDetails?.username)),
       );
     } else {
       // Check if an event creator logs in
-      EventCreator? eventCreatorDetails = await db.getEventCreator(usrName.text);
-      var eventCreatorRes = await db.authenticate_ec(usrName.text, password.text);
+      EventCreator? eventCreatorDetails =
+          await db.getEventCreator(usrName.text);
+      var eventCreatorRes =
+          await db.authenticate_ec(usrName.text, password.text);
 
       if (eventCreatorRes == true) {
         // If the event creator login is successful, go to the welcome page
         if (!mounted) return;
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => WelcomePage(profile: eventCreatorDetails)),
+          MaterialPageRoute(
+              builder: (context) => WelcomePage(profile: eventCreatorDetails)),
         );
       } else {
-      // Show the error message if neither the user nor the event creator login is successful
+        // Show the error message if neither the user nor the event creator login is successful
         setState(() {
           isLoginTrue = true;
         });
       }
-    } 
+    }
   }
 
   @override

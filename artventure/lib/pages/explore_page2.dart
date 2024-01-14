@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:artventure/components/appbar.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
 import 'package:artventure/database/database_helper.dart';
+import 'package:artventure/database/getAllDatabaseInfo.dart';
 import 'package:artventure/models/events_model.dart';
 import 'package:artventure/pages/event_page.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,10 @@ class _ExplorePageState2 extends State<ExplorePage2> {
   @override
   void initState() {
     super.initState();
-    _deleteAllEvents(); // Χρησιμοποιείται μόνο στο demo οπου δεν δουλεύει η βάση σωστά!
-    _addDummyEvents(); // Οταν δουλέψει η βάση θα πρέπει να φύγει
-    //_loadEvents();
+    //getAllDatabaseInfo();
+    //_deleteAllEvents(); // Χρησιμοποιείται μόνο στο demo οπου δεν δουλεύει η βάση σωστά!
+    //_addDummyEvents(); // Οταν δουλέψει η βάση θα πρέπει να φύγει
+    _loadEvents();
   }
 
   Future<void> _deleteAllEvents() async {
@@ -260,7 +262,10 @@ class _ExplorePageState2 extends State<ExplorePage2> {
         },
         child: Icon(Icons.my_location_rounded),
       ),
-      bottomNavigationBar: BottomNavBar(username: widget.username, currentIndex: 2,),
+      bottomNavigationBar: BottomNavBar(
+        username: widget.username,
+        currentIndex: 2,
+      ),
     );
   }
 }

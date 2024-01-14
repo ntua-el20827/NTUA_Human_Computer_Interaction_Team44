@@ -7,7 +7,6 @@ import 'package:artventure/pages/signup_page.dart';
 import 'package:artventure/pages/challenges_page.dart';
 import 'package:artventure/pages/signup_eventcreators_page.dart';
 import 'package:artventure/pages/welcome_page.dart';
-import 'package:artventure/pages/explore_page.dart';
 
 //import 'package:artventure/pages/explore_page.dart';
 
