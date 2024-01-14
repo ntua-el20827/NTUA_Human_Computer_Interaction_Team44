@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:artventure/pages/eventcreation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/events_model.dart';
-import 'package:artventure/pages/signup_eventcreators_page.dart';
+import 'package:artventure/pages/eventcreation_page.dart';
 import 'package:artventure/components/event_card.dart';
 import 'package:artventure/database/database_helper.dart';
 
@@ -18,7 +17,7 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  late List<Events> createdEvents = [];
+  List<Events> createdEvents = [];
 
   Future<void> fetchCreatedEvents() async {
     // Use your DatabaseHelper class to get the events created by the current event creator
@@ -34,6 +33,17 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
     fetchCreatedEvents().then((_) {
       setState(() {});
+    });
+  }
+
+  void deleteEvent(Events event) async {
+    // Use your DatabaseHelper class to delete the event from the database
+    DatabaseHelper dbHelper = DatabaseHelper();
+    await dbHelper.deleteEvent(event);
+
+    // Remove the event from the list
+    setState(() {
+      createdEvents.remove(event);
     });
   }
 
@@ -90,17 +100,17 @@ class _WelcomePageState extends State<WelcomePage> {
               child: ListView.builder(
                 itemCount: createdEvents.length,
                 itemBuilder: (context, index) {
-                  print('Created Events: $createdEvents');
                   final event = createdEvents[index];
                   return EventCard(
-                    image: event.eventImageFilePath != null && event.eventImageFilePath!.isNotEmpty
-      ? File(event.eventImageFilePath!)
-      : 'assets/image_not_found.png',
+                    image: event.eventImageFilePath ?? 'assets/image_not_found.png',
                     title: event.title,
                     category: event.category,
                     location: event.location,
                     infoText: event.infoText,
                     eventCreator: event.eventCreator,
+                    onDeletePressed: () {
+                      deleteEvent(event);
+                    },
                   );
                 },
               ),

@@ -5,31 +5,29 @@ import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/pages/quiz_page.dart';
 import 'package:artventure/pages/login_page.dart';
-
+import 'package:artventure/components/appbar.dart';
 import '../database/database_helper.dart';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  //Controllers
   final usrName = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
   final db = DatabaseHelper();
 
   signUp() async {
-    sqfliteFfiInit(); // Initialize the database factory
-    databaseFactory = databaseFactoryFfi; // Set the database factory to use FFI
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
 
-    int userId = await db
-        .createUser(Users(username: usrName.text, password: password.text));
+    int userId = await db.createUser(Users(username: usrName.text, password: password.text));
     print("UserID in signup");
     print(userId);
 
@@ -45,65 +43,89 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      appBar: CustomAppBar(),
+      body: SafeArea(
+        top: false,
         child: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Give us a username and a password to start the ArtVenture!!",
-                    style: TextStyle(
-                        color: primaryColor,
-                        fontSize: 55,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                InputField(
-                    hint: "Username",
-                    icon: Icons.account_circle,
-                    controller: usrName),
-                InputField(
-                    hint: "Password",
-                    icon: Icons.lock,
-                    controller: password,
-                    passwordInvisible: true),
-                InputField(
-                    hint: "Re-enter password",
-                    icon: Icons.lock,
-                    controller: confirmPassword,
-                    passwordInvisible: true),
-                const SizedBox(height: 10),
-                Button(
-                    label: "SIGN UP",
-                    press: () {
-                      signUp();
-                    }),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                child: Column(
                   children: [
-                    const Text(
-                      "Already have an account?",
-                      style: TextStyle(color: Colors.grey),
+                    Text(
+                      "Become an ArtVenturer",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 152, 151, 151),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage()));
-                        },
-                        child: Text("LOGIN"))
+                    
+                    Text(
+                      "All you have to do is Sign Up below",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+              SizedBox(height: 40),
+              InputField(
+                hint: "Username",
+                icon: Icons.account_circle,
+                controller: usrName,
+              ),
+              SizedBox(height: 8),
+              InputField(
+                hint: "Password",
+                icon: Icons.lock,
+                controller: password,
+                passwordInvisible: true,
+              ),
+              SizedBox(height: 8),
+              InputField(
+                hint: "Re-enter password",
+                icon: Icons.lock,
+                controller: confirmPassword,
+                passwordInvisible: true,
+              ),
+              SizedBox(height: 40),
+              Button(
+                label: "SIGN UP",
+                press: () {
+                  signUp();
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Already have an account?",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
+                    },
+                    child: Text("LOGIN"),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
