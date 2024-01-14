@@ -23,28 +23,58 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
   final fullNameController = TextEditingController();
   final db = DatabaseHelper();
 
+  bool isUsernameRequired = false;
+  bool isPasswordRequired = false;
+  bool isConfirmPasswordRequired = false;
+  bool isEmailRequired = false;
+  bool isFullNameRequired = false;
+
   signUpec() async {
     final dbHelper = DatabaseHelper();
     final database = await dbHelper.initDB();
 
-    /*var eventCreator = EventCreator(
+    if (usernameController.text.isEmpty) {
+      setState(() {
+        isUsernameRequired = true;
+      });
+      return;
+    }
+    if (passwordController.text.isEmpty) {
+      setState(() {
+        isPasswordRequired = true;
+      });
+      return;
+    }
+    if (confirmPasswordController.text.isEmpty) {
+      setState(() {
+        isConfirmPasswordRequired = true;
+      });
+      return;
+    }
+    if (emailController.text.isEmpty) {
+      setState(() {
+        isEmailRequired = true;
+      });
+      return;
+    }
+    if (fullNameController.text.isEmpty) {
+      setState(() {
+        isFullNameRequired = true;
+      });
+      return;
+    }
+
+    var res = await db.createEventCreator(EventCreator(
       username: usernameController.text,
       password: passwordController.text,
       email: emailController.text,
       fullName: fullNameController.text,
-    );*/
-
-    var res = await db.createEventCreator(EventCreator(
-        username: usernameController.text,
-        password: passwordController.text,
-        email: emailController.text,
-        fullName: fullNameController.text,
-        )
-      );
+    ));
     if (res > 0) {
       if (!mounted) return;
       Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LoginPage()),
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     }
   }
@@ -74,32 +104,45 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
                   hint: "Username",
                   icon: Icons.account_circle,
                   controller: usernameController,
+                  required: isUsernameRequired,
                 ),
                 InputField(
                   hint: "Password",
                   icon: Icons.lock,
                   controller: passwordController,
                   passwordInvisible: true,
+                  required: isPasswordRequired,
                 ),
                 InputField(
                   hint: "Re-enter password",
                   icon: Icons.lock,
                   controller: confirmPasswordController,
-                  passwordInvisible: true),
+                  passwordInvisible: true,
+                  required: isConfirmPasswordRequired,
+                ),
                 InputField(
                   hint: "Email",
                   icon: Icons.email,
                   controller: emailController,
+                  required: isEmailRequired,
                 ),
                 InputField(
                   hint: "Full Name",
                   icon: Icons.person,
                   controller: fullNameController,
+                  required: isFullNameRequired,
                 ),
                 const SizedBox(height: 10),
                 Button(
                   label: "SIGN UP",
                   press: () {
+                    setState(() {
+                      isUsernameRequired = false;
+                      isPasswordRequired = false;
+                      isConfirmPasswordRequired = false;
+                      isEmailRequired = false;
+                      isFullNameRequired = false;
+                    });
                     signUpec();
                   },
                 ),
@@ -130,4 +173,4 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
       ),
     );
   }
-}
+} 
