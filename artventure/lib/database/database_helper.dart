@@ -211,7 +211,7 @@ class DatabaseHelper {
     );
   }
 
-  // Function to insert a new event creator into the database
+  // Event Creator - Event Handling
   Future<int> createEventCreator(EventCreator eventCreator) async {
     final Database db = await getDB();
     return db.insert("event_creators", eventCreator.toMap());
@@ -245,7 +245,30 @@ class DatabaseHelper {
     }
   }
 
-  // Get current User details
+  // Get events created by a specific event creator
+  Future<List<Events>> getEventsByCreator(String creatorName) async {
+    final Database db = await getDB();
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'events',
+      where: 'eventCreator = ?',
+      whereArgs: [creatorName],
+    );
+
+    return List.generate(maps.length, (index) {
+      return Events(
+        eventId: maps[index]['eventId'],
+        title: maps[index]['title'],
+        category: maps[index]['category'],
+        location: maps[index]['location'],
+        infoText: maps[index]['infoText'],
+        eventCreator: maps[index]['eventCreator'],
+        eventImageFilePath: maps[index]['eventImageFilePath'],
+      );
+    });
+  }
+
+  // User Info
   Future<Users?> getUser(String username) async {
     final Database db = await getDB();
     var res =
@@ -366,29 +389,6 @@ class DatabaseHelper {
       where: 'challengeId = ?',
       whereArgs: [challengeId],
     );
-  }
-
-  // Get events created by a specific event creator
-  Future<List<Events>> getEventsByCreator(String creatorName) async {
-    final Database db = await getDB();
-
-    final List<Map<String, dynamic>> maps = await db.query(
-      'events',
-      where: 'eventCreator = ?',
-      whereArgs: [creatorName],
-    );
-
-    return List.generate(maps.length, (index) {
-      return Events(
-        eventId: maps[index]['eventId'],
-        title: maps[index]['title'],
-        category: maps[index]['category'],
-        location: maps[index]['location'],
-        infoText: maps[index]['infoText'],
-        eventCreator: maps[index]['eventCreator'],
-        eventImageFilePath: maps[index]['eventImageFilePath'],
-      );
-    });
   }
 
   // EVENTS

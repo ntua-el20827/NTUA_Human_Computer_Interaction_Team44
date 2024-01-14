@@ -10,6 +10,7 @@ import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/database/database_helper.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:sqflite/sqflite.dart';
 //import 'package:artventure/components/card.dart';
 
@@ -299,7 +300,7 @@ Widget build(BuildContext context) {
             mainAxisSize: MainAxisSize.min,
             children: [
               BigCard(
-                image: 'assets${challenge?.imageFilePath}',
+                image: 'assets/${challenge?.imageFilePath}',
                 title: challenge!.title,
                 category: challenge.category,
                 info: challenge.infoText,
@@ -370,10 +371,38 @@ Widget build(BuildContext context) {
               },
               child: const Text("Close"),
             ),
+            TextButton(
+              onPressed: () {
+                _makePointsZero();
+                Navigator.of(context).pop();
+              },
+              child: Text("Redeem"),
+            ),
           ],
         );
       },
     );
+  }
+
+  Future<void> _makePointsZero() async {
+    await DatabaseHelper().updateUserPoints(widget.username!, 0);
+    //String partyImagePath = "assets/congrats.jpg"; // Customize image path
+    // Fluttertoast.showToast(
+    //   msg:
+    //       "Congratulations!! \nYou have collected your Reward! \nWe hope you have fun!",
+    //   toastLength: Toast.LENGTH_LONG,
+    //   gravity: ToastGravity.BOTTOM,
+    //   backgroundColor: Colors.green,
+    //   textColor: Colors.white,
+    //   fontSize: 16.0,
+    //   timeInSecForIosWeb: 1,
+    // );
+
+    // Delay for 1 second and then close the popup
+    await Future.delayed(Duration(seconds: 1));
+
+    Navigator.of(context).pop(); // Close the dialog
+    _loadUserInfo();
   }
 }
 
