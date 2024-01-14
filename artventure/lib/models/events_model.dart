@@ -11,7 +11,8 @@ class Events {
   final String location;
   final String infoText;
   final String eventCreator;
-  final String? eventImageFilePath;
+  String? eventImageFilePath;
+  String? latlonglocation;
 
   Events({
     this.eventId,
@@ -21,6 +22,7 @@ class Events {
     required this.infoText,
     required this.eventCreator,
     this.eventImageFilePath,
+    this.latlonglocation,
   });
 
   factory Events.fromMap(Map<String, dynamic> json) => Events(
@@ -31,17 +33,19 @@ class Events {
         infoText: json["infoText"],
         eventCreator: json["eventCreator"],
         eventImageFilePath: json["eventImageFilePath"],
+        latlonglocation: json["latlonglocation"],
       );
 
-  Map<String, dynamic> toMap(){
-    return{
-        "eventId": eventId,
-        "title": title,
-        "category": category,
-        "location": location,
-        "infoText": infoText,
-        "eventCreator": eventCreator,
-        //"eventImageFilePath": eventImageFilePath,
-      };
+  Map<String, dynamic> toMap() {
+    return {
+      "eventId": eventId,
+      "title": title,
+      "category": category,
+      "location": location,
+      "infoText": infoText,
+      "eventCreator": eventCreator,
+      "eventImageFilePath": eventImageFilePath,
+      "latlonglocation": latlonglocation,
+    };
   }
 }
