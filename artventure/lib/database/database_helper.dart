@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:artventure/database/getAllDatabaseInfo.dart';
+import 'package:artventure/database/getlatlong.dart';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/user_challenges_model.dart';
@@ -62,7 +63,8 @@ class DatabaseHelper {
      location TEXT UNIQUE,
      infoText TEXT,
      eventCreator TEXT,
-     eventImageFilePath TEXT
+     eventImageFilePath TEXT,
+     latlonglocation TEXT
    )
    ''';
 
@@ -411,6 +413,9 @@ class DatabaseHelper {
     );
 
     if (existingEvents.isEmpty) {
+      event.latlonglocation = await getLatLong(event.location);
+      print("in inserting");
+      print(event.latlonglocation);
       // If it doesn't exist, insert the event
       await db.insert('events', event.toMap());
     }
