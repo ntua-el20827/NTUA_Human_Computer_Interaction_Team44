@@ -260,7 +260,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
         },
         child: Icon(Icons.my_location_rounded),
       ),
-      bottomNavigationBar: BottomNavBar(username: widget.username),
+      bottomNavigationBar: BottomNavBar(username: widget.username, currentIndex: 2,),
     );
   }
 }

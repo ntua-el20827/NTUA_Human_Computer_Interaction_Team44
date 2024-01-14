@@ -226,6 +226,18 @@ class DatabaseHelper {
     return db.insert("events", event.toMap());
   }
 
+  Future<void> deleteEvent(Events event) async {
+    // Get a reference to the database
+    final Database db = await initDB();
+
+    // Delete the event from the events table using the event's ID
+    await db.delete(
+      'events',
+      where: 'eventId = ?',
+      whereArgs: [event.eventId],
+    );
+  }
+
   Future<EventCreator?> getEventCreator(String username) async {
     final Database db = await initDB();
     var res = await db

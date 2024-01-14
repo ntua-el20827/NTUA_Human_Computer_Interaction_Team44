@@ -141,7 +141,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(username: widget.username),
+      bottomNavigationBar: BottomNavBar(username: widget.username, currentIndex: 0,),
     );
   }
 

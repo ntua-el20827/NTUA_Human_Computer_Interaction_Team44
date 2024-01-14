@@ -1,14 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:artventure/models/events_model.dart';
 
 class EventCard extends StatelessWidget {
-  final dynamic image;
+  final String image;
   final String title;
   final String category;
   final String location;
   final String infoText;
   final String eventCreator;
+  final VoidCallback onDeletePressed;
 
   EventCard({
     required this.image,
@@ -17,6 +19,7 @@ class EventCard extends StatelessWidget {
     required this.location,
     required this.infoText,
     required this.eventCreator,
+    required this.onDeletePressed,
   });
 
   @override
@@ -26,33 +29,45 @@ class EventCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          image is File
-              ? Image.file(
-                  image,
-                  height: 150, // Adjust the height as needed
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(
-                  image,
-                  height: 150, // Adjust the height as needed
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+          _buildImageWidget(),
           ListTile(
             title: Text(title),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Category: ${category}'),
-                Text('Location: ${location}'),
-                Text('Info: ${infoText}'),
-                Text('Creator: ${eventCreator}'),
+                Text('Category: $category'),
+                Text('Location: $location'),
+                Text('Event Creator: $eventCreator'),
               ],
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: onDeletePressed,
+                icon: Icon(Icons.delete),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildImageWidget() {
+    if (image.startsWith('assets/')) {
+      return Image.asset(
+        image,
+        fit: BoxFit.cover,
+        height: 200,
+      );
+    } else {
+      return Image.file(
+        File(image),
+        fit: BoxFit.cover,
+        height: 200,
+      );
+    }
   }
 }

@@ -242,7 +242,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
         ],
       ),
       bottomNavigationBar: BottomNavBar(
-        username: widget.username,
+        username: widget.username, currentIndex: 1,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
