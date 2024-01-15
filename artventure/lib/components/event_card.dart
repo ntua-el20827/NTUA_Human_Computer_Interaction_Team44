@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:artventure/models/events_model.dart';
 
 class EventCard extends StatelessWidget {
   final String image;

@@ -56,27 +56,29 @@ class _ProfileState extends State<Profile> {
     });
   }
 
- @override
-Widget build(BuildContext context) {
-  print("profile");
-  print(widget.username);
-  return Scaffold(
-    appBar: CustomAppBar(),
-    body: SingleChildScrollView(
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+  @override
+  Widget build(BuildContext context) {
+    print("profile");
+    print(widget.username);
+    return Scaffold(
+      appBar: CustomAppBar(),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Container(
-                  padding: EdgeInsets.all(16.0), // Add padding to provide space around the contents
+                  padding: EdgeInsets.all(
+                      16.0), // Add padding to provide space around the contents
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 217, 180, 229),
                     borderRadius: BorderRadius.circular(10.0),
                     boxShadow: [
                       BoxShadow(
-                        color: Color.fromARGB(255, 117, 12, 87).withOpacity(0.5),
+                        color:
+                            Color.fromARGB(255, 117, 12, 87).withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 10,
                         offset: Offset(0, 3),
@@ -84,8 +86,10 @@ Widget build(BuildContext context) {
                     ],
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start, // Adjust alignment if needed
-                    crossAxisAlignment: CrossAxisAlignment.center, // Adjust alignment if needed
+                    mainAxisAlignment:
+                        MainAxisAlignment.start, // Adjust alignment if needed
+                    crossAxisAlignment:
+                        CrossAxisAlignment.center, // Adjust alignment if needed
                     children: [
                       CircleAvatar(
                         backgroundColor: primaryColor,
@@ -95,13 +99,15 @@ Widget build(BuildContext context) {
                           backgroundImage: AssetImage(() {
                             switch (_userInfo?.favoriteArt) {
                               case 'Theater':
-                                return 'assets/theater_avatar.jpg';
+                                return 'assets/avatars/theater_avatar.jpg';
                               case 'Dance':
-                                return 'assets/dance_avatar.jpg';
+                                return 'assets/avatars/dance_avatar.jpg';
                               case 'Visual Arts':
-                                return 'assets/visual_arts_avatar.jpg';
+                                return 'assets/avatars/visual_arts_avatar.jpg';
+                              case 'Music':
+                                return 'assets/avatars/music_avatar.jpg';
                               default:
-                                return 'assets/no_user.jpg';
+                                return 'assets/avatars/no_user.jpg';
                             }
                           }()),
                         ),
@@ -142,29 +148,26 @@ Widget build(BuildContext context) {
                     ],
                   ),
                 ),
-              const SizedBox(height: 30),
-              Button(
-                label: "Redeem my Points",
-                press: () {
-                  _showPointsRedemptionPopup(context);
-                },
-              ),
-              const SizedBox(height: 20),
-              _buildChallengesSection(),
-              
-            ],
+                const SizedBox(height: 30),
+                Button(
+                  label: "Redeem my Points",
+                  press: () {
+                    _showPointsRedemptionPopup(context);
+                  },
+                ),
+                const SizedBox(height: 20),
+                _buildChallengesSection(),
+              ],
+            ),
           ),
         ),
       ),
-    ),
-    bottomNavigationBar: BottomNavBar(
-      username: widget.username,
-      currentIndex: 0,
-    ),
-  );
-}
-
-
+      bottomNavigationBar: BottomNavBar(
+        username: widget.username,
+        currentIndex: 0,
+      ),
+    );
+  }
 
   Widget _buildChallengesSection() {
     return FutureBuilder<List<UserChallenges>>(
@@ -341,8 +344,6 @@ Widget build(BuildContext context) {
 
   ///////////////////////// EVENTS
 
-
-
   ///////////////////////// QR CODE
 
   void _showPointsRedemptionPopup(BuildContext context) {
@@ -403,7 +404,6 @@ Widget build(BuildContext context) {
     //await Future.delayed(Duration(seconds: 1));
 
     //Navigator.of(context).pop(); // Close the dialog
-    
   }
 }
 

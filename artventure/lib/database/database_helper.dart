@@ -116,10 +116,10 @@ class DatabaseHelper {
   }
 
   Future<void> deleteExistingDatabase(String path) async {
-  if (await databaseExists(path)) {
-    await deleteDatabase(path);
+    if (await databaseExists(path)) {
+      await deleteDatabase(path);
+    }
   }
-}
 
   // Our connection is ready
   Future<Database> initDB() async {

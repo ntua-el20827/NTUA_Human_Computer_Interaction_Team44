@@ -1,6 +1,5 @@
 import 'package:artventure/database/database_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/pages/profile_page.dart';
 import 'package:artventure/models/user_info_model.dart';
 import 'package:artventure/components/appbar.dart';
@@ -40,14 +39,14 @@ class QuizPage extends StatelessWidget {
         SizedBox(height: 30.0),
         Align(
           alignment: Alignment.center,
-           child: Text(
+          child: Text(
             'Let\'s Play a Small Game...',
             style: TextStyle(
-                        color: Color.fromARGB(255, 152, 151, 151),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
+              color: Color.fromARGB(255, 152, 151, 151),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
         SizedBox(height: 50.0),
@@ -55,7 +54,10 @@ class QuizPage extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             'What is your Favorite Art:',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 152, 151, 151)),
+            style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 152, 151, 151)),
           ),
         ),
         SizedBox(height: 20.0),
@@ -134,11 +136,11 @@ class QuizPage extends StatelessWidget {
           child: Text(
             'Let\'s Play a Small Game...',
             style: TextStyle(
-                        color: Color.fromARGB(255, 152, 151, 151),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
+              color: Color.fromARGB(255, 152, 151, 151),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
         SizedBox(height: 50.0),
@@ -146,8 +148,11 @@ class QuizPage extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             'Describe your art taste:',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 152, 151, 151)),
-             textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 152, 151, 151)),
+            textAlign: TextAlign.center,
           ),
         ),
         SizedBox(height: 30),

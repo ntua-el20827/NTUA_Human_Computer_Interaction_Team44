@@ -3,7 +3,6 @@ import 'package:artventure/pages/signup_page.dart';
 import 'package:artventure/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
-import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
@@ -30,28 +29,34 @@ class _LoginPageState extends State<LoginPage> {
 
   login() async {
     Users? usrDetails = await db.getUser(usrName.text);
-    var res = await db.authenticate(Users(username: usrName.text, password: password.text));
+    var res = await db
+        .authenticate(Users(username: usrName.text, password: password.text));
 
     if (res == true) {
       if (!mounted) return;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Profile(username: usrDetails?.username)),
+        MaterialPageRoute(
+            builder: (context) => Profile(username: usrDetails?.username)),
       );
     } else {
-      EventCreator? eventCreatorDetails = await db.getEventCreator(usrName.text);
-      var eventCreatorRes = await db.authenticate_ec(usrName.text, password.text);
+      EventCreator? eventCreatorDetails =
+          await db.getEventCreator(usrName.text);
+      var eventCreatorRes =
+          await db.authenticate_ec(usrName.text, password.text);
 
       if (eventCreatorRes == true) {
         if (!mounted) return;
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => WelcomePage(profile: eventCreatorDetails)),
+          MaterialPageRoute(
+              builder: (context) => WelcomePage(profile: eventCreatorDetails)),
         );
       } else {
         setState(() {
           isLoginTrue = true;
-          errorMessage = "Invalid username or password"; // Set your error message here
+          errorMessage =
+              "Invalid username or password"; // Set your error message here
         });
       }
     }
@@ -104,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller: password,
                 passwordInvisible: true,
               ),
-              
+
               SizedBox(height: 40),
               Button(
                 label: "LOGIN",
@@ -112,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                   login();
                 },
               ),
-              
+
               // Display error message conditionally
               if (isLoginTrue)
                 Padding(
@@ -138,7 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SignUpPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpPage()),
                       );
                     },
                     child: const Text("SIGN UP"),

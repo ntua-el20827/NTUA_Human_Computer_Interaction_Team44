@@ -82,6 +82,7 @@ flutter:
    - assets/challenges/
    - assets/events/
    - assets/sound/
+   - assets/avatars/
    
   #   - images/a_dot_ham.jpeg
 

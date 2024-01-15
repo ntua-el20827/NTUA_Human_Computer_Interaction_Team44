@@ -51,7 +51,7 @@ Future<void> insertDummyData() async {
     category: 'Music',
     infoText:
         'Record a cover of your favorite song and add your unique twist to it.',
-    imageFilePath: 'challenges/music_challenge2.jpg',
+    imageFilePath: 'challenges/music.jpg',
   ));
 
   // VisualArts
@@ -61,7 +61,7 @@ Future<void> insertDummyData() async {
     category: 'VisualArts',
     infoText:
         'Create a digital artwork inspired by a famous painting. Share your interpretation!',
-    imageFilePath: 'challenges/visual_arts_challenge1.jpg',
+    imageFilePath: 'challenges/visualarts.jpg',
   ));
 
   await DatabaseHelper().insertChallenge(Challenge(
@@ -70,7 +70,7 @@ Future<void> insertDummyData() async {
     category: 'VisualArts',
     infoText:
         'Sculpt a miniature model using unconventional materials. Let your imagination run wild!',
-    imageFilePath: 'challenges/visual_arts_challenge2.jpg',
+    imageFilePath: 'challenges/visualarts.jpg',
   ));
 
   // Dance
@@ -80,7 +80,7 @@ Future<void> insertDummyData() async {
     category: 'Dance',
     infoText:
         'Choreograph a dance routine to a popular song. Record and share your performance!',
-    imageFilePath: 'challenges/dance_challenge1.jpg',
+    imageFilePath: 'challenges/dance.jpg',
   ));
 
   await DatabaseHelper().insertChallenge(Challenge(
@@ -89,7 +89,7 @@ Future<void> insertDummyData() async {
     category: 'Dance',
     infoText:
         'Learn and perform a dance style you have ve never tried before. Embrace the challenge!',
-    imageFilePath: 'challenges/dance_challenge2.jpg',
+    imageFilePath: 'challenges/dance.jpg',
   ));
 
   // Insert Dummy Events

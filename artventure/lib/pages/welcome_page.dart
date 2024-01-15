@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/events_model.dart';
@@ -85,7 +84,8 @@ class _WelcomePageState extends State<WelcomePage> {
                 itemBuilder: (context, index) {
                   final event = createdEvents[index];
                   return EventCard(
-                    image: event.eventImageFilePath ?? 'assets/image_not_found.png',
+                    image: event.eventImageFilePath ??
+                        'assets/image_not_found.png',
                     title: event.title,
                     category: event.category,
                     location: event.location,

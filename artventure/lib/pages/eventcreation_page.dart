@@ -1,19 +1,13 @@
 import 'dart:io';
-
-import 'package:artventure/pages/event_page.dart';
+import 'package:artventure/components/appbar.dart';
 import 'package:artventure/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
-import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/events_model.dart';
-import 'package:artventure/components/event_card.dart';
-import 'package:artventure/pages/login_page.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import '../database/database_helper.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 class EventCreationPage extends StatefulWidget {
   final String
@@ -38,24 +32,26 @@ class _EventCreationPageState extends State<EventCreationPage> {
   List<String> categoryOptions = ['Theater', 'Music', 'Dance', 'Visual Arts'];
   String selectedCategory = 'Theater';
   registerevent() async {
-    final dbHelper = DatabaseHelper();
-    final database = await dbHelper.initDB();
+    // final dbHelper = DatabaseHelper();
+    // final database = await dbHelper.initDB();
     String infoTextController =
-                      "Duration: ${durationController.text}\nDescription: ${descriptionController.text}\nRating: ${ratingController.text}\nBooking Link: ${bookingLinkController.text}";
-    var res = await db.createEvent(Events(
-        title: titleController.text,
-        category: categoryController.text,
-        location: streetController.text,
-        infoText: infoTextController,
-        eventCreator: widget.username,
-        eventImageFilePath: imageFilePath,
-        )
-      );
+        "Duration: ${durationController.text}\nDescription: ${descriptionController.text}\nRating: ${ratingController.text}\nBooking Link: ${bookingLinkController.text}";
+    var res = await DatabaseHelper().createEvent(Events(
+      title: titleController.text,
+      category: categoryController.text,
+      location: streetController.text,
+      infoText: infoTextController,
+      eventCreator: widget.username,
+      eventImageFilePath: imageFilePath,
+    ));
     if (res > 0) {
-      EventCreator? eventCreatorDetails = await db.getEventCreator(widget.username);
+      EventCreator? eventCreatorDetails =
+          await db.getEventCreator(widget.username);
       if (!mounted) return;
       Navigator.push(
-        context, MaterialPageRoute(builder: (context) => WelcomePage(profile: eventCreatorDetails)),
+        context,
+        MaterialPageRoute(
+            builder: (context) => WelcomePage(profile: eventCreatorDetails)),
       );
     }
   }
@@ -71,6 +67,7 @@ class _EventCreationPageState extends State<EventCreationPage> {
     categoryController.dispose();
     super.dispose();
   }
+
   String imageFilePath = '';
   Future<void> chooseAndCaptureImage(BuildContext context) async {
     final picker = ImagePicker();
@@ -111,140 +108,140 @@ class _EventCreationPageState extends State<EventCreationPage> {
   }
 
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Create Event'),
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            InputField(
-              hint: "Insert Title",
-              icon: Icons.title,
-              controller: titleController,
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-  decoration: InputDecoration(
-    hintText: "Select Category",
-    prefixIcon: Icon(Icons.category),
-    //enabledBorder: OutlineInputBorder(
-      //borderRadius: BorderRadius.circular(10.0),
-      //borderSide: BorderSide(color: Colors.grey),
-    //),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.0),
-      borderSide: BorderSide(color: Colors.blue),
-    ),
-    fillColor: Colors.white,
-    filled: true,
-    contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-  ),
-  value: selectedCategory,
-  items: categoryOptions.map((String category) {
-    return DropdownMenuItem<String>(
-      value: category,
-      child: Text(category),
-    );
-  }).toList(),
-  onChanged: (String? newValue) {
-    setState(() {
-      selectedCategory = newValue!;
-    });
-  },
-),
-            const SizedBox(height: 16),
-            InputField(
-              hint: "Dates Available (dd/mm/year-dd/mm/year)",
-              icon: Icons.calendar_today,
-              controller: durationController,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-  controller: descriptionController,
-  maxLines: null, // Allows multiple lines
-  keyboardType: TextInputType.multiline,
-  decoration: InputDecoration(
-    hintText: "Description",
-    prefixIcon: Icon(Icons.description),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.0),
-      borderSide: BorderSide(color: Colors.grey),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.0),
-      borderSide: BorderSide(color: Colors.blue),
-    ),
-    fillColor: Colors.grey,
-    filled: true,
-    contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-  ),
-),
-            const SizedBox(height: 16),
-            InputField(
-              hint: "Insert Street",
-              icon: Icons.location_on,
-              controller: streetController,
-            ),
-            const SizedBox(height: 16),
-            InputField(
-              hint: "Insert Rating",
-              icon: Icons.star,
-              controller: ratingController,
-            ),
-            const SizedBox(height: 16),
-            InputField(
-              hint: "Insert Booking Link",
-              icon: Icons.link,
-              controller: bookingLinkController,
-            ),
-            const SizedBox(height: 16),
-            Container(
-              height: 200, // Adjust the height as needed
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InputField(
+                hint: "Insert Title",
+                icon: Icons.title,
+                controller: titleController,
               ),
-              child: imageFilePath.isNotEmpty
-                  ? Image.file(
-                      File(imageFilePath),
-                      fit: BoxFit.cover,
-                    )
-                  : Center(
-                      child: IconButton(
-                        icon: Icon(Icons.add_a_photo),
-                        onPressed: () {
-                          chooseAndCaptureImage(context);
-                        },
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  hintText: "Select Category",
+                  prefixIcon: Icon(Icons.category),
+                  //enabledBorder: OutlineInputBorder(
+                  //borderRadius: BorderRadius.circular(10.0),
+                  //borderSide: BorderSide(color: Colors.grey),
+                  //),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                  fillColor: Colors.white,
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                ),
+                value: selectedCategory,
+                items: categoryOptions.map((String category) {
+                  return DropdownMenuItem<String>(
+                    value: category,
+                    child: Text(category),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCategory = newValue!;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              InputField(
+                hint: "Dates Available (dd/mm/year-dd/mm/year)",
+                icon: Icons.calendar_today,
+                controller: durationController,
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: descriptionController,
+                maxLines: null, // Allows multiple lines
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  hintText: "Description",
+                  prefixIcon: Icon(Icons.description),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                  fillColor: Colors.grey,
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                ),
+              ),
+              const SizedBox(height: 16),
+              InputField(
+                hint: "Insert Street",
+                icon: Icons.location_on,
+                controller: streetController,
+              ),
+              const SizedBox(height: 16),
+              InputField(
+                hint: "Rating of Critics",
+                icon: Icons.star,
+                controller: ratingController,
+              ),
+              const SizedBox(height: 16),
+              InputField(
+                hint: "Insert Event Link",
+                icon: Icons.link,
+                controller: bookingLinkController,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                height: 200, // Adjust the height as needed
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: imageFilePath.isNotEmpty
+                    ? Image.file(
+                        File(imageFilePath),
+                        fit: BoxFit.cover,
+                      )
+                    : Center(
+                        child: IconButton(
+                          icon: Icon(Icons.add_a_photo),
+                          onPressed: () {
+                            chooseAndCaptureImage(context);
+                          },
+                        ),
                       ),
-                    ),
-            ),
-            const SizedBox(height: 16),
-            Button(
-              label: "Create Event",
-              press: () {
-                registerevent();
-                // Save the new event to the database or perform any other necessary operations
-                // DatabaseHelper.saveEvent(newEvent);
+              ),
+              const SizedBox(height: 16),
+              Button(
+                label: "Create Event",
+                press: () {
+                  registerevent();
+                  // Save the new event to the database or perform any other necessary operations
+                  // DatabaseHelper.saveEvent(newEvent);
 
-                // Clear the text fields
-                /*titleController.clear();
+                  // Clear the text fields
+                  /*titleController.clear();
                 categoryController.clear();
                 durationController.clear();
                 descriptionController.clear();
                 streetController.clear();
                 ratingController.clear();
                 bookingLinkController.clear();*/
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
