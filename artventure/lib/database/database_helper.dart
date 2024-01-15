@@ -115,6 +115,12 @@ class DatabaseHelper {
     return database!;
   }
 
+  Future<void> deleteExistingDatabase(String path) async {
+  if (await databaseExists(path)) {
+    await deleteDatabase(path);
+  }
+}
+
   // Our connection is ready
   Future<Database> initDB() async {
     String? path;
@@ -129,6 +135,7 @@ class DatabaseHelper {
       // ignore: unused_local_variable
       path = join(databasePath, databaseName);
     }
+    //await deleteExistingDatabase(path!);
 
     return openDatabase(path!, version: 1, onCreate: (db, version) async {
       await db.execute(user);
@@ -220,7 +227,20 @@ class DatabaseHelper {
 
   Future<int> createEvent(Events event) async {
     final Database db = await getDB();
-    return db.insert("events", event.toMap());
+    List<Map<String, dynamic>> existingEvents = await db.query(
+      'events',
+      where: 'location = ?',
+      whereArgs: [event.location],
+    );
+
+    if (existingEvents.isEmpty) {
+      event.latlonglocation = await getLatLong(event.location);
+      print("in inserting");
+      print(event.latlonglocation);
+      // If it doesn't exist, insert the event
+      return db.insert("events", event.toMap());
+    }
+    return -1;
   }
 
   Future<void> deleteEvent(Events event) async {

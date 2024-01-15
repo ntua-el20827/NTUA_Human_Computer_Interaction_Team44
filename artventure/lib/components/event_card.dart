@@ -37,7 +37,8 @@ class EventCard extends StatelessWidget {
               children: [
                 Text('Category: $category'),
                 Text('Location: $location'),
-                Text('Event Creator: $eventCreator'),
+                Text('Info: ${infoText}'),
+                //Text('Event Creator: $eventCreator'),
               ],
             ),
           ),
