@@ -228,14 +228,6 @@ class _ExplorePageState2 extends State<ExplorePage2> {
                   color: Colors.orange,
                 ),
                 SizedBox(width: 16.0),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 16.0,
-            left: 35.0,
-            child: Column(
-              children: [
                 HoverBox(
                   text: 'Dance',
                   color: Colors.cyan,
