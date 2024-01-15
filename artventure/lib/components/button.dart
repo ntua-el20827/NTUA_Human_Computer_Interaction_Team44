@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 class Button extends StatelessWidget {
   final String label;
   final VoidCallback press;
-  Button({super.key, required this.label, required this.press});
+  Button({Key? key, required this.label, required this.press}) : super(key: key);
 
   // Create an instance of AudioPlayer
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -13,7 +13,7 @@ class Button extends StatelessWidget {
   // Function to play the sound
   void _playSound() {
     // Play the sound file (assuming it's in the assets directory)
-    _audioPlayer.play('assets/sound/note.mp3' as Source);
+    _audioPlayer.play(AssetSource('sound/note.mp3'));
   }
 
   @override
@@ -30,8 +30,9 @@ class Button extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           // Call both the provided press callback and play the sound
-          press();
           _playSound();
+          press();
+          
         },
         child: Text(
           label,
@@ -41,4 +42,3 @@ class Button extends StatelessWidget {
     );
   }
 }
-
