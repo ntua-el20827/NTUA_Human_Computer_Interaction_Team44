@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+   
   flutter:
     sdk: flutter
   sqflite_common_ffi:
@@ -48,6 +49,9 @@ dependencies:
   geolocator: ^10.1.0
   geocoding: ^2.1.1
   fluttertoast: ^8.2.4
+  audioplayers: ^5.2.1
+      
+  
 
 
 dev_dependencies:
@@ -77,6 +81,7 @@ flutter:
    - assets/
    - assets/challenges/
    - assets/events/
+   - assets/sound/
    
   #   - images/a_dot_ham.jpeg
 

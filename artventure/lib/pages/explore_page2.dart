@@ -44,7 +44,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
   Future<void> _addDummyEvents() async {
     String address =
         'Dimocratias 7 Zografou Greece'; // Replace with the actual address
-    String locationString = await getLatLong(address);
+    String locationString = await getLatLong2(address);
     print("ADDRESS");
     print(locationString);
     if (locationString.isNotEmpty) {
@@ -62,7 +62,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
       print('Unable to fetch coordinates for the provided address.');
     }
     String address2 = 'Papanikolaou 2 Zografou Greece';
-    String locationString2 = await getLatLong(address2);
+    String locationString2 = await getLatLong2(address2);
     print("ADDRESS");
     print(locationString2);
     if (locationString2.isNotEmpty) {
@@ -89,11 +89,11 @@ class _ExplorePageState2 extends State<ExplorePage2> {
     setState(() {
       _markers.clear(); // Clear existing markers
       print("Hello! from loadEvents");
-      _markers.addAll(_createMarkers(events) as Iterable<Marker>);
+      _markers.addAll(_createMarkers(events));
     });
   }
 
-  Future<String> getLatLong(String address) async {
+  Future<String> getLatLong2(String address) async {
     try {
       List<Location> locations = await locationFromAddress(address);
 
@@ -111,10 +111,10 @@ class _ExplorePageState2 extends State<ExplorePage2> {
     }
   }
 
-  Set<Future<Marker>> _createMarkers(List<Events> events) {
-    return events.map((event) async {
-      String latlongLocation = await getLatLong(event.location);
-      List<String> locationParts = latlongLocation.split('-');
+  Set<Marker> _createMarkers(List<Events> events) {
+    return events.map((event) {
+      //String latlongLocation = await getLatLong(event.location);
+      List<String> locationParts = event.latlonglocation!.split('-');
       double latitude = double.parse(locationParts[0]);
       double longitude = double.parse(locationParts[1]);
       print("LATITUDE");
@@ -135,7 +135,11 @@ class _ExplorePageState2 extends State<ExplorePage2> {
           break;
         case 'Dance':
           markerIcon =
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet);
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan);
+          break;
+        case 'VisualArts':
+          markerIcon =
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
           break;
         default:
           // Use a default color (e.g., blue) for other categories
@@ -205,32 +209,49 @@ class _ExplorePageState2 extends State<ExplorePage2> {
               child: HoverBox(
                 text:
                     'Hello, ${widget.username}! Explore our Events!\nClick on a event to learn more about it!',
-                color: Color.fromARGB(255, 112, 23, 125),
+                color: const Color.fromARGB(255, 112, 23, 125),
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             bottom: 16.0,
             left: 16.0,
-            child: Column(
+            child: Row(
               children: [
-                HoverBox(
-                  text: 'Theater',
-                  color: Colors.red,
+                Expanded(
+                  child: Column(
+                    children: [
+                      HoverBox(
+                        text: 'Theater',
+                        color: Colors.red,
+                      ),
+                      SizedBox(height: 16.0),
+                      HoverBox(
+                        text: 'Music',
+                        color: Colors.orange,
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(width: 16.0),
-                HoverBox(
-                  text: 'Music',
-                  color: Colors.orange,
-                ),
-                SizedBox(width: 16.0),
-                HoverBox(
-                  text: 'Dance',
-                  color: Colors.purple,
+                Expanded(
+                  child: Column(
+                    children: [
+                      HoverBox(
+                        text: 'Dance',
+                        color: Colors.cyan,
+                      ),
+                      SizedBox(height: 16.0),
+                      HoverBox(
+                        text: 'VisualArts',
+                        color: Colors.green,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(

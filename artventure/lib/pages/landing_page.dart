@@ -12,7 +12,7 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: CustomAppBar(),
       body: SafeArea(
         child: Center(
@@ -23,14 +23,17 @@ class LandingPage extends StatelessWidget {
               children: [
                 const Text(
                   "Explore The World of Art",
-                  style: TextStyle(color: Color.fromARGB(255, 152, 151, 151), fontSize: 24, fontWeight: FontWeight.bold),
-                  
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 97, 97, 97),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 30),
                 Container(
                   height: 250, // Set your desired height
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8), // Adjust the radius as needed
+                    borderRadius:
+                        BorderRadius.circular(8), // Adjust the radius as needed
                     child: Image.asset("assets/startup.jpg", fit: BoxFit.cover),
                   ),
                 ),
