@@ -267,7 +267,7 @@ class DatabaseHelper {
   }
 
   // Get events created by a specific event creator
-  Future<List<Events>> getEventsByCreator(String creatorName) async {
+  Future<List<Events>> getEventsByCreator(String? creatorName) async {
     final Database db = await getDB();
 
     final List<Map<String, dynamic>> maps = await db.query(

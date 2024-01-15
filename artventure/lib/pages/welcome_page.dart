@@ -21,8 +21,7 @@ class _WelcomePageState extends State<WelcomePage> {
   Future<void> fetchCreatedEvents() async {
     // Use your DatabaseHelper class to get the events created by the current event creator
     DatabaseHelper dbHelper = DatabaseHelper();
-    createdEvents =
-        await dbHelper.getEventsByCreator(widget.profile?.username ?? '');
+    createdEvents = await dbHelper.getEventsByCreator(widget.profile?.username);
 
     setState(() {});
   }
@@ -56,7 +55,7 @@ class _WelcomePageState extends State<WelcomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Welcome!',
+              'Welcome! ${widget.profile?.username}',
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -64,7 +63,7 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
             SizedBox(height: 16),
             Text(
-              'This is the administrator’s profile',
+              'This is the Event Creator’s profile',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

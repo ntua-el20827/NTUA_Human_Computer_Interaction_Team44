@@ -213,45 +213,42 @@ class _ExplorePageState2 extends State<ExplorePage2> {
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             bottom: 16.0,
             left: 16.0,
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      HoverBox(
-                        text: 'Theater',
-                        color: Colors.red,
-                      ),
-                      SizedBox(height: 16.0),
-                      HoverBox(
-                        text: 'Music',
-                        color: Colors.orange,
-                      ),
-                    ],
-                  ),
+                HoverBox(
+                  text: 'Theater',
+                  color: Colors.red,
                 ),
                 SizedBox(width: 16.0),
-                Expanded(
-                  child: Column(
-                    children: [
-                      HoverBox(
-                        text: 'Dance',
-                        color: Colors.cyan,
-                      ),
-                      SizedBox(height: 16.0),
-                      HoverBox(
-                        text: 'VisualArts',
-                        color: Colors.green,
-                      ),
-                    ],
-                  ),
+                HoverBox(
+                  text: 'Music',
+                  color: Colors.orange,
                 ),
+                SizedBox(width: 16.0),
               ],
             ),
-          )
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: 35.0,
+            child: Column(
+              children: [
+                HoverBox(
+                  text: 'Dance',
+                  color: Colors.cyan,
+                ),
+                SizedBox(width: 16.0),
+                HoverBox(
+                  text: 'VisualArts',
+                  color: Colors.green,
+                ),
+                SizedBox(width: 16.0),
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
