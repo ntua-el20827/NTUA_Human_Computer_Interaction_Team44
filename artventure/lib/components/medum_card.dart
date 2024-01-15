@@ -18,6 +18,14 @@ class MediumCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        onTap: () {
+          // Show message that says: Hold a challenge to learn more!
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Hold a challenge to learn more !'),
+            ),
+          );
+        },
         onLongPress: () {
           onTap(); // Call the onTap function provided by the parent
         },

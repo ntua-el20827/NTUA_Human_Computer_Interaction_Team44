@@ -70,10 +70,13 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
       fullName: fullNameController.text,
     ));
     if (res > 0) {
+      EventCreator? eventCreatorDetails =
+          await DatabaseHelper().getEventCreator(usernameController.text);
       if (!mounted) return;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const WelcomePage()),
+        MaterialPageRoute(
+            builder: (context) => WelcomePage(profile: eventCreatorDetails)),
       );
     }
   }

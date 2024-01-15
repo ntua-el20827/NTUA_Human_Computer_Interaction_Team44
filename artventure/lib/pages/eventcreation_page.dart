@@ -8,6 +8,7 @@ import 'package:artventure/models/events_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import '../database/database_helper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:artventure/database/getlatlong.dart';
 
 class EventCreationPage extends StatefulWidget {
   final String
@@ -29,16 +30,19 @@ class _EventCreationPageState extends State<EventCreationPage> {
   TextEditingController categoryController = TextEditingController();
   //TextEditingController eventImageFilePathController = TextEditingController();
   final db = DatabaseHelper();
-  List<String> categoryOptions = ['Theater', 'Music', 'Dance', 'Visual Arts'];
+  List<String> categoryOptions = ['Theater', 'Music', 'Dance', 'VisualArts'];
   String selectedCategory = 'Theater';
+
   registerevent() async {
     // final dbHelper = DatabaseHelper();
     // final database = await dbHelper.initDB();
     String infoTextController =
         "Duration: ${durationController.text}\nDescription: ${descriptionController.text}\nRating: ${ratingController.text}\nBooking Link: ${bookingLinkController.text}";
+    print("SELECTED CATEGORY");
+    print(selectedCategory);
     var res = await DatabaseHelper().createEvent(Events(
       title: titleController.text,
-      category: categoryController.text,
+      category: selectedCategory,
       location: streetController.text,
       infoText: infoTextController,
       eventCreator: widget.username,
@@ -54,6 +58,24 @@ class _EventCreationPageState extends State<EventCreationPage> {
             builder: (context) => WelcomePage(profile: eventCreatorDetails)),
       );
     }
+  }
+
+  checkTextBoxes() async {
+    // Αν δεν δουλεύει στην γραμμή 250 βάλε αυτη σε σχόλιο και ενεργοποίησε την registerevent();
+
+    // Checking if all boxes are ok!!
+    String result = await getLatLong(streetController.text);
+    print(streetController.text);
+    if (result == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Give a proper address \n Use: https://gps-coordinates.org/!'),
+        ),
+      );
+      return;
+    }
+    registerevent();
   }
 
   @override
@@ -183,7 +205,7 @@ class _EventCreationPageState extends State<EventCreationPage> {
               ),
               const SizedBox(height: 16),
               InputField(
-                hint: "Insert Street",
+                hint: "Insert Street - Use gps-coordinates.org",
                 icon: Icons.location_on,
                 controller: streetController,
               ),
@@ -224,7 +246,9 @@ class _EventCreationPageState extends State<EventCreationPage> {
               Button(
                 label: "Create Event",
                 press: () {
-                  registerevent();
+                  checkTextBoxes();
+                  //registerevent();
+
                   // Save the new event to the database or perform any other necessary operations
                   // DatabaseHelper.saveEvent(newEvent);
 

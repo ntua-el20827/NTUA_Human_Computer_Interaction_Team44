@@ -19,6 +19,14 @@ class SmallCard extends StatelessWidget {
       elevation: 5,
       color: Color.fromARGB(255, 217, 180, 229),
       child: InkWell(
+        onTap: () {
+          // Show message that says: Hold a challenge to learn more!
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Hold a challenge to learn more !'),
+            ),
+          );
+        },
         onLongPress: () {
           // Call the provided function when the card is pressed, if it's not null
           onPressed?.call();

@@ -1,4 +1,5 @@
-import 'package:artventure/components/appbar.dart';
+//import 'package:artventure/components/appbar.dart';
+import 'package:artventure/components/appbar_with_logout.dart';
 import 'package:artventure/components/big_card.dart';
 import 'package:artventure/components/small_card.dart';
 import 'package:artventure/models/challenges_model.dart';
@@ -61,7 +62,7 @@ class _ProfileState extends State<Profile> {
     print("profile");
     print(widget.username);
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar_with_logout(),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(

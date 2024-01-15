@@ -1,9 +1,10 @@
+import 'package:artventure/components/appbar_with_logout.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/events_model.dart';
 import 'package:artventure/pages/eventcreation_page.dart';
 import 'package:artventure/components/event_card.dart';
-import 'package:artventure/components/appbar.dart';
+//import 'package:artventure/components/appbar.dart';
 import 'package:artventure/database/database_helper.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -48,7 +49,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar_with_logout(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -101,8 +102,8 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
       ),
       floatingActionButton: Positioned(
-        left: 16,
-        bottom: 16,
+        right: 16,
+        top: 16,
         child: FloatingActionButton(
           onPressed: () {
             String creatorUsername = widget.profile?.username ?? '';
