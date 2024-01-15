@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:artventure/models/events_model.dart';
 
 class EventCard extends StatelessWidget {
   final String image;
@@ -37,7 +35,8 @@ class EventCard extends StatelessWidget {
               children: [
                 Text('Category: $category'),
                 Text('Location: $location'),
-                Text('Event Creator: $eventCreator'),
+                Text('Info: ${infoText}'),
+                //Text('Event Creator: $eventCreator'),
               ],
             ),
           ),

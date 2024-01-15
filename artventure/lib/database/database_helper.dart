@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:artventure/database/getAllDatabaseInfo.dart';
+import 'package:artventure/database/insertData.dart';
 import 'package:artventure/database/getlatlong.dart';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/event_creators_model.dart';
@@ -8,7 +8,6 @@ import 'package:artventure/models/user_info_model.dart';
 import 'package:artventure/models/events_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:device_info/device_info.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import '../models/user_model.dart';
@@ -116,6 +115,12 @@ class DatabaseHelper {
     return database!;
   }
 
+  Future<void> deleteExistingDatabase(String path) async {
+    if (await databaseExists(path)) {
+      await deleteDatabase(path);
+    }
+  }
+
   // Our connection is ready
   Future<Database> initDB() async {
     String? path;
@@ -130,6 +135,7 @@ class DatabaseHelper {
       // ignore: unused_local_variable
       path = join(databasePath, databaseName);
     }
+    //await deleteExistingDatabase(path!);
 
     return openDatabase(path!, version: 1, onCreate: (db, version) async {
       await db.execute(user);
@@ -221,7 +227,20 @@ class DatabaseHelper {
 
   Future<int> createEvent(Events event) async {
     final Database db = await getDB();
-    return db.insert("events", event.toMap());
+    List<Map<String, dynamic>> existingEvents = await db.query(
+      'events',
+      where: 'location = ?',
+      whereArgs: [event.location],
+    );
+
+    if (existingEvents.isEmpty) {
+      event.latlonglocation = await getLatLong(event.location);
+      print("in inserting");
+      print(event.latlonglocation);
+      // If it doesn't exist, insert the event
+      return db.insert("events", event.toMap());
+    }
+    return -1;
   }
 
   Future<void> deleteEvent(Events event) async {
@@ -275,7 +294,7 @@ class DatabaseHelper {
     final Database db = await getDB();
     var res =
         await db.query("users", where: "username = ?", whereArgs: [username]);
-    getAllDatabaseInfo();
+    insertData();
     return res.isNotEmpty ? Users.fromMap(res.first) : null;
   }
 

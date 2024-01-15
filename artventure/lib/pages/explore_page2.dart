@@ -135,7 +135,11 @@ class _ExplorePageState2 extends State<ExplorePage2> {
           break;
         case 'Dance':
           markerIcon =
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet);
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan);
+          break;
+        case 'VisualArts':
+          markerIcon =
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
           break;
         default:
           // Use a default color (e.g., blue) for other categories
@@ -205,32 +209,49 @@ class _ExplorePageState2 extends State<ExplorePage2> {
               child: HoverBox(
                 text:
                     'Hello, ${widget.username}! Explore our Events!\nClick on a event to learn more about it!',
-                color: Color.fromARGB(255, 112, 23, 125),
+                color: const Color.fromARGB(255, 112, 23, 125),
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             bottom: 16.0,
             left: 16.0,
-            child: Column(
+            child: Row(
               children: [
-                HoverBox(
-                  text: 'Theater',
-                  color: Colors.red,
+                Expanded(
+                  child: Column(
+                    children: [
+                      HoverBox(
+                        text: 'Theater',
+                        color: Colors.red,
+                      ),
+                      SizedBox(height: 16.0),
+                      HoverBox(
+                        text: 'Music',
+                        color: Colors.orange,
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(width: 16.0),
-                HoverBox(
-                  text: 'Music',
-                  color: Colors.orange,
-                ),
-                SizedBox(width: 16.0),
-                HoverBox(
-                  text: 'Dance',
-                  color: Colors.purple,
+                Expanded(
+                  child: Column(
+                    children: [
+                      HoverBox(
+                        text: 'Dance',
+                        color: Colors.cyan,
+                      ),
+                      SizedBox(height: 16.0),
+                      HoverBox(
+                        text: 'VisualArts',
+                        color: Colors.green,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(

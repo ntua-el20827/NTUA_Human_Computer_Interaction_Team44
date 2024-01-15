@@ -8,7 +8,6 @@ import 'package:artventure/pages/explore_page2.dart';
 import 'package:flutter/material.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
 import '../database/database_helper.dart';
-import 'package:artventure/components/appbar.dart';
 
 class ChallengesPage extends StatefulWidget {
   final String? username;
@@ -210,36 +209,34 @@ class _ChallengesPageState extends State<ChallengesPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
-  alignment: Alignment.center,
-  child: Column(
-    children: [
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
-        child: Text(
-          'ArtVenture Challenges',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 24.0,
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+                  child: Text(
+                    'ArtVenture Challenges',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 24.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+                  child: Text(
+                    'Discover exciting challenges in music, theater, dance, and visual arts. Earn points and enjoy exclusive art events on-the-go!',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
           ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-        child: Text(
-          'Discover exciting challenges in music, theater, dance, and visual arts. Earn points and enjoy exclusive art events on-the-go!',
-          style: TextStyle(
-            fontSize: 16.0,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ],
-  ),
-),
-
-
-
           Expanded(
             // ignore: unnecessary_null_comparison
             child: challenges != null

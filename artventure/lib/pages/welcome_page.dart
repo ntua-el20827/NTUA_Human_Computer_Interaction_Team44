@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/models/events_model.dart';
 import 'package:artventure/pages/eventcreation_page.dart';
 import 'package:artventure/components/event_card.dart';
+import 'package:artventure/components/appbar.dart';
 import 'package:artventure/database/database_helper.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -50,18 +49,24 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome'),
-      ),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
+              'Welcome!',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 16),
+            Text(
               'This is the administrator’s profile',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -69,40 +74,18 @@ class _WelcomePageState extends State<WelcomePage> {
             Text(
               'Here you can add new events and delete existing ones.',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
               ),
             ),
             SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                String creatorUsername = widget.profile?.username ??
-                    ''; // Get the username from the profile object
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        EventCreationPage(username: creatorUsername),
-                  ),
-                );
-              },
-              child: Text('Add'),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Events created by the currently logged-in event creator:',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 8),
             Expanded(
               child: ListView.builder(
                 itemCount: createdEvents.length,
                 itemBuilder: (context, index) {
                   final event = createdEvents[index];
                   return EventCard(
-                    image: event.eventImageFilePath ?? 'assets/image_not_found.png',
+                    image: event.eventImageFilePath ??
+                        'assets/image_not_found.png',
                     title: event.title,
                     category: event.category,
                     location: event.location,
@@ -116,6 +99,23 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButton: Positioned(
+        left: 16,
+        bottom: 16,
+        child: FloatingActionButton(
+          onPressed: () {
+            String creatorUsername = widget.profile?.username ?? '';
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    EventCreationPage(username: creatorUsername),
+              ),
+            );
+          },
+          child: Icon(Icons.add),
         ),
       ),
     );

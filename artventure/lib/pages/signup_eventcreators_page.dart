@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
-import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/event_creators_model.dart';
 import 'package:artventure/pages/welcome_page.dart';
 import 'package:artventure/pages/login_page.dart';
 import '../database/database_helper.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:artventure/components/appbar.dart';
 
 class SignUpEventCreatorPage extends StatefulWidget {
   const SignUpEventCreatorPage({Key? key}) : super(key: key);
@@ -30,8 +29,8 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
   bool isFullNameRequired = false;
 
   signUpec() async {
-    final dbHelper = DatabaseHelper();
-    final database = await dbHelper.initDB();
+    //final dbHelper = DatabaseHelper();
+    // final database = await dbHelper.initDB();
 
     if (usernameController.text.isEmpty) {
       setState(() {
@@ -64,7 +63,7 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
       return;
     }
 
-    var res = await db.createEventCreator(EventCreator(
+    var res = await DatabaseHelper().createEventCreator(EventCreator(
       username: usernameController.text,
       password: passwordController.text,
       email: emailController.text,
@@ -74,7 +73,7 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
       if (!mounted) return;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => const WelcomePage()),
       );
     }
   }
@@ -82,21 +81,36 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      appBar: CustomAppBar(),
+      body: SafeArea(
+        top: false,
         child: SingleChildScrollView(
           child: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Enter your details to become an Event Creator",
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontSize: 55,
-                      fontWeight: FontWeight.bold,
-                    ),
+                Padding(
+                  padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Enter your details to become Event Creator",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 152, 151, 151),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        "All you have to do is Sign Up below",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -173,4 +187,4 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
       ),
     );
   }
-} 
+}

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:artventure/components/button.dart';
-import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/components/textfield.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/pages/quiz_page.dart';
@@ -37,7 +36,8 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
 
-    int userId = await db.createUser(Users(username: usrName.text, password: password.text));
+    int userId = await db
+        .createUser(Users(username: usrName.text, password: password.text));
     print("UserID in signup");
     print(userId);
 
