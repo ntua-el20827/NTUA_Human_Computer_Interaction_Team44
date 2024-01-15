@@ -17,34 +17,46 @@ class InputField extends StatelessWidget {
     this.required = false,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+@override
+Widget build(BuildContext context) {
+  Size size = MediaQuery.of(context).size;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      width: size.width * .9,
-      height: 55,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(8),
-        border: required
-            ? Border.all(color: Colors.red) // Add a red border if required
-            : null,
-      ),
-      child: Center(
-        child: TextFormField(
-          obscureText: passwordInvisible,
-          controller: controller,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: hint,
-            icon: Icon(icon),
-            errorText: required ? 'Required field' : null, // Add error text if required
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    margin: const EdgeInsets.symmetric(vertical: 6),
+    width: size.width * .9,
+    height: 55,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded( // Wrap the Column with Expanded
+          child: Container(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(8),
+              border: required ? Border.all(color: Colors.red) : null,
+            ),
+            child: TextFormField(
+              obscureText: passwordInvisible,
+              controller: controller,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: hint,
+                icon: Icon(icon),
+              ),
+            ),
           ),
         ),
-      ),
-    );
-  }
+        if (required)
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: Text(
+              'Required field',
+              style: TextStyle(color: Colors.red, fontSize: 12),
+            ),
+          ),
+      ],
+    ),
+  );
+}
 }
