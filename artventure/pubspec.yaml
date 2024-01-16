@@ -49,6 +49,7 @@ dependencies:
   geolocator: ^10.1.0
   geocoding: ^2.1.1
   fluttertoast: ^8.2.4
+  http: ^1.1.2
   audioplayers: ^5.2.1
       
   

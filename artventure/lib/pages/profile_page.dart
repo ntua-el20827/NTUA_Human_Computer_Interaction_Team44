@@ -194,10 +194,6 @@ class _ProfileState extends State<Profile> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "My Challenges",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(height: 10),
               if (inProgressChallenges.isNotEmpty)
                 Column(
