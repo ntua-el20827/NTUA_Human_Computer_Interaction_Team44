@@ -2,6 +2,10 @@ import 'package:artventure/database/database_helper.dart';
 import 'package:artventure/models/challenges_model.dart';
 import 'package:artventure/models/events_model.dart';
 
+// Use after the implement
+//import 'dart:convert';
+//import 'package:http/http.dart' as http;
+
 Future<void> insertData() async {
   // This is the main functions that fills the database of the device with the updated file
   // In order to work it requires a server that stores this data and an API that request this data
@@ -9,7 +13,28 @@ Future<void> insertData() async {
   // This insertion happens whenever the user reopens his app!
 
   // API call and Proper Download of data
+  // final String apiUrl = 'https://example.com/api/data';
 
+  // try {
+  //   // GET request to the server
+  //   final http.Response response = await http.get(Uri.parse(apiUrl));
+
+  //   // If the request was successful (status code 200)
+  //   if (response.statusCode == 200) {
+  //     // Parse the response body (assuming it's in JSON format)
+  //     final Map<String, dynamic> data = json.decode(response.body);
+  //
+  //     // Insert to database
+  //
+  //     print('Received data: $data');
+  //   } else {
+  //
+  //     throw Exception('Failed to load data: ${response.statusCode}');
+  //   }
+  // } catch (error) {
+  //   // Handle any network or API call errors here
+  //   print('Error during API call: $error');
+  // }
   // Insertion of Dummy Data for Demo Versio:
   await insertDummyData();
 }
