@@ -348,44 +348,46 @@ class _ProfileState extends State<Profile> {
   ///////////////////////// QR CODE
 
   void _showPointsRedemptionPopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Points Redemption"),
-          content: Container(
-            width: MediaQuery.of(context).size.width *
-                0.7, // Set your desired maximum width
-            child: Column(
-              mainAxisSize:
-                  MainAxisSize.min, // Adjust according to your content
-              children: [
-                const Text("Scan This to Collect Prize!!"),
-                Image.asset("assets/qrcode_demo.jpg",
-                    fit: BoxFit.cover, height: 240),
-              ],
-            ),
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Center(
+          child: const Text("Points Redemption"),
+        ),
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("Scan This to Collect Prize!"),
+              SizedBox(height: 16.0),
+              Image.asset("assets/qrcode_demo.jpg",
+                  fit: BoxFit.cover, height: 240),
+            ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Close"),
-            ),
-            TextButton(
-              onPressed: () {
-                _makePointsZero();
-                Navigator.of(context).pop();
-                _loadUserInfo();
-              },
-              child: Text("Redeem"),
-            ),
-          ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("Close"),
+          ),
+          TextButton(
+            onPressed: () {
+              _makePointsZero();
+              Navigator.of(context).pop();
+              _loadUserInfo();
+            },
+            child: Text("Redeem"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   Future<void> _makePointsZero() async {
     await DatabaseHelper().updateUserPoints(widget.username!, 0);

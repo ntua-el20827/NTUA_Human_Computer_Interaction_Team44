@@ -30,7 +30,7 @@ class EventPage extends StatelessWidget {
                     ? Image.file(File(event.eventImageFilePath!),
                         fit: BoxFit.cover)
                     : (event.eventImageFilePath!.startsWith('events/'))
-                        ? Image.asset('assets/$event.eventImageFilePath ',
+                        ? Image.asset('assets/${event.eventImageFilePath} ',
                             fit: BoxFit.cover)
                         : Image.asset('assets/image_not_found.png',
                             fit: BoxFit.cover),
@@ -42,6 +42,7 @@ class EventPage extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 16),
               Text(
@@ -49,6 +50,8 @@ class EventPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                 ),
+                
+
               ),
               SizedBox(height: 16),
               Text(

@@ -28,10 +28,9 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
   bool isEmailRequired = false;
   bool isFullNameRequired = false;
 
-  signUpec() async {
-    //final dbHelper = DatabaseHelper();
-    // final database = await dbHelper.initDB();
+  String passwordMismatchMessage = "";
 
+  signUpec() async {
     if (usernameController.text.isEmpty) {
       setState(() {
         isUsernameRequired = true;
@@ -59,6 +58,14 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
     if (fullNameController.text.isEmpty) {
       setState(() {
         isFullNameRequired = true;
+      });
+      return;
+    }
+
+    // Check if passwords match
+    if (passwordController.text != confirmPasswordController.text) {
+      setState(() {
+        passwordMismatchMessage = "Passwords do not match";
       });
       return;
     }
@@ -105,14 +112,7 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Text(
-                        "All you have to do is Sign Up below",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      
                     ],
                   ),
                 ),
@@ -159,10 +159,22 @@ class _SignUpEventCreatorPageState extends State<SignUpEventCreatorPage> {
                       isConfirmPasswordRequired = false;
                       isEmailRequired = false;
                       isFullNameRequired = false;
+                      passwordMismatchMessage = ""; // Clear previous error message
                     });
                     signUpec();
                   },
                 ),
+                
+                // Display password mismatch message
+                if (passwordMismatchMessage.isNotEmpty)
+                  Text(
+                    passwordMismatchMessage,
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 183, 63, 55),
+                      fontSize: 16,
+                    ),
+                  ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

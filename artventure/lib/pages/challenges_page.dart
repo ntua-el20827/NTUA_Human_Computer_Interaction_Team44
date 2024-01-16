@@ -122,9 +122,14 @@ class _ChallengesPageState extends State<ChallengesPage> {
                       ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
-                      onPressed: applyFilters, // Call the applyFilters method
-                      child: Text('Apply Filters'),
-                    ),
+  onPressed: applyFilters,
+  style: ElevatedButton.styleFrom(
+    elevation: 8,
+     // Adjust the elevation value as needed
+  ),
+  child: Text('Apply Filters'),
+)
+
                   ],
                 ),
               ),
@@ -214,7 +219,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
               children: [
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
                   child: Text(
                     'ArtVenture Challenges',
                     style: TextStyle(
@@ -233,7 +238,9 @@ class _ChallengesPageState extends State<ChallengesPage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  
                 ),
+                SizedBox(height: 16.0),
               ],
             ),
           ),

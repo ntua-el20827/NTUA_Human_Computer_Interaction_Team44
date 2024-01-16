@@ -50,6 +50,7 @@ class MediumCard extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 16.0),
             ],
           ),
         ));

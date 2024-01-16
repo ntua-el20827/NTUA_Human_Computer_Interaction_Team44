@@ -29,19 +29,30 @@ class EventCard extends StatelessWidget {
         children: <Widget>[
           _buildImageWidget(),
           ListTile(
-            title: Text(title),
+            title: Center(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 18.0, top: 10), // Adjust the value as needed
+                child: Text(
+                  '$title',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Category: $category'),
-                Text('Location: $location'),
-                Text('Info: ${infoText}'),
+                Text('Category: $category '),
+                Text('Location: $location '),
+                Text('${infoText}'),
                 //Text('Event Creator: $eventCreator'),
               ],
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
                 onPressed: onDeletePressed,

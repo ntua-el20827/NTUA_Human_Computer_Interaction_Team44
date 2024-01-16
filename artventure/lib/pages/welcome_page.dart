@@ -56,26 +56,29 @@ class _WelcomePageState extends State<WelcomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Welcome! ${widget.profile?.username}',
+              'Welcome ${widget.profile?.username}',
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 16),
             Text(
-              'This is the Event Creator’s profile',
+              'This is the Event Creator’s profile.',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 16),
             Text(
-              'Here you can add new events and delete existing ones.',
+              'Here you can add events and delete existing ones.',
               style: TextStyle(
                 fontSize: 14,
               ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 16),
             Expanded(

@@ -33,8 +33,19 @@ class BigCard extends StatelessWidget {
         children: <Widget>[
           Image.asset(image,
               fit: BoxFit.cover, height: 200), // Adjust height as needed
-          ListTile(
-            title: Text(title),
+           ListTile(
+            title: Center(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 12.0, top: 10), // Adjust the value as needed
+                child: Text(
+                  '$title',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -60,4 +71,5 @@ class BigCard extends StatelessWidget {
         ],
       ),
     );
+  }
 }

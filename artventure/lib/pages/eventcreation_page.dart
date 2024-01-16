@@ -37,7 +37,7 @@ class _EventCreationPageState extends State<EventCreationPage> {
     // final dbHelper = DatabaseHelper();
     // final database = await dbHelper.initDB();
     String infoTextController =
-        "Duration: ${durationController.text}\nDescription: ${descriptionController.text}\nRating: ${ratingController.text}\nBooking Link: ${bookingLinkController.text}";
+        "Dates Available: ${durationController.text}\n\nDescription: ${descriptionController.text}\n\nRating: ${ratingController.text}\n\nBooking Link: ${bookingLinkController.text}";
     print("SELECTED CATEGORY");
     print(selectedCategory);
     var res = await DatabaseHelper().createEvent(Events(
@@ -155,9 +155,9 @@ class _EventCreationPageState extends State<EventCreationPage> {
                   //),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: const Color.fromARGB(255, 178, 213, 242)),
                   ),
-                  fillColor: Colors.white,
+                  fillColor: Color.fromARGB(255, 207, 224, 250),
                   filled: true,
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
@@ -189,15 +189,8 @@ class _EventCreationPageState extends State<EventCreationPage> {
                 decoration: InputDecoration(
                   hintText: "Description",
                   prefixIcon: Icon(Icons.description),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  fillColor: Colors.grey,
+                 
+                  fillColor: Color.fromARGB(255, 207, 224, 250),
                   filled: true,
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
