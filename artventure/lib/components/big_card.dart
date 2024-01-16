@@ -60,5 +60,4 @@ class BigCard extends StatelessWidget {
         ],
       ),
     );
-  }
 }
