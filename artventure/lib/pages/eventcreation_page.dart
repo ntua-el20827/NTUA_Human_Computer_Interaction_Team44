@@ -131,6 +131,7 @@ class _EventCreationPageState extends State<EventCreationPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
@@ -145,35 +146,41 @@ class _EventCreationPageState extends State<EventCreationPage> {
                 controller: titleController,
               ),
               const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  hintText: "Select Category",
-                  prefixIcon: Icon(Icons.category),
-                  //enabledBorder: OutlineInputBorder(
-                  //borderRadius: BorderRadius.circular(10.0),
-                  //borderSide: BorderSide(color: Colors.grey),
-                  //),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: const Color.fromARGB(255, 178, 213, 242)),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                margin: const EdgeInsets.symmetric(vertical: 6),
+                width: size.width * .9,
+                height: 55,
+                child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    hintText: "Select Category",
+                    prefixIcon: Icon(Icons.category),
+                    //enabledBorder: OutlineInputBorder(
+                    //borderRadius: BorderRadius.circular(10.0),
+                    //borderSide: BorderSide(color: Colors.grey),
+                    //),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: const Color.fromARGB(255, 178, 213, 242)),
+                    ),
+                    fillColor: Color.fromARGB(255, 207, 224, 250),
+                    filled: true,
+                    /*contentPadding:
+                        EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),*/
                   ),
-                  fillColor: Color.fromARGB(255, 207, 224, 250),
-                  filled: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  value: selectedCategory,
+                  items: categoryOptions.map((String category) {
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedCategory = newValue!;
+                    });
+                  },
                 ),
-                value: selectedCategory,
-                items: categoryOptions.map((String category) {
-                  return DropdownMenuItem<String>(
-                    value: category,
-                    child: Text(category),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedCategory = newValue!;
-                  });
-                },
               ),
               const SizedBox(height: 16),
               InputField(
@@ -182,18 +189,24 @@ class _EventCreationPageState extends State<EventCreationPage> {
                 controller: durationController,
               ),
               const SizedBox(height: 16),
-              TextField(
-                controller: descriptionController,
-                maxLines: null, // Allows multiple lines
-                keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                  hintText: "Description",
-                  prefixIcon: Icon(Icons.description),
-                 
-                  fillColor: Color.fromARGB(255, 207, 224, 250),
-                  filled: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                margin: const EdgeInsets.symmetric(vertical: 6),
+                width: size.width * .9,
+                height: 55,
+                child: TextField(
+                  controller: descriptionController,
+                  maxLines: null, // Allows multiple lines
+                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                    hintText: "Description",
+                    prefixIcon: Icon(Icons.description),
+                   
+                    fillColor: Color.fromARGB(255, 207, 224, 250),
+                    filled: true,
+                    //contentPadding:
+                      //  EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
