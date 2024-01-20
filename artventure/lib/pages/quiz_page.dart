@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:artventure/pages/profile_page.dart';
 import 'package:artventure/models/user_info_model.dart';
 import 'package:artventure/components/appbar.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 // ignore: must_be_immutable
 class QuizPage extends StatelessWidget {
@@ -14,6 +15,14 @@ class QuizPage extends StatelessWidget {
 
   final PageController _pageController = PageController();
   final db = DatabaseHelper();
+
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  // Function to play the sound
+  void _playSound() {
+    // Play the sound file (assuming it's in the assets directory)
+    _audioPlayer.play(AssetSource('sound/quiz.wav'));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +74,7 @@ class QuizPage extends StatelessWidget {
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
+               _playSound();
               userInfo.favoriteArt = 'Visual Arts';
               _pageController.animateToPage(
                 1,
@@ -80,6 +90,7 @@ class QuizPage extends StatelessWidget {
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
+              _playSound();
               userInfo.favoriteArt = 'Music';
               _pageController.animateToPage(
                 1,
@@ -95,6 +106,7 @@ class QuizPage extends StatelessWidget {
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
+              _playSound();
               userInfo.favoriteArt = 'Dance';
               _pageController.animateToPage(
                 1,
@@ -110,6 +122,7 @@ class QuizPage extends StatelessWidget {
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
+              _playSound();
               userInfo.favoriteArt = 'Theater';
               _pageController.animateToPage(
                 1,
@@ -161,6 +174,7 @@ class QuizPage extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // Navigate to the profile page after clicking the last answer
+              _playSound();
               userInfo.artTaste = 'Classic';
               userInfo.userId = userId!;
               db.saveUserAnswers(userInfo);
@@ -180,6 +194,7 @@ class QuizPage extends StatelessWidget {
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
+              _playSound();
               // Navigate to the profile page after clicking the last answer
               userInfo.artTaste = 'Abstract';
               userInfo.userId = userId!;
@@ -200,6 +215,7 @@ class QuizPage extends StatelessWidget {
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
+              _playSound();
               // Navigate to the profile page after clicking the last answer
               userInfo.artTaste = 'Eclectic';
               userInfo.userId = userId!;
@@ -220,6 +236,7 @@ class QuizPage extends StatelessWidget {
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
+              _playSound();
               // Navigate to the profile page after clicking the last answer
               userInfo.artTaste = 'Minimalist';
               userInfo.userId = userId!;

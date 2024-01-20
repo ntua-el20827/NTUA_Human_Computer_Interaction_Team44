@@ -48,7 +48,7 @@ Future<void> insertDummyData() async {
     category: 'Theater',
     infoText:
         'Create a short monologue and perform it in front of a small audience.',
-    imageFilePath: 'challenges/theater.jpg',
+    imageFilePath: 'challenges/theaterpic.jpg',
   ));
 
   await DatabaseHelper().insertChallenge(Challenge(
@@ -57,7 +57,7 @@ Future<void> insertDummyData() async {
     category: 'Theater',
     infoText:
         'Design and create a set for a fictional play. Showcase your creativity!',
-    imageFilePath: 'challenges/theater.jpg',
+    imageFilePath: 'challenges/theaterpic.jpg',
   ));
 
   //Music

@@ -1,4 +1,6 @@
 //import 'package:artventure/components/appbar.dart';
+import 'dart:math';
+
 import 'package:artventure/components/appbar_with_logout.dart';
 import 'package:artventure/components/big_card.dart';
 import 'package:artventure/components/small_card.dart';
@@ -11,6 +13,9 @@ import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/models/user_model.dart';
 import 'package:artventure/database/database_helper.dart';
 import 'package:artventure/components/bottom_navigation_bar.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:confetti/confetti.dart';
+
 //import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:sqflite/sqflite.dart';
 //import 'package:artventure/components/card.dart';
@@ -27,10 +32,17 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Users? _userProfile;
   UserInfo? _userInfo;
-
+  late ConfettiController _confettiController ;
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  // Function to play the sound
+  void _playSound() {
+    // Play the sound file (assuming it's in the assets directory)
+    _audioPlayer.play(AssetSource('sound/congratulations.mp3'));
+  }
   @override
   void initState() {
     super.initState();
+    _confettiController = ConfettiController(duration: const Duration(milliseconds:800));
     // Load user information when the page initializes
     _loadUserInfo();
   }
@@ -58,63 +70,60 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    print("profile");
-    print(widget.username);
-    return Scaffold(
-      appBar: CustomAppBar_with_logout(),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(
-                      16.0), // Add padding to provide space around the contents
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 217, 180, 229),
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                            Color.fromARGB(255, 117, 12, 87).withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                        offset: Offset(0, 3),
+Widget build(BuildContext context) {
+  print("profile");
+  print(widget.username);
+  return Scaffold(
+    appBar: CustomAppBar_with_logout(),
+    body: SingleChildScrollView(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 217, 180, 229),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 117, 12, 87).withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: primaryColor,
+                      radius: 57,
+                      child: CircleAvatar(
+                        radius: 55,
+                        backgroundImage: AssetImage(() {
+                          switch (_userInfo?.favoriteArt) {
+                            case 'Theater':
+                              return 'assets/avatars/theater_avatar.jpg';
+                            case 'Dance':
+                              return 'assets/avatars/dance_avatar.jpg';
+                            case 'Visual Arts':
+                              return 'assets/avatars/visual_arts_avatar.jpg';
+                            case 'Music':
+                              return 'assets/avatars/music_avatar.jpg';
+                            default:
+                              return 'assets/avatars/no_user.jpg';
+                          }
+                        }()),
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.start, // Adjust alignment if needed
-                    crossAxisAlignment:
-                        CrossAxisAlignment.center, // Adjust alignment if needed
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: primaryColor,
-                        radius: 57,
-                        child: CircleAvatar(
-                          radius: 55,
-                          backgroundImage: AssetImage(() {
-                            switch (_userInfo?.favoriteArt) {
-                              case 'Theater':
-                                return 'assets/avatars/theater_avatar.jpg';
-                              case 'Dance':
-                                return 'assets/avatars/dance_avatar.jpg';
-                              case 'Visual Arts':
-                                return 'assets/avatars/visual_arts_avatar.jpg';
-                              case 'Music':
-                                return 'assets/avatars/music_avatar.jpg';
-                              default:
-                                return 'assets/avatars/no_user.jpg';
-                            }
-                          }()),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Stack(
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: Stack(
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +137,7 @@ class _ProfileState extends State<Profile> {
                               ),
                               SizedBox(height: 12),
                               Text(
-                                "An ${getArtTasteNickname(_userInfo?.artTaste)}",
+                                "${getArtTasteNickname(_userInfo?.artTaste)}",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -146,29 +155,50 @@ class _ProfileState extends State<Profile> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 30),
-                Button(
-                  label: "Redeem my Points",
-                  press: () {
-                    _showPointsRedemptionPopup(context);
-                  },
-                ),
-                const SizedBox(height: 20),
-                _buildChallengesSection(),
+              ),
+              const SizedBox(height: 30),
+              Button(
+                label: "Redeem my Points",
+                press: () {
+                 // _showPointsRedemptionPopup(context);
+                  _confettiController.play();
+                },
+                
+              ),
+              Align(
+            alignment: Alignment.center,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirection: -pi / 2,
+              emissionFrequency: 0.5,
+              numberOfParticles: 30,
+              blastDirectionality: BlastDirectionality.directional,
+              gravity: 0.1,
+              colors: const[
+                Colors.blueAccent,
+                Colors.pinkAccent,
+                Colors.orangeAccent,
+                Colors.purpleAccent
               ],
-            ),
+              ), 
+              ),
+              const SizedBox(height: 20),
+              _buildChallengesSection(),
+            ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(
-        username: widget.username,
-        currentIndex: 0,
-      ),
-    );
-  }
+    ),
+    bottomNavigationBar: BottomNavBar(
+      username: widget.username,
+      currentIndex: 0,
+    ),
+  );
+}
+
 
   Widget _buildChallengesSection() {
     return FutureBuilder<List<UserChallenges>>(
@@ -358,6 +388,7 @@ class _ProfileState extends State<Profile> {
             children: [
               const Text("Scan This to Collect Prize!"),
               SizedBox(height: 16.0),
+             
               Image.asset("assets/qrcode_demo.jpg",
                   fit: BoxFit.cover, height: 240),
             ],
@@ -372,12 +403,30 @@ class _ProfileState extends State<Profile> {
           ),
           TextButton(
             onPressed: () {
-              _makePointsZero();
+               _playSound();
+              
               Navigator.of(context).pop();
+              _makePointsZero();
+              _confettiController.play();
               _loadUserInfo();
             },
             child: Text("Redeem"),
           ),
+          Align(
+            alignment: Alignment.center,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirection: -pi / 2,
+              emissionFrequency: 0.5,
+              numberOfParticles: 20,
+              blastDirectionality: BlastDirectionality.directional,
+              gravity: 0.1,
+              colors: const[
+                Colors.blueAccent,
+                Colors.pinkAccent,
+                Colors.orangeAccent,
+                Colors.purpleAccent
+              ],),),
         ],
       );
     },
@@ -411,13 +460,13 @@ class _ProfileState extends State<Profile> {
 String getArtTasteNickname(String? artTaste) {
   switch (artTaste) {
     case 'Classic':
-      return "ClassicArtDevotee";
+      return "A ClassicLover";
     case 'Abstract':
-      return "AbstractArtEnthusiast";
+      return "An AbstractAdmirer";
     case 'Eclectic':
-      return "EclecticArtAficionado";
+      return "An EclecticMind";
     case 'Minimalist':
-      return "MinimalistArtFanatic";
+      return "A MinimalistFan";
     default:
       return "ArtLover"; // Default case if none of the above matches
   }
