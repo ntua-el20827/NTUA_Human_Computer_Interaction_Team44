@@ -16,6 +16,7 @@ Explore artistic events displayed on the map.
 Discover exciting art-related activities near you.
 
 - Implementation Notes
+
 Challenges play a central role in the app, serving as a bridge between users and their creative journey.
 Utilize the challenge states (open, in progress, done) to enhance user engagement.
 Leverage the versatility of challenge cards to present information in a visually appealing manner.
@@ -23,6 +24,7 @@ Demo Version Details:
 This is a demo version, and the database is pre-populated with dummy data for demonstration purposes. The full version of ArtVenture will require a server to store actual data for Events and Challenges.
 
 - Getting Started
+
 1.Clone the repository to your local machine.
 git clone https://github.com/ntua-el20827/artventure.git](https://github.com/ntua-el20827/Human_Computer_Interaction_Team44.git
 2.Navigate to the project directory.
@@ -31,6 +33,7 @@ cd artVenture
 4.or Open the project in your preferred IDE or text editor
 
 - Feedback and Contributions
+
 We welcome your feedback and contributions to make ArtVenture even better. Feel free to submit issues, pull requests, or reach out to the project maintainers.
 
 Happy adventuring with ArtVenture! 🎨
