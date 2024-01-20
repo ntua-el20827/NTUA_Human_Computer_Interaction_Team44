@@ -25,7 +25,8 @@ This is a demo version, and the database is pre-populated with dummy data for de
 
 - Getting Started
 
-1.Clone the repository to your local machine. \ngit clone https://github.com/ntua-el20827/Human_Computer_Interaction_Team44.git
+1.Clone the repository to your local machine.
+git clone https://github.com/ntua-el20827/Human_Computer_Interaction_Team44.git
 2.Navigate to the project directory.
 cd artVenture
 3.Download the debug APK for a quick preview of the demo version.
