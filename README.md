@@ -9,13 +9,7 @@ Welcome to ArtVenture, your artistic adventure companion! This is a demo version
 Challenges:
 Challenges are stored in our database, filled with dummy data for demonstration purposes.
 To showcase challenges, we've implemented different-sized cards:
-Small Cards:
-  Compact display for a quick overview.
-Medium Cards:
-  Balanced size, providing more information without overwhelming the user.
-Big Cards:
-  Prominent display with additional space.
-  Two buttons with dynamic text and behavior based on the challenge's page and state.
+Small Cards (Compact display for a quick overview) / Medium Cards (Balanced size, providing more information without overwhelming the user) / Big Cards (Prominent display with additional space.Two buttons with dynamic text and behavior based on the challenge's page and state)
 
 Events:
 Explore artistic events displayed on the map.
