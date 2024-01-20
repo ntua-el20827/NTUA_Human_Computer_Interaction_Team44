@@ -9,6 +9,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 
+// Explore Page2 because Explore Page was a disaster :)
+
 class ExplorePage2 extends StatefulWidget {
   final String? username;
   const ExplorePage2({Key? key, this.username}) : super(key: key);
@@ -25,14 +27,14 @@ class _ExplorePageState2 extends State<ExplorePage2> {
     zoom: 12.6, // showing Zografou!
   );
 
-  final List<Marker> _markers = <Marker>[];
+  final List<Marker> _markers = <Marker>[]; // Each event is a different marker!
 
   @override
   void initState() {
     super.initState();
     //getAllDatabaseInfo();
-    //_deleteAllEvents(); // Χρησιμοποιείται μόνο στο demo οπου δεν δουλεύει η βάση σωστά!
-    //_addDummyEvents(); // Οταν δουλέψει η βάση θα πρέπει να φύγει
+    //_deleteAllEvents(); // Χρησιμοποιείται μόνο στο testing οπου δεν δουλεύει η βάση σωστά!
+    //_addDummyEvents(); // Οταν δουλέψει η βάση καη η εισαγωγή δεδομένων, θα πρέπει να φύγει
     _loadEvents();
   }
 
@@ -42,8 +44,8 @@ class _ExplorePageState2 extends State<ExplorePage2> {
   }
 
   Future<void> _addDummyEvents() async {
-    String address =
-        'Dimocratias 7 Zografou Greece'; // Replace with the actual address
+    // These dummy events are used in the insertDummyEvents() function in the insertData.dart
+    String address = 'Dimocratias 7 Zografou Greece';
     String locationString = await getLatLong2(address);
     print("ADDRESS");
     print(locationString);
@@ -78,12 +80,11 @@ class _ExplorePageState2 extends State<ExplorePage2> {
       await DatabaseHelper().createEvent(dummyEvent2);
     } else {
       print('Unable to fetch coordinates for the provided address.');
-      // Handle the case when coordinates cannot be obtained from the address.
     }
     _loadEvents();
   }
 
-// Main Functions!!
+  // Main Functions!!
   Future<void> _loadEvents() async {
     List<Events> events = await DatabaseHelper().getAllEvents();
     setState(() {
@@ -142,7 +143,6 @@ class _ExplorePageState2 extends State<ExplorePage2> {
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
           break;
         default:
-          // Use a default color (e.g., blue) for other categories
           markerIcon =
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
           break;
@@ -186,7 +186,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
       appBar: CustomAppBar(),
       body: Stack(
         children: [
-          // 3 children-> Container (Map and Markers) / Positioned (Categories Hover boxes)
+          // 3 children-> Container (Map and Markers) / Positioned (Categories Hover boxes) / Positioned (Hello message)
           Container(
             child: SafeArea(
               child: GoogleMap(
@@ -202,7 +202,7 @@ class _ExplorePageState2 extends State<ExplorePage2> {
             ),
           ),
           Positioned(
-            top: 0.0, // Adjust the value as needed
+            top: 0.0,
             left: 0.0,
             right: 0.0,
             child: Center(

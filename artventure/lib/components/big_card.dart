@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// All cards work as containers. The may have button(s), depending on the page
+
 class BigCard extends StatelessWidget {
   final String image;
   final String title;
@@ -31,12 +33,11 @@ class BigCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Image.asset(image,
-              fit: BoxFit.cover, height: 200), // Adjust height as needed
-           ListTile(
+          Image.asset(image, fit: BoxFit.cover, height: 200),
+          ListTile(
             title: Center(
               child: Padding(
-                padding: EdgeInsets.only(bottom: 12.0, top: 10), // Adjust the value as needed
+                padding: EdgeInsets.only(bottom: 12.0, top: 10),
                 child: Text(
                   '$title',
                   style: TextStyle(

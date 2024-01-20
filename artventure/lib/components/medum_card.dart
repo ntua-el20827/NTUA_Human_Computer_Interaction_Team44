@@ -18,6 +18,7 @@ class MediumCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        // In order to achieve maximum interactivity, we use both onTap and onLongPress functions!!
         onTap: () {
           // Show message that says: Hold a challenge to learn more!
           ScaffoldMessenger.of(context).showSnackBar(
@@ -27,7 +28,7 @@ class MediumCard extends StatelessWidget {
           );
         },
         onLongPress: () {
-          onTap(); // Call the onTap function provided by the parent
+          onTap();
         },
         child: Card(
           elevation: 5,

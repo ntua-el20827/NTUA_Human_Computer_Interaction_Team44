@@ -107,10 +107,10 @@ class DatabaseHelper {
 
   Future<Database> getDB() async {
     if (database != null) {
-      print("Got it!");
+      //print("Got it!");
       return database!;
     }
-    print("Initialized!");
+    //print("Initialized!");
     database = await initDB();
     return database!;
   }
@@ -121,7 +121,7 @@ class DatabaseHelper {
     }
   }
 
-  // Our connection is ready
+  // To set the connection
   Future<Database> initDB() async {
     String? path;
     if (Platform.isAndroid || Platform.isIOS) {
@@ -129,12 +129,14 @@ class DatabaseHelper {
       // ignore: unused_local_variable
       path = join(directory.path, databaseName);
     } else if (Platform.isLinux || Platform.isWindows) {
+      // Only in Linux and Windows
       sqfliteFfiInit(); // Initialize the database factory
       databaseFactory = databaseFactoryFfi; //Set the database factory to useFFI
       final databasePath = await getDatabasesPath();
       // ignore: unused_local_variable
       path = join(databasePath, databaseName);
     }
+    // Βοηθητική συνάρτηση για να διαγράψουμε την βάση
     //await deleteExistingDatabase(path!);
 
     return openDatabase(path!, version: 1, onCreate: (db, version) async {

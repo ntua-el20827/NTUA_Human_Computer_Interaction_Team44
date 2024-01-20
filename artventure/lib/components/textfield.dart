@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 
+// Used for the login and register pages.
+// We worked inspired by this tutorial: https://www.youtube.com/watch?v=tSGOQ_BEd-0&t=546s
+
 class InputField extends StatelessWidget {
   final String hint;
   final IconData icon;

@@ -4,13 +4,13 @@ class SmallCard extends StatelessWidget {
   final String title;
   final String category;
   final int points;
-  final Function? onPressed; // Make the function nullable
+  final Function? onPressed; // A small card may or may not have a function
 
   SmallCard({
     required this.title,
     required this.category,
     required this.points,
-    this.onPressed, // Nullable parameter
+    this.onPressed,
   });
 
   @override
@@ -28,7 +28,6 @@ class SmallCard extends StatelessWidget {
           );
         },
         onLongPress: () {
-          // Call the provided function when the card is pressed, if it's not null
           onPressed?.call();
         },
         child: Column(

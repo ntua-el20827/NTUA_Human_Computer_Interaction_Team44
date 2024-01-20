@@ -23,6 +23,7 @@ class QuizPage extends StatelessWidget {
     // Play the sound file (assuming it's in the assets directory)
     _audioPlayer.play(AssetSource('sound/quiz.wav'));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +75,7 @@ class QuizPage extends StatelessWidget {
           width: 200.0, // Adjust the width as needed
           child: ElevatedButton(
             onPressed: () {
-               _playSound();
+              _playSound();
               userInfo.favoriteArt = 'Visual Arts';
               _pageController.animateToPage(
                 1,
@@ -87,7 +88,7 @@ class QuizPage extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Container(
-          width: 200.0, // Adjust the width as needed
+          width: 200.0,
           child: ElevatedButton(
             onPressed: () {
               _playSound();
@@ -103,7 +104,7 @@ class QuizPage extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Container(
-          width: 200.0, // Adjust the width as needed
+          width: 200.0,
           child: ElevatedButton(
             onPressed: () {
               _playSound();
@@ -170,10 +171,11 @@ class QuizPage extends StatelessWidget {
         ),
         SizedBox(height: 30),
         Container(
-          width: 200.0, // Adjust the width as needed
+          width: 200.0,
           child: ElevatedButton(
             onPressed: () {
               // Navigate to the profile page after clicking the last answer
+              // Now the user profile has been created based on the user's answers
               _playSound();
               userInfo.artTaste = 'Classic';
               userInfo.userId = userId!;
@@ -181,9 +183,7 @@ class QuizPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(
-                        username:
-                            username)), // Replace ProfilePage with your actual profile page
+                    builder: (context) => Profile(username: username)),
               );
             },
             child: Text('A. Classic'),
@@ -191,20 +191,17 @@ class QuizPage extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Container(
-          width: 200.0, // Adjust the width as needed
+          width: 200.0,
           child: ElevatedButton(
             onPressed: () {
               _playSound();
-              // Navigate to the profile page after clicking the last answer
               userInfo.artTaste = 'Abstract';
               userInfo.userId = userId!;
               db.saveUserAnswers(userInfo);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(
-                        username:
-                            username)), // Replace ProfilePage with your actual profile page
+                    builder: (context) => Profile(username: username)),
               );
             },
             child: Text('B. Abstract'),
@@ -212,41 +209,35 @@ class QuizPage extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Container(
-          width: 200.0, // Adjust the width as needed
+          width: 200.0,
           child: ElevatedButton(
             onPressed: () {
               _playSound();
-              // Navigate to the profile page after clicking the last answer
               userInfo.artTaste = 'Eclectic';
               userInfo.userId = userId!;
               db.saveUserAnswers(userInfo);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(
-                        username:
-                            username)), // Replace ProfilePage with your actual profile page
+                    builder: (context) => Profile(username: username)),
               );
             },
             child: Text('C. Eclectic'),
           ),
         ),
-        SizedBox(height: 10.0), // Add more answer options as needed
+        SizedBox(height: 10.0),
         Container(
-          width: 200.0, // Adjust the width as needed
+          width: 200.0,
           child: ElevatedButton(
             onPressed: () {
               _playSound();
-              // Navigate to the profile page after clicking the last answer
               userInfo.artTaste = 'Minimalist';
               userInfo.userId = userId!;
               db.saveUserAnswers(userInfo);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Profile(
-                        username:
-                            username)), // Replace ProfilePage with your actual profile page
+                    builder: (context) => Profile(username: username)),
               );
             },
             child: Text('D. Minimalist'),

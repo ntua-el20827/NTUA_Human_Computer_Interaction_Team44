@@ -1,4 +1,3 @@
-// pages/challenges_page.dart
 import 'package:artventure/components/appbar.dart';
 import 'package:artventure/components/big_card.dart';
 import 'package:artventure/components/medum_card.dart';
@@ -24,10 +23,10 @@ class _ChallengesPageState extends State<ChallengesPage> {
   List<int> userChallengesIds = [];
 
   Future<void> fetchChallenges() async {
-    // Use your DatabaseHelper class to get the challenges
+    // Use the DatabaseHelper to get the challenges
     DatabaseHelper dbHelper = DatabaseHelper();
     challenges = await dbHelper.getAllChallenges();
-    // Get user challenge ids
+    // Get user_challenges ids
     List<UserChallenges> userChallenges =
         await dbHelper.getUserChallenges(widget.username!);
     userChallengesIds = userChallenges
@@ -40,7 +39,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
     }
   }
 
-  // Function to get unique categories from the list of challenges
+  // Get unique categories from the list of challenges
   List<String> getUniqueCategories() {
     return challenges.map((challenge) => challenge.category).toSet().toList();
   }
@@ -70,11 +69,11 @@ class _ChallengesPageState extends State<ChallengesPage> {
     initialLoadChallenges();
   }
 
-  // Function to show the filter drawer
+  // Show the filter drawer
   void showFilterDrawer(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      isDismissible: true, // Allow dismissing by clicking outside
+      isDismissible: true,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
@@ -86,7 +85,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
 
             return WillPopScope(
               onWillPop: () async {
-                applyFilters(); // Call the applyFilters method when the drawer is dismissed
+                applyFilters();
                 return true;
               },
               child: Container(
@@ -103,7 +102,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
                       ),
                     ),
                     SizedBox(height: 16.0),
-                    // Display checkboxes for each category
+                    // Display checkboxes for each category (in unique categories)
                     for (String category in getUniqueCategories())
                       CheckboxListTile(
                         title: Text(category),
@@ -122,14 +121,12 @@ class _ChallengesPageState extends State<ChallengesPage> {
                       ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
-  onPressed: applyFilters,
-  style: ElevatedButton.styleFrom(
-    elevation: 8,
-     // Adjust the elevation value as needed
-  ),
-  child: Text('Apply Filters'),
-)
-
+                      onPressed: applyFilters,
+                      style: ElevatedButton.styleFrom(
+                        elevation: 8,
+                      ),
+                      child: Text('Apply Filters'),
+                    )
                   ],
                 ),
               ),
@@ -140,7 +137,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
     );
   }
 
-// Function to show the challenge details popup
+// Show the challenge details popup
   Future<void> showChallengeDetailsPopup(
     BuildContext context,
     Challenge challenge,
@@ -183,9 +180,9 @@ class _ChallengesPageState extends State<ChallengesPage> {
     );
   }
 
-  // Function to add the challenge to the user_challenge table with status "inprogress"
+  // Add the challenge to the user_challenge table with status "inprogress"
   Future<void> addToMyChallenges(String username, Challenge challenge) async {
-    // Use your DatabaseHelper class to add the challenge to user_challenge
+    // Use the DatabaseHelper to add the challenge to user_challenge
     DatabaseHelper dbHelper = DatabaseHelper();
 
     // Retrieve userId based on the username
@@ -238,7 +235,6 @@ class _ChallengesPageState extends State<ChallengesPage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  
                 ),
                 SizedBox(height: 16.0),
               ],
@@ -257,6 +253,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
                               .contains(challenges[index].challengeId)) {
                         return MediumCard(
                           image: 'assets/${challenges[index].imageFilePath}',
+                          // All images are stored in assets folder
                           title: challenges[index].title,
                           category: challenges[index].category,
                           points: challenges[index].points,
@@ -267,7 +264,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
                           },
                         );
                       } else {
-                        return Container(); // Return an empty container if not selected or already in user challenges
+                        return Container();
                       }
                     },
                   )

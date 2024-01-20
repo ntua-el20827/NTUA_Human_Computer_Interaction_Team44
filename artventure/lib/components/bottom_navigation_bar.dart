@@ -27,7 +27,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
     print(widget.username);
     return BottomNavigationBar(
       currentIndex: widget.currentIndex,
-      // The selected color is not working!
       selectedItemColor: Color.fromARGB(255, 124, 14, 134),
       unselectedItemColor: Colors.grey,
       items: const [

@@ -31,7 +31,7 @@ class EventCard extends StatelessWidget {
           ListTile(
             title: Center(
               child: Padding(
-                padding: EdgeInsets.only(bottom: 18.0, top: 10), // Adjust the value as needed
+                padding: EdgeInsets.only(bottom: 18.0, top: 10),
                 child: Text(
                   '$title',
                   style: TextStyle(
@@ -46,7 +46,8 @@ class EventCard extends StatelessWidget {
               children: [
                 Text('Category: $category '),
                 Text('Location: $location '),
-                Text('${infoText}'),
+                Text(
+                    '${infoText}'), // Infotext contains all the important information
                 //Text('Event Creator: $eventCreator'),
               ],
             ),

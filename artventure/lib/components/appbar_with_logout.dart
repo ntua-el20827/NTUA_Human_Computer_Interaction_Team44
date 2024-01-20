@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:artventure/components/colors_and_fonts.dart';
 import 'package:artventure/pages/landing_page.dart';
 
-// Only in profile and welcome page
+// New app bar only for the profile and welcome page
 class CustomAppBar_with_logout extends StatelessWidget
     implements PreferredSizeWidget {
   @override
@@ -26,7 +26,7 @@ class CustomAppBar_with_logout extends StatelessWidget
             TextButton(
               child: Text('Yes'),
               onPressed: () {
-                // Add your log out logic here
+                // Add the log out
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -50,9 +50,9 @@ class CustomAppBar_with_logout extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: false, // Removes the back button
+      automaticallyImplyLeading: false,
       backgroundColor: primaryColor,
-      centerTitle: true, // Centers the title
+      centerTitle: true,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

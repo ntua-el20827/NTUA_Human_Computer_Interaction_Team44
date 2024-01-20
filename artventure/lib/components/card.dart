@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+// Basic Idea of the Card as a component
+
 class MyCard extends StatelessWidget {
   final int challengeId;
   final int userId;
   final String status;
 
-  MyCard({required this.challengeId, required this.userId, required this.status});
+  MyCard(
+      {required this.challengeId, required this.userId, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +25,11 @@ class MyCard extends StatelessWidget {
           ButtonBar(
             children: <Widget>[
               TextButton(
-                onPressed: () {
-                  // Perform an action when the button is pressed
-                },
+                onPressed: () {},
                 child: Text('ACTION 1'),
               ),
               TextButton(
-                onPressed: () {
-                  // Perform another action when the button is pressed
-                },
+                onPressed: () {},
                 child: Text('ACTION 2'),
               ),
             ],
@@ -40,4 +39,3 @@ class MyCard extends StatelessWidget {
     );
   }
 }
-

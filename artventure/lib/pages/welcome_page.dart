@@ -20,7 +20,7 @@ class _WelcomePageState extends State<WelcomePage> {
   List<Events> createdEvents = [];
 
   Future<void> fetchCreatedEvents() async {
-    // Use your DatabaseHelper class to get the events created by the current event creator
+    // Use the DatabaseHelper to get the events created by the current event creator
     DatabaseHelper dbHelper = DatabaseHelper();
     createdEvents = await dbHelper.getEventsByCreator(widget.profile?.username);
 
@@ -36,11 +36,8 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   void deleteEvent(Events event) async {
-    // Use your DatabaseHelper class to delete the event from the database
     DatabaseHelper dbHelper = DatabaseHelper();
     await dbHelper.deleteEvent(event);
-
-    // Remove the event from the list
     setState(() {
       createdEvents.remove(event);
     });

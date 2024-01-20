@@ -29,10 +29,9 @@ class LandingPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 Container(
-                  height: 250, // Set your desired height
+                  height: 250,
                   child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(8), // Adjust the radius as needed
+                    borderRadius: BorderRadius.circular(8),
                     child: Image.asset("assets/startup.jpg", fit: BoxFit.cover),
                   ),
                 ),

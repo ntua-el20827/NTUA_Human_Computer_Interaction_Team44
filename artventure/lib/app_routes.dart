@@ -8,8 +8,6 @@ import 'package:artventure/pages/challenges_page.dart';
 import 'package:artventure/pages/signup_eventcreators_page.dart';
 import 'package:artventure/pages/welcome_page.dart';
 
-//import 'package:artventure/pages/explore_page.dart';
-
 class AppRoutes {
   static const String landing = '/';
   static const String login = '/login';
@@ -34,9 +32,6 @@ class AppRoutes {
       challenges: (context) => ChallengesPage(),
       eventcreatorsignup: (context) => SignUpEventCreatorPage(),
       welcome: (context) => WelcomePage(),
-      //explore: (context) => ExplorePage(),
-      //userSign: (context) => UserSignUpPage(),
-      //userLoginPage: (context) => UserLoginPage(),
     };
   }
 }

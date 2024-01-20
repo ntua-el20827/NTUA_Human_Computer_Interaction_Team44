@@ -5,14 +5,14 @@ import 'package:audioplayers/audioplayers.dart';
 class Button extends StatelessWidget {
   final String label;
   final VoidCallback press;
-  Button({Key? key, required this.label, required this.press}) : super(key: key);
+  Button({Key? key, required this.label, required this.press})
+      : super(key: key);
 
   // Create an instance of AudioPlayer
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  // Function to play the sound
   void _playSound() {
-    // Play the sound file (assuming it's in the assets directory)
+    // Every time the button is pressed we want to play the sound of the "note"
     _audioPlayer.play(AssetSource('sound/note.mp3'));
   }
 
@@ -29,10 +29,9 @@ class Button extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: () {
-          // Call both the provided press callback and play the sound
+          // Play the "note" and call the given function
           _playSound();
           press();
-          
         },
         child: Text(
           label,

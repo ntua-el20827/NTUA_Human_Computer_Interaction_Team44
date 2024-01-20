@@ -20,7 +20,7 @@ class EventPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                height: 200, // Adjust the height as needed
+                height: 200,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8.0),
@@ -50,8 +50,6 @@ class EventPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                 ),
-                
-
               ),
               SizedBox(height: 16),
               Text(
