@@ -5,10 +5,10 @@ NTUA ECE HCI 2023
 Welcome to ArtVenture, your artistic adventure companion! This is a demo version of the Flutter app designed to engage users in creative challenges, allowing them to explore their artistic abilities and earn points along the way. Please note that this demo version utilizes dummy data in the database.
 
 - Features
+
 Challenges:
 Challenges are stored in our database, filled with dummy data for demonstration purposes.
 To showcase challenges, we've implemented different-sized cards:
-
 Small Cards:
   Compact display for a quick overview.
 Medium Cards:
@@ -28,7 +28,7 @@ Leverage the versatility of challenge cards to present information in a visually
 Demo Version Details:
 This is a demo version, and the database is pre-populated with dummy data for demonstration purposes. The full version of ArtVenture will require a server to store actual data for Events and Challenges.
 
-Getting Started
+- Getting Started
 1.Clone the repository to your local machine.
 git clone https://github.com/ntua-el20827/artventure.git](https://github.com/ntua-el20827/Human_Computer_Interaction_Team44.git
 2.Navigate to the project directory.
