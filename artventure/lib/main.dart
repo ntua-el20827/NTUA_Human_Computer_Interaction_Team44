@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:artventure/app_routes.dart';
 
-// This app is created for the class of Human Computer Interaction (NTUA-ECE) by the students:
-// 1. Ιωάννα Μπαμπαρούτση
-// 2. Μάνος Νεοφώτιστος
-// 3. Γιώργος Γεωργακόπουλος
+// This app is created for the class of Human Computer Interaction (NTUA-ECE)
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
