@@ -1,39 +1,48 @@
 # Human_Computer_Interaction_Team44
 NTUA ECE HCI 2023
 
-# ArtVenture Flutter App (Demo Version)
-Welcome to ArtVenture, your artistic adventure companion! This is a demo version of the Flutter app designed to engage users in creative challenges, allowing them to explore their artistic abilities and earn points along the way. Please note that this demo version utilizes dummy data in the database.
+# About ArtVenture Flutter App (Demo Version):
+- Ταυτότητα Εφαρμογής
 
-- Features
+Όνομα: ArtVenture
+Κατηγορίες: Art, Entertainment, Lifestyle
+Punchline: “Το ταξίδι σου στον κόσμο της τέχνης ξεκινάει εδώ! Είσαι έτοιμος/η;”
 
-Challenges:
-Challenges are stored in our database, filled with dummy data for demonstration purposes.
-To showcase challenges, we've implemented different-sized cards:
-Small Cards (Compact display for a quick overview) / Medium Cards (Balanced size, providing more information without overwhelming the user) / Big Cards (Prominent display with additional space.Two buttons with dynamic text and behavior based on the challenge's page and state)
+- Γενική περιγραφή
 
-Events:
-Explore artistic events displayed on the map.
-Discover exciting art-related activities near you.
+ArtVenture: Μία εφαρμογή που σκοπό έχει να καλλιεργήσει τη σχέση του χρήστη με τις μορφές τέχνης που αγαπά και να τον μυήσει σε νέες. Αρχικά, ο χρήστης συμμετέχει σε ένα διαδραστικό, σύντομο quiz, με απλές ερωτήσεις γύρω από τον κόσμο της τέχνης. Βάσει αυτού, διαμορφώνεται ένα εξατομικευμένο προφίλ ανάλογα με τις καλλιτεχνικές του προτιμήσεις. Έπειτα, ο χρήστης είναι σε θέση να πλοηγηθεί στην εφαρμογή, όπου έχει την δυνατότητα να δει διάφορα γενικά challenges στα οποία μπορεί να συμμετέχει και να λάβει τους αντίστοιχους πόντους. Στο προφίλ του μπορεί ακόμα να δει τα challenges που έχει πραγματοποιήσει στο παρελθόν (completed) και τα προγραμματισμένα του (to do). Ακόμη μπορεί να πλοηγηθεί στον χάρτη δρωμένων, όπου παρουσίαζονται τα διάφορα καλλιτεχνικά δρώμενα (με την παρακολούθηση των οποίων ουσιαστικά επιτυγχάνει ένα γενικό challenge) που λαμβάνουν χώρα κοντά του. Για κάθε ένα απο αυτά τα δρώμενα, υπαρχεί αναλυτική περιγραφή, τοποθεσία, αξιολογήσεις, καθώς και link για την προμήθεια εισιτηρίων. Τέλος, υπάρχει και η κατηγορία χρήστη “Event Creator”, ο οποίος μπορεί να προσθέσει, τροποποιήσει ή διαγράψει ενα δρώμενο.
 
-- Implementation Notes
+Περιγραφή Google Play
+Η εφαρμογή “ArtVenture” είναι εδώ για να καλλιεργήσει τη σχέση σου με τις μορφές τέχνης που
+αγαπάς και να σε μυήσει σε νέες. Δημιούργησε το προφίλ σου και η περιπέτεια αρχίζει:
+Ανακάλυψε καλλιτεχνικά δρώμενα που πρόκειται να πραγματοποιηθούν στην περιοχή σου.
+Διάλεξε το δρώμενο που σου ταιριάζει
+Λάβε μέρος σε πλήθος καλλιτεχνικών challenges.
+Σύλλεξε πόντους ολοκληρώνοντας challenges και κέρδισε εισιτήρια για μοναδικές εκδηλώσεις.
 
-Challenges play a central role in the app, serving as a bridge between users and their creative journey.
-Utilize the challenge states (open, in progress, done) to enhance user engagement.
-Leverage the versatility of challenge cards to present information in a visually appealing manner.
-Demo Version Details:
-This is a demo version, and the database is pre-populated with dummy data for demonstration purposes. The full version of ArtVenture will require a server to store actual data for Events and Challenges.
 
-- Getting Started
+- Λειτουργικές Απαιτήσεις
 
-1.Clone the repository to your local machine.
-git clone https://github.com/ntua-el20827/Human_Computer_Interaction_Team44.git
-2.Navigate to the project directory.
-cd artVenture
-3.Download the debug APK for a quick preview of the demo version.
-4.or Open the project in your preferred IDE or text editor
+1. Απλοί Χρήστες-Κοινό (κατανάλωση πληροφορίας)
+Introductory quiz με ερωτήσεις γύρω απο τις διάφορες τέχνες και προτιμήσεις του χρήστη.
+Δημιουργία του εξατομικευμένου προφίλ μέσω των απαντήσεων με: καλλιτεχνικο avatar χρήστη, συμπερασμό καλλιτεχνικού χαρακτήρα και αντίστοιχη πληροφορία σε μορφή text, προβολή συνολικών πόντων και δυνατότητα “εξαργύρωσής” τους (παιχνιδοποιήση, επιβράβευση χρήστη) σε εισιτήρια δρωμένων, οπτικος εμπλουτισμός με confetti animation και μουσική επένδυση. 
+Infinite scrolling στα pages της εφαρμογής, παρατεταμένο κλικ (πληροφορίες για κάποιο από τα challenges κατά την περιήγηση σε αυτά), swipe back κατά την συμπλήρωση του κουιζ με σκοπό την επανεξέταση των δοσμένων απαντήσεων πριν την υποβολή 
+QR Code για την εξαργύρωση πόντων σε κάποιο event. 
+Xρήση χάρτη για την περιήγηση στις τοποθεσίες που λαμβάνουν χώρα τα δρώμενα και gps για τον προσδιορισμό των πλησιέστερων δρωμένων 
 
-- Feedback and Contributions
+2. Διοργανωτές δρωμένων (παροχή πληροφορίας)
 
-We welcome your feedback and contributions to make ArtVenture even better. Feel free to submit issues, pull requests, or reach out to the project maintainers.
+Δημιουργία προφίλ κατόπιν εγγραφής με email, όνομα, username και password (απλή λειτουργική απαίτηση χωρίς να εμπίπτει άμεσα σε κάποιον άξονα - πέραν του τετριμμένου “user input” - ).
+Εισαγωγή νέων δρωμένων με τίτλο, πληροφορίες και εικόνες. Για τις εικόνες έχουμε εισαγωγή φωτογραφίας αποθηκευμένης στη συσκευή ή χρηση της κάμερας για λήψη φωτογραφίας απο τον Διοργανωτή δρωμένου.
+  
+
+- Άξονες Αλληλεπίδρασης:
+
+(Μοντελοποίηση χρήστη→Άξονας 1): Δημιουργία  εξατομικευμένου προφίλ βάσει των απαντήσεων στο introductory quiz. Ο κάθε χρήστης έχει το δικό του avatar βάσει των απαντήσεών του και δική του καλλιτεχνική περιγραφή/ταυτότητα.
+(Παιχνιδοποίηση→Άξονας 1): Υλοποιείται με την φιλοσοφία των πόντων: συλλογή πόντων μέ ολοκλήρωση challenges , εξαργύρωση πόντων μέσω του scanner. Ουσιαστική  επιβράβευση χρήστη και κίνητρο για να παραμείνει στην εφαρμογή.
+(Gestures→Άξονας 2): swipe back στο quiz, παρατεταμένο πάτημα για την εμφάνιση λεπτομερειών των δράσεων.
+(Ηχητικό υποσύστημα->Άξονας 2): χρήση ήχου σε διάφορα σημεία της εφαρμογής (πάτημα κουμπιών, εξαργύρωση πόντων, συμπλήρωση κουίζ)
+(Camera→ Άξονας 2): Εισαγωγή φωτογραφίας δρωμένου από τον διοργανωτή
+(gps→Άξονας 3): Τα διαθέσιμα δρώμενα παρουσιάζονται ως pins πάνω στον χάρτη με δυνατότητα εστίασης σε αυτά που βρίσκονται κοντά στην τοποθεσία του χρήστη, αλλά και κατηγοριοποίησή τους με την χρήση των filters. Για την τοποθεσία του χρήστη προϋποτίθεται η πρόσβαση στο internet. 
 
 Happy adventuring with ArtVenture! 🎨
