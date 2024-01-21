@@ -125,7 +125,7 @@ Future<void> insertDummyData() async {
     location: 'Dimocratias 7 Zografou Greece',
     infoText: 'Info about Event 1',
     eventCreator: 'Creator 1',
-    eventImageFilePath: 'challenges/theater.jpg',
+    eventImageFilePath: 'events/theater.jpg',
   ));
   await DatabaseHelper().insertEvent(Events(
     title: 'Event 2',
@@ -133,7 +133,7 @@ Future<void> insertDummyData() async {
     location: 'Papanikolaou 2 Zografou Greece',
     infoText: 'Piano Seminar for Beginners ',
     eventCreator: 'TheGrantPiano',
-    eventImageFilePath: 'challenges/music.jpg',
+    eventImageFilePath: 'events/music.jpg',
   ));
   await DatabaseHelper().insertEvent(Events(
     title: 'Art Exhibition',
@@ -142,7 +142,7 @@ Future<void> insertDummyData() async {
     infoText:
         'Explore a diverse collection of contemporary art pieces at our Art Exhibition.',
     eventCreator: 'ArtCurator123',
-    eventImageFilePath: 'challenges/visual_arts.jpg',
+    eventImageFilePath: 'events/visual_arts.jpg',
   ));
 
   await DatabaseHelper().insertEvent(Events(
@@ -152,7 +152,7 @@ Future<void> insertDummyData() async {
     infoText:
         'Join us for an energetic and fun dance workshop suitable for all levels of experience.',
     eventCreator: 'DancePassion',
-    eventImageFilePath: 'challenges/dance.jpg',
+    eventImageFilePath: 'events/dance.jpg',
   ));
 
   /// Get the locations from: https://gps-coordinates.org/

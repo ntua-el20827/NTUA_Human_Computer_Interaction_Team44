@@ -26,14 +26,21 @@ class EventPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: (event.eventImageFilePath != null &&
-                        event.eventImageFilePath!.isNotEmpty)
-                    ? Image.file(File(event.eventImageFilePath!),
-                        fit: BoxFit.cover)
-                    : (event.eventImageFilePath!.startsWith('events/'))
-                        ? Image.asset('assets/${event.eventImageFilePath} ',
-                            fit: BoxFit.cover)
-                        : Image.asset('assets/image_not_found.png',
-                            fit: BoxFit.cover),
+                        event.eventImageFilePath!.startsWith('events/'))
+                    ? Image.asset(
+                        'assets/${event.eventImageFilePath}',
+                        fit: BoxFit.cover,
+                      )
+                    : (event.eventImageFilePath != null &&
+                            event.eventImageFilePath!.isNotEmpty)
+                        ? Image.file(
+                            File(event.eventImageFilePath!),
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            'assets/image_not_found.png',
+                            fit: BoxFit.cover,
+                          ),
               ),
               SizedBox(height: 16),
               Text(
